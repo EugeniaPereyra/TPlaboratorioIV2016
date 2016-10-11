@@ -1,0 +1,20 @@
+
+
+	<div class="container">
+	
+		<div class="CajaInicio animated bounceInRight">
+			<h1>LOGIN</h1>
+
+			<form id="FormIngreso" name="FormLogin" novalidate >
+				<input type="email" name="email" ng-model="dato.usuario" placeholder="ingrese email" required />
+				<br>
+				<input style="color:black" type="password" name="clave" ng-model="dato.clave" placeholder="ingrese password"  required /> 
+      			<br><br>
+				<input type="button" class="btn btn-danger" value="LOGIN" ng-click="Login()"/>
+				<br>
+				<span style="color:red" ng-show="FormLogin.$invalid">FALTAN DATOS!!</span>				
+			</form>
+		</div>
+		<div style="text-align:center">
+		</div>
+	</div>
