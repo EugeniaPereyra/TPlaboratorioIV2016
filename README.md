@@ -32,6 +32,23 @@ TP LaboratorioIV 2016
 -------------------------------------------------------------------------------------
 
 
+---------------------------------------------------------------------------------
+
+<h5>DATOS DEL ALUMNO:</h5>
+
+Apellido y Nombre:		PEREYRA, Maria Eugenia
+Curso:					4°A
+Email:					meugeniape@gmail.com
+GitHub:					https://github.com/EugeniaPereyra
+
+Empresa elegida:		Pizzerias Argenta SRL
+
+---------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
