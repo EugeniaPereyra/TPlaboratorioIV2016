@@ -3,7 +3,7 @@ require_once "AccesoDatos.php";
 class Usuario{
 
 	//ATRIBUTOS
-	public $id;
+	public $idPersona;
 	public $nombre;
 	public $email;
 	public $perfil;
@@ -11,11 +11,11 @@ class Usuario{
 	public $foto;
 
 	//CONSTRUCTOR
-	public function __construct($id = NULL)
+	public function __construct($idPersona = NULL)
 	{
-		if($id != NULL){
-			$usuario = self::TraerUnUsuarioPorId($id);
-			$this->id = $usuario->id;
+		if($idPersona != NULL){
+			$usuario = self::TraerUnUsuarioPorId($idPersona);
+			$this->idPersona = $usuario->idPersona;
 			$this->nombre = $usuario->nombre;
 			$this->email = $usuario->email;
 			$this->perfil = $usuario->perfil;
@@ -25,15 +25,15 @@ class Usuario{
 	}
 
 	//MÉTODOS
-	public static function TraerUnUsuarioPorId($id){
+	public static function TraerUnUsuarioPorId($idPersona){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "SELECT U.id, U.nombre, U.email, U.perfil, U.password, U.foto
+		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto
 				FROM persona U
-				WHERE U.id = :id";
+				WHERE U.idPersona = :idPersona";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
-		$consulta->bindValue(":id", $id, PDO::PARAM_INT);
+		$consulta->bindValue(":idPersona", $idPersona, PDO::PARAM_INT);
 		$consulta->execute();
 
 		$usuario = $consulta->fetchObject('Usuario');
@@ -43,7 +43,7 @@ class Usuario{
 	public static function TraerTodosLosUsuarios(){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "SELECT U.id, U.nombre, U.email, U.perfil, U.password, U.foto
+		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto
 				FROM persona U";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
@@ -56,7 +56,7 @@ class Usuario{
 	public static function TraerUsuarioLogueado($usuario){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "SELECT U.id, U.nombre, U.email, U.perfil, U.password, U.foto
+		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto
 				FROM persona U
 				WHERE U.email = :email AND U.password = :pass";
 
@@ -89,14 +89,14 @@ class Usuario{
 
 		$sql = "UPDATE persona
 				SET nombre = :nombre, email = :email, password = :pass, perfil = :perfil, foto = :foto
-				WHERE id = :id";
+				WHERE idPersona = :idPersona";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
 		$consulta->bindValue(":nombre", $usuario->nombre, PDO::PARAM_STR);
 		$consulta->bindValue(":email", $usuario->email, PDO::PARAM_STR);
 		$consulta->bindValue(":pass", $usuario->password, PDO::PARAM_STR);
 		$consulta->bindValue(":perfil", $usuario->perfil, PDO::PARAM_STR);
-		$consulta->bindValue(":id", $usuario->id, PDO::PARAM_INT);
+		$consulta->bindValue(":idPersona", $usuario->idPersona, PDO::PARAM_INT);
 		$consulta->bindValue(":foto", $usuario->foto, PDO::PARAM_STR);
 		$consulta->execute();
 
@@ -104,14 +104,14 @@ class Usuario{
 		return $cantidad;
 	}
 
-	public static function Eliminar($id){
+	public static function Eliminar($idPersona){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
 		$sql = "DELETE FROM persona
-				WHERE id = :id";
+				WHERE idPersona = :idPersona";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
-		$consulta->bindValue(":id", $id, PDO::PARAM_INT);
+		$consulta->bindValue(":idPersona", $idPersona, PDO::PARAM_INT);
 		$consulta->execute();
 
 		$cantidad = $consulta->rowCount();

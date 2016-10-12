@@ -2,7 +2,7 @@ var miAplicacion = angular.module('angularABM',['ui.router', 'angularFileUpload'
 
 miAplicacion.config(function($stateProvider,$urlRouterProvider, $authProvider){
 
-$authProvider.loginUrl='ABM_Y_JUEGOS/servidor/php/auth.php';
+$authProvider.loginUrl='TPlaboratorioIV2016/servidor/php/auth.php';
 $authProvider.tokenName='miToken';
 $authProvider.tokenPrefix='angularABM';
 $authProvider.authHearder='data';
@@ -25,6 +25,13 @@ $authProvider.authHearder='data';
           url:'/login',
           templateUrl:'templates/login.html',
           controller:"controlLogin"
+        })
+
+        .state(
+          'registro',{
+          url:'/registro',
+          templateUrl:'templates/persona/personaAlta.html',
+          controller:'controlPersonaAlta'
         })
 
 

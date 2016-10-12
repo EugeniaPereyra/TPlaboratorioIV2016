@@ -12,11 +12,11 @@ if($usuarioLogueado)
 {
 	$key = "1234";
 	$token["usuario"] = $usuarioLogueado->email;
-	$token["id"] = $usuarioLogueado->id;
+	$token["id"] = $usuarioLogueado->idPersona;
 	$token["nombre"] =$usuarioLogueado->nombre;
 	$token["pass"] = $usuarioLogueado->password;
 	$token["perfil"] = $usuarioLogueado->perfil;
-	$token["exp"] = time()+200;
+	$token["exp"] = time()+10000;
 
 	$jwt = JWT::encode($token, $key);
 	$array["miToken"]=$jwt;

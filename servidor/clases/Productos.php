@@ -6,9 +6,7 @@ class Producto
 //--ATRIBUTOS
 	public $id;
 	public $descripcion;
- 	public $marca;
   	public $precio;
-  	public $stock;
   	public $foto;
 
 //--------------------------------------------------------------------------------//
@@ -18,10 +16,8 @@ class Producto
 		if($id != NULL){
 			$obj = Producto::TraerUnProducto($id);
 			$this->id = $obj->id;
-			$this->marca = $obj->marca;
 			$this->descripcion = $obj->descripcion;
 			$this->precio = $precio;
-			$this->stock = $stock;
 			$this->foto = $obj->foto;
 		}
 	}
@@ -30,7 +26,7 @@ class Producto
 //--TOSTRING	
   	public function ToString()
 	{
-	  	return $this->marca."-".$this->descripcion."-".$this->precio."-".$this->foto;
+	  	return $this->descripcion."-".$this->precio."-".$this->foto;
 	}
 //--------------------------------------------------------------------------------//
 //--METODO DE CLASE
@@ -74,16 +70,12 @@ class Producto
 			$consulta =$objetoAccesoDato->RetornarConsulta("
 				update producto 
 				set descripcion=:descripcion,
-				marca=:marca,
 				precio=:precio,
-				stock=:stock,
 				foto=:foto
 				WHERE id=:id");
 
 			$consulta->bindValue(':id',$producto->id, PDO::PARAM_INT);
-			$consulta->bindValue(':marca', $producto->marca, PDO::PARAM_STR);
 			$consulta->bindValue(':precio', $producto->marca, PDO::PARAM_INT);
-			$consulta->bindValue(':stock', $producto->stock, PDO::PARAM_INT);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
 			return $consulta->execute();
@@ -93,11 +85,9 @@ class Producto
 	public static function Insertar($producto)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into producto (descripcion,marca,precio,stock,foto)values(:descripcion,:marca,:precio,:stock,:foto)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into producto (descripcion,precio,foto)values(:descripcion,:precio,:foto)");
 
-			$consulta->bindValue(':marca', $producto->marca, PDO::PARAM_STR);
-			$consulta->bindValue(':precio', $producto->marca, PDO::PARAM_INT);
-			$consulta->bindValue(':stock', $producto->stock, PDO::PARAM_INT);
+			$consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
 		$consulta->execute();		
