@@ -4,18 +4,18 @@ class Producto
 {
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
-	public $id;
+	public $idProducto;
 	public $descripcion;
   	public $precio;
   	public $foto;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
-	public function __construct($id=NULL)
+	public function __construct($idProducto=NULL)
 	{
-		if($id != NULL){
-			$obj = Producto::TraerUnProducto($id);
-			$this->id = $obj->id;
+		if($idProducto != NULL){
+			$obj = Producto::TraerUnProducto($idProducto);
+			$this->idProducto = $obj->idProducto;
 			$this->descripcion = $obj->descripcion;
 			$this->precio = $precio;
 			$this->foto = $obj->foto;
@@ -30,14 +30,12 @@ class Producto
 	}
 //--------------------------------------------------------------------------------//
 //--METODO DE CLASE
-	public static function TraerUnProducto($id) 
+	public static function TraerUnProducto($idProducto) 
 	{	
-
-
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select * from producto where id =:id");
+		$consulta =$objetoAccesoDato->RetornarConsulta("select * from producto where idProducto =:idProducto");
 		
-		$consulta->bindValue(':id', $id, PDO::PARAM_INT);
+		$consulta->bindValue(':idProducto', $idProducto, PDO::PARAM_INT);
 		$consulta->execute();
 		$productoBuscado= $consulta->fetchObject('Producto');
 		return $productoBuscado;	
@@ -54,12 +52,12 @@ class Producto
 		return $productos;
 	}
 	
-	public static function Borrar($id)
+	public static function Borrar($idProducto)
 	{	
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("delete from producto	WHERE id=:id");	
+		$consulta =$objetoAccesoDato->RetornarConsulta("delete from producto	WHERE idProducto=:idProducto");	
 		
-		$consulta->bindValue(':id',$id, PDO::PARAM_INT);		
+		$consulta->bindValue(':idProducto',$idProducto, PDO::PARAM_INT);		
 		$consulta->execute();
 		return $consulta->rowCount();
 	}
@@ -72,10 +70,10 @@ class Producto
 				set descripcion=:descripcion,
 				precio=:precio,
 				foto=:foto
-				WHERE id=:id");
+				WHERE idProducto=:idProducto");
 
-			$consulta->bindValue(':id',$producto->id, PDO::PARAM_INT);
-			$consulta->bindValue(':precio', $producto->marca, PDO::PARAM_INT);
+			$consulta->bindValue(':idProducto',$producto->idProducto, PDO::PARAM_INT);
+			$consulta->bindValue(':precio', $producto->precio, PDO::PARAM_INT);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
 			return $consulta->execute();
