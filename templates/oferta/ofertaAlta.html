@@ -4,11 +4,11 @@
 
 			<form id="FormIngreso" name="FormIngreso" enctype="multipart/form-data" novalidate>
 
-				<input type="text" name="descripcion" ng-model="producto.descripcion" placeholder="ingrese descripcion" required />
+				<input type="text" name="descripcion" ng-model="oferta.descripcion" placeholder="ingrese descripcion" required />
 				<span style="color:red" ng-show="FormIngreso.descripcion.$invalid">*</span> 
 				<br>
 
-				<input style="color:black" type="text" name="precio" ng-model="producto.precio" placeholder="ingrese el precio" required /> 
+				<input style="color:black" type="text" name="precio" ng-model="oferta.precio" placeholder="ingrese el precio" required /> 
 				<span style="color:red" ng-show="FormIngreso.precio.$invalid">*</span> <br>
 
 				<input type="hidden" name="idOculto" id="id" value="" />

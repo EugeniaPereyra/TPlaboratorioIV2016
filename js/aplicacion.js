@@ -140,6 +140,48 @@ $authProvider.authHearder='data';
         })
 
 
+        // OFERTAS
+
+        .state(
+          'persona.oferAlta',{
+          url:'/ofertaAlta',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/oferta/ofertaAlta.html',
+              controller:'controlOfertaAlta'
+            }
+          }
+        })
+
+        .state(
+          'persona.oferGrilla',{
+          url:'/ofertaGrilla',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/oferta/ofertaGrilla.html',
+              controller:'controlOfertaGrilla'
+            }
+          }
+        })
+
+        .state(
+          'persona.oferModificar',{
+          url:'/ofertaModificar/:oferta',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/oferta/ofertaAlta.html',
+              controller:'controlOfertaModificar'
+            }
+          }
+        })
+
+
   $urlRouterProvider.otherwise('/inicio');
 
 
@@ -221,6 +263,14 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state){
 
   $scope.IrGrillaProducto=function(){
     $state.go('persona.prodGrilla');
+  }
+
+  $scope.IrAltaOferta=function(){
+    $state.go('persona.oferAlta');
+  }
+
+  $scope.IrGrillaOferta=function(){
+    $state.go('persona.oferGrilla');
   }
 });
 
@@ -352,63 +402,65 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
 // PRODUCTOS
 
 
-miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $http, $state){
+miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $http, $state, cargadoDeFotoProd){
 
-        $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
-        $scope.uploader.queueLimit = 1;
+      $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
+      $scope.uploader.queueLimit = 1;
 
-        $scope.persona={};
+      $scope.producto={};
+      $scope.producto.descripcion= "producto" ;
+      $scope.producto.precio= "0.00" ;
+      $scope.producto.foto="default.jpg";
 
+      cargadoDeFotoProd.CargarFoto($scope.producto.foto,$scope.uploader);
 
       $scope.Guardar = function(){
-          if($scope.uploader.queue[0].file.name!='pordefecto.png')
+          if($scope.uploader.queue[0].file.name!='default.jpg')
           {
             var nombreFoto = $scope.uploader.queue[0]._file.name;
-            $scope.persona.foto=nombreFoto;
+            $scope.producto.foto=nombreFoto;
           }
 
           $scope.uploader.uploadAll();
       }
 
-        $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
-            console.info('onErrorItem', fileItem, response, status, headers);
-        };
+      $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+           console.info('onErrorItem', fileItem, response, status, headers);
+      };
 
-        $scope.uploader.onCompleteAll = function() {
-            console.info('Se cargo con exito');
-            $http.post('servidor/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
-            .then(function(respuesta) {             
-                 console.log(respuesta.data);
-                 $state.go("persona.menu");
-
-            },function errorCallback(response) {        
-                console.log( response);           
-            });
-        };
+      $scope.uploader.onCompleteAll = function() {
+          console.info('Se cargo con exito');
+          $http.post('servidor/nexo.php', { datos: {accion :"insertarProd",producto:$scope.producto}})
+          .then(function(respuesta) {             
+               console.log(respuesta.data);
+               $state.go("persona.menu");
+          },function errorCallback(response) {        
+               console.log( response);           
+          });
+      };
 
 });
 
 miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state){
-  $http.get('servidor/nexo.php', { params: {accion :"traer"}})
+  $http.get('servidor/nexo.php', { params: {accion :"traerProd"}})
   .then(function(respuesta) {       
-         $scope.ListadoPersonas = respuesta.data.listado;
+         $scope.ListadoProductos = respuesta.data.listado;
          console.log(respuesta.data);
     },function errorCallback(response) {
-         $scope.ListadoPersonas= [];
+         $scope.ListadoProductos = [];
         console.log( response);     
    });
 
-  $scope.Borrar=function(persona){
-    console.log("borrar"+persona);
-    $http.post("servidor/nexo.php",{datos:{accion :"borrar",persona:persona}})
+  $scope.Borrar=function(producto){
+    $http.post("servidor/nexo.php",{datos:{accion :"borrarProd",producto:producto}})
          .then(function(respuesta) {              
                  console.log(respuesta.data);
-                  $http.get('servidor/nexo.php', { params: {accion :"traer"}})
+                  $http.get('servidor/nexo.php', { params: {accion :"traerProd"}})
                   .then(function(respuesta) {       
-                         $scope.ListadoPersonas = respuesta.data.listado;
+                         $scope.ListadoProductos = respuesta.data.listado;
                          console.log(respuesta.data);
                     },function errorCallback(response) {
-                         $scope.ListadoPersonas= [];
+                         $scope.ListadoProductos = [];
                         console.log( response);     
                    });
 
@@ -417,37 +469,187 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state){
       });
   }
 
-  $scope.Modificar = function(persona){
-    console.log( JSON.stringify(persona));
-    var dato=JSON.stringify(persona);
-    $state.go('persona.modificar', {persona:dato});
+  $scope.Modificar = function(producto){
+    console.log( JSON.stringify(producto));
+    var dato=JSON.stringify(producto);
+    $state.go('persona.prodModificar', {producto:dato});
   }
 });
 
-miAplicacion.controller('controlProductoModificar',function($scope, $http, $state, $stateParams){
-  var dato=JSON.parse($stateParams.persona);
-  $scope.persona={};
-  $scope.persona.id=dato.id;
-  $scope.persona.nombre=dato.nombre;
-  $scope.persona.perfil=dato.perfil;
-  $scope.persona.email=dato.email;
-  $scope.persona.password=dato.password;
+miAplicacion.controller('controlProductoModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadoDeFotoProd){
+  $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
+  $scope.uploader.queueLimit = 1;
+  var dato=JSON.parse($stateParams.producto);
+  $scope.producto={};
+  $scope.producto.idProducto=dato.idProducto;
+  $scope.producto.descripcion=dato.descripcion;
+  $scope.producto.precio=dato.precio;
+  $scope.producto.foto=dato.foto;
 
-  $scope.Guardar=function(){
-      $http.post('servidor/nexo.php', { datos: {accion :"modificar",persona:$scope.persona}})
-        .then(function(respuesta) 
-        {      
-          console.log(respuesta.data);
-          $state.go("persona.grilla");
-        },
-        function errorCallback(response)
-        {
-          console.log( response);           
-        });
+  cargadoDeFotoProd.CargarFoto($scope.producto.foto,$scope.uploader);
 
-  }
+      $scope.Guardar = function(){
+          if($scope.uploader.queue[0].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            $scope.producto.foto=nombreFoto;
+          }
+
+          $scope.uploader.uploadAll();
+      }
+
+      $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+           console.info('onErrorItem', fileItem, response, status, headers);
+      };
+
+      $scope.uploader.onCompleteAll = function() {
+          console.info('Se cargo con exito');
+          $http.post('servidor/nexo.php', { datos: {accion :"modificarProd",producto:$scope.producto}})
+          .then(function(respuesta) 
+          {      
+            console.log(respuesta.data);
+            $state.go("persona.prodGrilla");
+          },
+          function errorCallback(response)
+          {
+            console.log( response);           
+          });
+      };
 
 });
+
+
+
+
+// OFERTAS
+
+
+miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $http, $state, cargadoDeFotoOfer){
+
+      $scope.uploader = new FileUploader({url: 'servidor/uploadOfer.php'});
+      $scope.uploader.queueLimit = 1;
+
+      $scope.oferta={};
+      $scope.oferta.descripcion= "oferta" ;
+      $scope.oferta.precio= "0.00" ;
+      $scope.oferta.foto="default.jpg";
+
+      cargadoDeFotoOfer.CargarFoto($scope.oferta.foto,$scope.uploader);
+
+      $scope.Guardar = function(){
+          if($scope.uploader.queue[0].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            $scope.oferta.foto=nombreFoto;
+          }
+
+          $scope.uploader.uploadAll();
+      }
+
+      $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+           console.info('onErrorItem', fileItem, response, status, headers);
+      };
+
+      $scope.uploader.onCompleteAll = function() {
+          console.info('Se cargo con exito');
+          $http.post('servidor/nexo.php', { datos: {accion :"insertarOfer",oferta:$scope.oferta}})
+          .then(function(respuesta) {             
+               console.log(respuesta.data);
+               $state.go("persona.menu");
+          },function errorCallback(response) {        
+               console.log( response);           
+          });
+      };
+
+});
+
+miAplicacion.controller('controlOfertaGrilla',function($scope, $http, $state){
+  $http.get('servidor/nexo.php', { params: {accion :"traerOfer"}})
+  .then(function(respuesta) {       
+         $scope.ListadoOfertas = respuesta.data.listado;
+         console.log(respuesta.data);
+    },function errorCallback(response) {
+         $scope.ListadoOfertas = [];
+        console.log( response);     
+   });
+
+  $scope.Borrar=function(oferta){
+    $http.post("servidor/nexo.php",{datos:{accion :"borrarOfer",oferta:oferta}})
+         .then(function(respuesta) {              
+                 console.log(respuesta.data);
+                  $http.get('servidor/nexo.php', { params: {accion :"traerOfer"}})
+                  .then(function(respuesta) {       
+                         $scope.ListadoOfertas = respuesta.data.listado;
+                         console.log(respuesta.data);
+                    },function errorCallback(response) {
+                         $scope.ListadoOfertas = [];
+                        console.log( response);     
+                   });
+
+          },function errorCallback(response) {        
+              console.log( response);           
+      });
+  }
+
+  $scope.Modificar = function(oferta){
+    console.log( JSON.stringify(oferta));
+    var dato=JSON.stringify(oferta);
+    $state.go('persona.oferModificar', {oferta:dato});
+  }
+});
+
+miAplicacion.controller('controlOfertaModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadoDeFotoOfer){
+  $scope.uploader = new FileUploader({url: 'servidor/uploadOfer.php'});
+  $scope.uploader.queueLimit = 1;
+  var dato=JSON.parse($stateParams.oferta);
+  $scope.oferta={};
+  $scope.oferta.idOferta=dato.idOferta;
+  $scope.oferta.descripcion=dato.descripcion;
+  $scope.oferta.precio=dato.precio;
+  $scope.oferta.foto=dato.foto;
+
+  cargadoDeFotoOfer.CargarFoto($scope.oferta.foto,$scope.uploader);
+
+      $scope.Guardar = function(){
+          if($scope.uploader.queue[0].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            $scope.oferta.foto=nombreFoto;
+          }
+
+          $scope.uploader.uploadAll();
+      }
+
+      $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+           console.info('onErrorItem', fileItem, response, status, headers);
+      };
+
+      $scope.uploader.onCompleteAll = function() {
+          console.info('Se cargo con exito');
+          $http.post('servidor/nexo.php', { datos: {accion :"modificarOfer",oferta:$scope.oferta}})
+          .then(function(respuesta) 
+          {      
+            console.log(respuesta.data);
+            $state.go("persona.oferGrilla");
+          },
+          function errorCallback(response)
+          {
+            console.log( response);           
+          });
+      };
+
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 // SERVICIOS
@@ -455,6 +657,45 @@ miAplicacion.controller('controlProductoModificar',function($scope, $http, $stat
 miAplicacion.service('cargadoDeFoto',function($http,FileUploader){
     this.CargarFoto=function(nombrefoto,objetoUploader){
         var direccion="fotos/"+nombrefoto;  
+      $http.get(direccion,{responseType:"blob"})
+        .then(function (respuesta){
+            console.info("datos del cargar foto",respuesta);
+            var mimetype=respuesta.data.type;
+            var archivo=new File([respuesta.data],direccion,{type:mimetype});
+            var dummy= new FileUploader.FileItem(objetoUploader,{});
+            dummy._file=archivo;
+            dummy.file={};
+            dummy.file= new File([respuesta.data],nombrefoto,{type:mimetype});
+
+              objetoUploader.queue.push(dummy);
+         });
+    }
+
+});
+
+miAplicacion.service('cargadoDeFotoProd',function($http,FileUploader){
+    this.CargarFoto=function(nombrefoto,objetoUploader){
+        var direccion="fotosProd/"+nombrefoto;  
+      $http.get(direccion,{responseType:"blob"})
+        .then(function (respuesta){
+            console.info("datos del cargar foto",respuesta);
+            var mimetype=respuesta.data.type;
+            var archivo=new File([respuesta.data],direccion,{type:mimetype});
+            var dummy= new FileUploader.FileItem(objetoUploader,{});
+            dummy._file=archivo;
+            dummy.file={};
+            dummy.file= new File([respuesta.data],nombrefoto,{type:mimetype});
+
+              objetoUploader.queue.push(dummy);
+         });
+    }
+
+});
+
+
+miAplicacion.service('cargadoDeFotoOfer',function($http,FileUploader){
+    this.CargarFoto=function(nombrefoto,objetoUploader){
+        var direccion="fotosOfer/"+nombrefoto;  
       $http.get(direccion,{responseType:"blob"})
         .then(function (respuesta){
             console.info("datos del cargar foto",respuesta);
