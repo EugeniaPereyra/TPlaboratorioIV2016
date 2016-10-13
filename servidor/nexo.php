@@ -3,17 +3,15 @@
 include "clases/Usuario.php";
 include "clases/Producto.php";
 include "clases/Oferta.php";
+include "clases/Pedido.php";
 
-// $_GET['accion'];
 if(isset($_GET['accion']))
 {
 	$accion=$_GET['accion'];
 	if($accion=="traer")
 	{
 		$respuesta= array();
-		//$respuesta['listado']=Persona::TraerPersonasTest();
 		$respuesta['listado']=Usuario::TraerTodosLosUsuarios();
-		//var_dump(Persona::TraerTodasLasPersonas());
 		$arrayJson = json_encode($respuesta);
 		echo  $arrayJson;
 	}	
@@ -21,9 +19,7 @@ if(isset($_GET['accion']))
 	if($accion=="traerProd")
 	{
 		$respuesta= array();
-		//$respuesta['listado']=Persona::TraerPersonasTest();
 		$respuesta['listado']=Producto::TraerTodosLosProductos();
-		//var_dump(Persona::TraerTodasLasPersonas());
 		$arrayJson = json_encode($respuesta);
 		echo  $arrayJson;
 	}
@@ -31,25 +27,21 @@ if(isset($_GET['accion']))
 	if($accion=="traerOfer")
 	{
 		$respuesta= array();
-		//$respuesta['listado']=Persona::TraerPersonasTest();
 		$respuesta['listado']=Oferta::TraerTodosLasOfertas();
-		//var_dump(Persona::TraerTodasLasPersonas());
+		$arrayJson = json_encode($respuesta);
+		echo  $arrayJson;
+	}
+
+	if($accion=="traerPed")
+	{
+		$respuesta= array();
+		$respuesta['listado']=Pedido::TraerTodosLosPedidos();
 		$arrayJson = json_encode($respuesta);
 		echo  $arrayJson;
 	}
 
 }
 else{
-//var_dump($_REQUEST);
-	//echo "<br>";
-	//var_dump($_POST);
-	/*
-	$DatosPorPost = file_get_contents("php://input");
-	$respuesta = json_decode($DatosPorPost);
-	var_dump($respuesta);
-*/
-	//echo $respuesta->datos->persona->nombre;
-	//Persona::InsertarPersona($respuesta->datos->persona);
 
 	$DatosPorPost = file_get_contents("php://input");
 	$respuesta = json_decode($DatosPorPost);
@@ -66,7 +58,7 @@ else{
 				 	unlink("../fotos/".$respuesta->datos->persona->foto);
 				 }
 				Usuario::Eliminar($respuesta->datos->persona->idPersona);
-			break;
+				break;
 
 			case "insertar":	
 				if($respuesta->datos->persona->foto!="pordefecto.png")
@@ -78,7 +70,7 @@ else{
 					$respuesta->datos->persona->foto=$rutaNueva;
 				}
 				Usuario::Agregar($respuesta->datos->persona);
-			break;
+				break;
 	
 			case "modificar":
 			
@@ -91,7 +83,7 @@ else{
 					$respuesta->datos->persona->foto=$rutaNueva;
 				}
 				Usuario::Modificar($respuesta->datos->persona);
-			break;
+				break;
 
 			// ABM PRODUCTO
 
@@ -101,7 +93,7 @@ else{
 				 	unlink("../fotosProd/".$respuesta->datos->producto->foto);
 				 }
 				Producto::Borrar($respuesta->datos->producto->idProducto);
-			break;
+				break;
 
 			case "insertarProd":	
 				if($respuesta->datos->producto->foto!="default.jpg")
@@ -113,7 +105,7 @@ else{
 					$respuesta->datos->producto->foto=$rutaNueva;
 				}
 				Producto::Insertar($respuesta->datos->producto);
-			break;
+				break;
 	
 			case "modificarProd":
 				if($respuesta->datos->producto->foto!="default.jpg")
@@ -125,7 +117,7 @@ else{
 					$respuesta->datos->producto->foto=$rutaNueva;
 				}
 				Producto::Modificar($respuesta->datos->producto);
-			break;
+				break;
 
 			// ABM OFERTA
 
@@ -135,7 +127,7 @@ else{
 				 	unlink("../fotosOfer/".$respuesta->datos->oferta->foto);
 				 }
 				Oferta::Borrar($respuesta->datos->oferta->idOferta);
-			break;
+				break;
 
 			case "insertarOfer":	
 				if($respuesta->datos->oferta->foto!="default.jpg")
@@ -147,7 +139,7 @@ else{
 					$respuesta->datos->oferta->foto=$rutaNueva;
 				}
 				Oferta::Insertar($respuesta->datos->oferta);
-			break;
+				break;
 	
 			case "modificarOfer":
 				if($respuesta->datos->oferta->foto!="default.jpg")
@@ -159,7 +151,21 @@ else{
 					$respuesta->datos->oferta->foto=$rutaNueva;
 				}
 				Oferta::Modificar($respuesta->datos->oferta);
-			break;
+				break;
+
+			// ABM PEDIDO
+
+			case "borrarPed":	
+				Pedido::Borrar($respuesta->datos->pedido->idPedido);
+				break;
+
+			case "insertarPed":	
+				Pedido::Insertar($respuesta->datos->pedido);
+				break;
+	
+			case "modificarPed":
+				Pedido::Modificar($respuesta->datos->pedido);
+				break;
 		}
 	}
 }

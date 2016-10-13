@@ -1,0 +1,33 @@
+
+
+		<div class="CajaInicio animated bounceInRight">
+							<h1>Listado de Pedidos</h1>
+							<!-- id="listaPersonas" -->
+								
+								<table class='table table-hover table-responsive' id="listaProductos">
+									<thead>
+										<tr>
+											<th>  PRODUCTO   </th>
+											<th>  CANTIDAD     </th>
+
+											<th>  BORRAR     </th>
+											<th>  MODIFICAR  </th>
+										</tr> 
+									</thead>
+
+									<!--{{listadoDeDatos}} -->
+									
+									<tr ng-repeat="pedido in ListadoProductos">
+							
+										<td>{{pedido.producto}}</td>
+										<td>{{pedido.cantidad}}</td>
+
+										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(pedido)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+										
+										<td><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+															
+									</tr>
+									
+								</table>
+		</div>
+
