@@ -39,6 +39,16 @@ h6 {
     background-size: cover;
 }
 
+.fondo {
+    text-align:center;
+    background:url("../img/fondo.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Helvetica;
+}
+
 .intro-message {
     position: relative;
     padding-top: 20%;
