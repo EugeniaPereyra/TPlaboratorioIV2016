@@ -36,22 +36,22 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
   }
 
   $scope.Administrador=function(){
-    $scope.dato.usuario="pepe@pepe.com";
+    $scope.dato.usuario="administrador@administrador.com";
     $scope.dato.clave="123456";
   }
 
   $scope.Encargado=function(){
-    $scope.dato.usuario="marty@marty.com";
+    $scope.dato.usuario="encargado@encargado.com";
     $scope.dato.clave="123456";
   }
 
   $scope.Empleado=function(){
-    $scope.dato.usuario="maria@maria.com";
+    $scope.dato.usuario="empleado@empleado.com";
     $scope.dato.clave="123456";
   }
 
   $scope.Cliente=function(){
-    $scope.dato.usuario="rob@rob.com";
+    $scope.dato.usuario="cliente@cliente.com";
     $scope.dato.clave="123456";
   }
 
@@ -128,9 +128,9 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
       $scope.uploader.queueLimit = 1;
       $scope.persona={};
-      $scope.persona.nombre= "natalia natalia" ;
+      $scope.persona.nombre= "Natalia Natalia" ;
       $scope.persona.perfil= "cliente" ;
-      $scope.persona.email= "na@na.com" ;
+      $scope.persona.email= "natalia@natalia.com" ;
       $scope.persona.password= "123456" ;
       $scope.persona.foto="pordefecto.png";
        
