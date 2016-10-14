@@ -1,46 +1,51 @@
 
 
 		<div class="page-header">
-			<center><h1>ABM</h1> </center>     
+			<center><h1>Menu de Opciones</h1> </center>     
 		</div>
 	  	 
 		           
 					<div class="CajaInicio animated bounceInRight">
 						
-							<form id="FormIngreso" style="background-image:url(img/menu.jpg);background-position: center;background-size: 100% 100%;background-repeat: no-repeat;">
- 										
-									    <button ng-click="IrAltaUsuario()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">ALTA USUARIO</h4>
-									    </button>
+							<form id="FormIngreso" style="background-image:url(img/mantel.jpg);background-position: center;background-size: 100% 100%;background-repeat: no-repeat;">
 
-									    <button ng-click="IrGrillaUsuario()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">GRILLA USUARIOS</h4>
-									    </button>	
+								<div style="text-align:center">
+                    				<h1 class="section-heading">Altas</h1>
+                    			</div>
 
-										<button ng-click="IrAltaProducto()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">ALTA PRODUCTO</h4>
-									    </button>
+								<div class="btn-group-vertical btn-block">
 
-										<button ng-click="IrGrillaProducto()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">GRILLA PRODUCTOS</h4>
-									    </button>	
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaUsuario()"><h4>AGREGAR USUARIO</h4></button>
 
-										<button ng-click="IrAltaOferta()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">AGREGAR OFERTA</h4>
-									    </button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaProducto()"><h4>AGREGAR PRODUCTO</h4></button>
 
-										<button ng-click="IrGrillaOferta()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">GRILLA OFERTAS</h4>
-									    </button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaOferta()"><h4>AGREGAR OFERTA</h4></button>
 
-										<button ng-click="IrAltaPedido()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">AGREGAR PEDIDO</h4>
-									    </button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaPedido()"><h4>AGREGAR PEDIDO</h4></button>
 
-										<button ng-click="IrGrillaPedido()" class="list-group-item  list-group-item list-group-item-info">
-									      <h4 class="list-group-item-heading">GRILLA PEDIDOS</h4>
-									    </button>
-									
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaSucursal()"><h4>AGREGAR SUCURSAL</h4></button>
+
+								</div>
+
+								<br><br><br>
+
+								<div style="text-align:center">
+                    				<h1 class="section-heading">Tablas</h1>
+                    			</div>
+
+                    			<div class="btn-group-vertical btn-block">
+
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaUsuario()"><h4>GRILLA USUARIOS</h4></button>
+
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaProducto()"><h4>GRILLA PRODUCTOS</h4></button>
+
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaOferta()"><h4>GRILLA OFERTAS</h4></button>
+
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaPedido()"><h4>GRILLA PEDIDOS</h4></button>
+
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaSucursal()"><h4>GRILLA SUCURSALES</h4></button>
+
+								</div>									
 							</form>
 						</div>
 	

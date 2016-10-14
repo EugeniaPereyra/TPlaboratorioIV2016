@@ -1,19 +1,24 @@
 
  <div>
               <ul class="nav nav-tabs">
-		         <li  class="btn btn-info animated bounceInLeft" >
-		         	<a ui-sref="inicio">
-		         		 <span class="glyphicon glyphicon-list-alt">&nbsp;</span>
+		         <li  class="btn btn-success animated bounceInLeft">
+		         	<a ui-sref="inicio" style="color:yellow">
+		         		 <span class="glyphicon glyphicon-home">&nbsp;</span>
 		         		 Inicio 
 		         	</a>
 		         </li>
-
-		         <li  class="btn btn-info animated bounceInLeft" >
-		         	<a ng-click="Logout()"> 
-		         		<span class="glyphicon glyphicon-plus-sign" >&nbsp;</span>
+		         <li  class="btn btn-success animated bounceInLeft" >
+		         	<a ui-sref="persona.menu" style="color:yellow">
+		         		 <span class="glyphicon glyphicon-list-alt">&nbsp;</span>
+		         		 Menu 
+		         	</a>
+		         </li>
+		         <li  class="btn btn-success animated bounceInLeft" >
+		         	<a ng-click="Logout()" style="color:yellow"> 
+		         		<span class="glyphicon glyphicon-remove" >&nbsp;</span>
 		         			Logout</a>
 		         		</li>
-		        	<span id="tituloBarra"  class="animated bounceInRight">ABM - PHP - Angular Versión 1.0.1 &nbsp;&nbsp;&nbsp;</span>
+		        	<span style="color:white" id="tituloBarra"  class="animated bounceInRight">ABM - PHP - Angular Versión 1.0.1 &nbsp;&nbsp;&nbsp;</span>
      		 </ul>
 
      		 <div ui-view name="contenido">

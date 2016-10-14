@@ -1,18 +1,26 @@
 
 		<div class="CajaInicio animated bounceInRight">
-			<center>
 
 			<form id="FormIngreso" name="FormIngreso" enctype="multipart/form-data" novalidate>
 
-				<input type="text" name="descripcion" ng-model="producto.descripcion" placeholder="ingrese descripcion" required />
+				<span>Nombre del producto:</span><br>
+				<input type="text" name="descripcion" ng-model="producto.descripcion" placeholder="Ingrese descripcion" required />
 				<span style="color:red" ng-show="FormIngreso.descripcion.$invalid">*</span> 
-				<br>
 
-				<input style="color:black" type="text" name="precio" ng-model="producto.precio" placeholder="ingrese el precio" required /> 
-				<span style="color:red" ng-show="FormIngreso.precio.$invalid">*</span> <br>
+				<br><br>
+
+				<span>Precio:</span><br>
+				<input style="color:black" type="text" name="precio" ng-model="producto.precio" placeholder="Ingrese el precio" required /> 
+				<span style="color:red" ng-show="FormIngreso.precio.$invalid">*</span> 
+
+				<br>
 
 				<input type="hidden" name="idOculto" id="id" value="" />
 
+				<br>
+
+				<span>Foto:</span><br>
+				<center>
 
 				<!-- FOTO -->
 				<ul>
@@ -32,11 +40,12 @@
 				 <br><br>
 				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>
 				<span style="color:red" ng-show="FormIngreso.$invalid">FALTAN DATOS!!</span>
+
+				</center>
 					
 				<input type="hidden" value="" id="idParaModificar" name="agregar" />
 				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
 
 			</form>
-			</center>
 	</div>
 	

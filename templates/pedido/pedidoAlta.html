@@ -1,24 +1,24 @@
 
 		<div class="CajaInicio animated bounceInRight">
-			<center>
 
 			<form id="FormIngreso" name="FormIngreso" enctype="multipart/form-data" novalidate>
 
-
 				<input type="hidden" name="idOculto" id="id" value="" />
 
+				<span>Producto:</span><br>
 				<select name="producto" ng-model="pedido.producto" required>
-
 				  <option ng-repeat="producto in ListadoProductos" value="{{producto.descripcion}}">{{producto.descripcion}}</option>
-
 				</select>
-				<span style="color:red" ng-show="FormIngreso.producto.$invalid">*</span> <br><br>
+				<span style="color:red" ng-show="FormIngreso.producto.$invalid">*</span> 
 
-				<input style="color:black" type="number" name="cantidad" ng-model="pedido.cantidad" placeholder="ingrese la cantidad" required /> 
-				<span style="color:red" ng-show="FormIngreso.cantidad.$invalid">*</span> <br>
+				<br><br>
 
+				<span>Cantidad:</span><br>
+				<input style="color:black" type="number" name="cantidad" ng-model="pedido.cantidad" placeholder="Ingrese la cantidad" required /> 
+				<span style="color:red" ng-show="FormIngreso.cantidad.$invalid">*</span>
 
-				 <br><br>
+				<br><br><br>
+
 				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>
 				<span style="color:red" ng-show="FormIngreso.$invalid">FALTAN DATOS!!</span>
 					
@@ -26,6 +26,5 @@
 				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
 
 			</form>
-			</center>
 	</div>
 	

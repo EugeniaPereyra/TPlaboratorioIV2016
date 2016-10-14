@@ -7,13 +7,23 @@
 			<h1>LOGIN</h1>
 
 			<form id="FormIngreso" name="FormLogin" novalidate >
-				<input type="email" name="email" ng-model="dato.usuario" placeholder="ingrese email" required />
-				<br>
-				<input style="color:black" type="password" name="clave" ng-model="dato.clave" placeholder="ingrese password"  required /> 
+
+				<input type="email" name="email" ng-model="dato.usuario" placeholder="Ingrese email" required />
+				<span style="color:red" ng-show="FormLogin.email.$invalid">*</span> 
+
+				<br><br>
+
+				<input style="color:black" type="password" name="clave" ng-model="dato.clave" placeholder="Ingrese password"  required />
+				<span style="color:red" ng-show="FormLogin.clave.$invalid">*</span>
+
       			<br><br>
-				<input type="button" class="btn btn-danger" value="LOGIN" ng-click="Login()"/>
+
+				<input type="button" class="btn btn-danger" value="LOGIN" ng-disabled="FormLogin.$invalid" ng-click="Login()"/>
+
 				<br>
-				<span style="color:red" ng-show="FormLogin.$invalid">FALTAN DATOS!!</span>				
+
+				<span style="color:red" ng-show="FormLogin.$invalid">FALTAN DATOS!!</span>
+
 			</form>
 			</center>
 		</div>

@@ -40,7 +40,6 @@ h6 {
 }
 
 .fondo {
-    text-align:center;
     background:url("../img/fondo.jpg");
     background-size: cover;
     background-position: center center;
@@ -48,6 +47,7 @@ h6 {
     background-attachment: fixed;
     font-family: Helvetica;
 }
+
 
 .intro-message {
     position: relative;
