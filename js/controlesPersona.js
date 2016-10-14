@@ -129,7 +129,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.uploader.queueLimit = 1;
       $scope.persona={};
       $scope.persona.nombre= "natalia natalia" ;
-      $scope.persona.perfil= "usuario" ;
+      $scope.persona.perfil= "cliente" ;
       $scope.persona.email= "na@na.com" ;
       $scope.persona.password= "123456" ;
       $scope.persona.foto="pordefecto.png";
