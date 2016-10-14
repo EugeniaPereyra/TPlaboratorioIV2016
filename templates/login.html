@@ -2,11 +2,12 @@
 
 	<div class="container">
 	
-		<div class="CajaInicio animated bounceInRight">
+		<div class="CajaInicio animated bounceInRight" style="  position: absolute; top: 50%; left: 50%; height: 30%;width: 50%; margin: -15% 0 0 -25%;">
 		<center>
-			<h1>LOGIN</h1>
 
-			<form id="FormIngreso" name="FormLogin" novalidate >
+			<form id="FormIngreso" name="FormLogin" style="background-image:url(img/marco.png);background-position: center;background-size: 100% 100%;background-repeat: no-repeat;top: 50%;" novalidate>
+
+				<center><h2 style="color:black">Login</h2></center><br><br>
 
 				<input type="email" name="email" ng-model="dato.usuario" placeholder="Ingrese email" required />
 				<span style="color:red" ng-show="FormLogin.email.$invalid">*</span> 
@@ -28,3 +29,4 @@
 			</center>
 		</div>
 	</div>
+

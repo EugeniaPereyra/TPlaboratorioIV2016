@@ -105,7 +105,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
       $scope.uploader.queueLimit = 1;
       $scope.persona={};
-      $scope.persona.nombre= "natalia" ;
+      $scope.persona.nombre= "natalia natalia" ;
       $scope.persona.perfil= "usuario" ;
       $scope.persona.email= "na@na.com" ;
       $scope.persona.password= "123456" ;

@@ -1,11 +1,11 @@
 //estilos para las validaciones
 
-input.ng-invalid {
+/*input.ng-invalid {
     background-color:red;
 }
 input.ng-valid {
     background-color:limegreen;
-}
+}*/
 
 span{
   color:black;
@@ -46,7 +46,7 @@ The classes are removed if the value they represent is false.
 input[type="text"],input[type="email"],input[type="password"],input[type="number"] {
   color:black;
   height: 3em;
-  width: 85%;
+  width: 98%;
 }
 
 label{
@@ -201,7 +201,7 @@ input[type="text"],input[type="file"],,input[type="file"]{
   color:#555;
 }
 select{
-  width:85%;
+  width:98%;
   background:#fff;
   margin-bottom:2%;
   border:1px solid #ccc;
