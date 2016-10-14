@@ -4,6 +4,7 @@ include "clases/Usuario.php";
 include "clases/Producto.php";
 include "clases/Oferta.php";
 include "clases/Pedido.php";
+include "clases/Sucursal.php";
 
 if(isset($_GET['accion']))
 {
@@ -36,6 +37,14 @@ if(isset($_GET['accion']))
 	{
 		$respuesta= array();
 		$respuesta['listado']=Pedido::TraerTodosLosPedidos();
+		$arrayJson = json_encode($respuesta);
+		echo  $arrayJson;
+	}
+
+	if($accion=="traerSuc")
+	{
+		$respuesta= array();
+		$respuesta['listado']=Sucursal::TraerTodasLasSucursales();
 		$arrayJson = json_encode($respuesta);
 		echo  $arrayJson;
 	}
@@ -165,6 +174,81 @@ else{
 	
 			case "modificarPed":
 				Pedido::Modificar($respuesta->datos->pedido);
+				break;
+
+
+			// ABM SUCURSAL
+
+			case "borrarSuc":	
+				if($respuesta->datos->sucursal->foto1!="default.jpg")
+				 {
+				 	unlink("../fotosSuc/".$respuesta->datos->sucursal->foto1);
+				 }
+				 if($respuesta->datos->sucursal->foto2!="default.jpg")
+				 {
+				 	unlink("../fotosSuc/".$respuesta->datos->sucursal->foto2);
+				 }
+				 if($respuesta->datos->sucursal->foto3!="default.jpg")
+				 {
+				 	unlink("../fotosSuc/".$respuesta->datos->sucursal->foto3);
+				 }
+				Sucursal::Borrar($respuesta->datos->sucursal->idSucursal);
+				break;
+
+			case "insertarSuc":	
+				if($respuesta->datos->sucursal->foto1!="default.jpg")
+				{
+					$rutaVieja="../fotosSuc/".$respuesta->datos->sucursal->foto1;
+					$rutaNueva=$respuesta->datos->sucursal->telefono."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+					copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+					unlink($rutaVieja);
+					$respuesta->datos->sucursal->foto1=$rutaNueva;
+				}
+				if($respuesta->datos->sucursal->foto2!="default.jpg")
+				{
+					$rutaVieja="../fotosSuc/".$respuesta->datos->sucursal->foto2;
+					$rutaNueva=$respuesta->datos->sucursal->telefono."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+					copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+					unlink($rutaVieja);
+					$respuesta->datos->sucursal->foto2=$rutaNueva;
+				}
+				if($respuesta->datos->sucursal->foto3!="default.jpg")
+				{
+					$rutaVieja="../fotosSuc/".$respuesta->datos->sucursal->foto3;
+					$rutaNueva=$respuesta->datos->sucursal->telefono."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+					copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+					unlink($rutaVieja);
+					$respuesta->datos->sucursal->foto3=$rutaNueva;
+				}
+				Sucursal::Insertar($respuesta->datos->sucursal);
+				break;
+	
+			case "modificarSuc":
+				if($respuesta->datos->sucursal->foto1!="default.jpg")
+				{
+					$rutaVieja="../fotosSuc/".$respuesta->datos->sucursal->foto1;
+					$rutaNueva=$respuesta->datos->sucursal->telefono."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+					copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+					unlink($rutaVieja);
+					$respuesta->datos->sucursal->foto1=$rutaNueva;
+				}
+				if($respuesta->datos->sucursal->foto2!="default.jpg")
+				{
+					$rutaVieja="../fotosSuc/".$respuesta->datos->sucursal->foto2;
+					$rutaNueva=$respuesta->datos->sucursal->telefono."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+					copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+					unlink($rutaVieja);
+					$respuesta->datos->sucursal->foto2=$rutaNueva;
+				}
+				if($respuesta->datos->sucursal->foto3!="default.jpg")
+				{
+					$rutaVieja="../fotosSuc/".$respuesta->datos->sucursal->foto3;
+					$rutaNueva=$respuesta->datos->sucursal->telefono."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+					copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+					unlink($rutaVieja);
+					$respuesta->datos->sucursal->foto3=$rutaNueva;
+				}
+				Sucursal::Modificar($respuesta->datos->sucursal);
 				break;
 		}
 	}
