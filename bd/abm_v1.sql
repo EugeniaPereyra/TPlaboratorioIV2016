@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-10-2016 a las 06:54:49
+-- Tiempo de generación: 14-10-2016 a las 20:38:54
 -- Versión del servidor: 10.1.10-MariaDB
 -- Versión de PHP: 5.6.19
 
@@ -101,8 +101,10 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`idPersona`, `nombre`, `email`, `password`, `perfil`, `foto`) VALUES
-(29, 'euge', 'euge@euge.com', '123456', 'admin', 'euge.jpg'),
-(31, 'diego', 'diego@diego.com', '12345678', 'vendedor', 'diego.png');
+(32, 'Pepe Gonzalez', 'administrador@administrador.com', '123456', 'administrador', 'Pepe Gonzalez.jpg'),
+(33, 'Marty McFly', 'encargado@encargado.com', '123456', 'encargado', 'Marty McFly.jpg'),
+(34, 'Maria Lopez', 'empleado@empleado.com', '123456', 'empleado', 'Maria Lopez.jpg'),
+(35, 'Roberto Rodriguez', 'cliente@cliente.com', '123456', 'cliente', 'Roberto Rodriguez.jpg');
 
 -- --------------------------------------------------------
 
@@ -123,6 +125,21 @@ CREATE TABLE `producto` (
 
 INSERT INTO `producto` (`idProducto`, `descripcion`, `precio`, `foto`) VALUES
 (11, 'producto', '0.00', 'default.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sucursales`
+--
+
+CREATE TABLE `sucursales` (
+  `idSucursal` int(11) NOT NULL,
+  `direccion` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `telefono` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `foto1` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `foto2` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `foto3` varchar(50) COLLATE latin1_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -153,6 +170,12 @@ ALTER TABLE `producto`
   ADD PRIMARY KEY (`idProducto`);
 
 --
+-- Indices de la tabla `sucursales`
+--
+ALTER TABLE `sucursales`
+  ADD PRIMARY KEY (`idSucursal`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -160,7 +183,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `oferta`
 --
 ALTER TABLE `oferta`
-  MODIFY `idOferta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idOferta` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
@@ -170,12 +193,17 @@ ALTER TABLE `pedido`
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idPersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `idPersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
   MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `sucursales`
+--
+ALTER TABLE `sucursales`
+  MODIFY `idSucursal` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
