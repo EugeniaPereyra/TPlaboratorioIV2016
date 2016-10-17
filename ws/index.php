@@ -231,6 +231,49 @@ $app->delete('/oferta/{oferta}', function ($request, $response, $args) {
 
 
 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+//---- PEDIDOS ------
+
+// TRAE TODOS
+$app->get('/pedidos[/]', function ($request, $response, $args) {
+    $respuesta["listado"]=Pedido::TraerTodosLosPedidos();
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// TRAE UNO
+$app->get('/pedido/{id}', function ($request, $response, $args) {
+    $respuesta=Pedido::TraerUnPedido($args["id"]);
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// ALTA
+$app->post('/pedido/{pedido}', function ($request, $response, $args){
+    $pedido=json_decode($args["pedido"]);
+    $response->write(Pedido::Insertar($pedido));
+    return $response;
+});
+
+// MODIFICA UNO
+$app->put('/pedido/{pedido}', function ($request, $response, $args) {
+    $pedido=json_decode($args["pedido"]);
+    $response->write(Pedido::Modificar($pedido));
+    return $response;
+});
+
+// BORRA UNO
+$app->delete('/pedido/{id}', function ($request, $response, $args) {
+    $response->write(Pedido::Borrar($args["id"]));
+    return $response;
+});
+
+
+//---------------------------------------------------------------------
 
 
 /**

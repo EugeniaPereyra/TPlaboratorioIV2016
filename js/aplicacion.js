@@ -261,6 +261,19 @@ $authProvider.authHearder='data';
           }
         })
 
+        .state(
+          'persona.pedDetallar',{
+          url:'/pedidoDetallar/:pedido',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/pedido/pedidoPerfil.html',
+              controller:'controlPedidoDetallar'
+            }
+          }
+        })
+
         // SUCURSALES
 
         .state(

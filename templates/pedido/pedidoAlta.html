@@ -8,9 +8,7 @@
 				<input type="hidden" name="idOculto" id="id" value="" />
 
 				<span>Producto:</span><br>
-				<select name="producto" ng-model="pedido.producto" required>
-				  <option ng-repeat="producto in ListadoProductos" value="{{producto.descripcion}}">{{producto.descripcion}}</option>
-				</select>
+				<input style="color:black" type="text" name="producto" ng-model="pedido.producto" placeholder="Ingrese descripcion" required /> 
 				<span style="color:red" ng-show="FormIngreso.producto.$invalid">*</span> 
 
 				<br><br>
