@@ -101,9 +101,69 @@ $app->delete('/usuario/{usuario}', function ($request, $response, $args) {
     return $response;
 });
 
+
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
 //---------------------------------------------------------------------
 
 //---- PRODUCTOS ------
+
+// TRAE TODOS
+$app->get('/productos[/]', function ($request, $response, $args) {
+    $respuesta["listado"]=Producto::TraerTodosLosProductos();
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// TRAE UNO
+$app->get('/producto/{id}', function ($request, $response, $args) {
+    $respuesta=Producto::TraerUnProducto($args["id"]);
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// ALTA
+$app->post('/producto/{producto}', function ($request, $response, $args){
+    $producto=json_decode($args["producto"]);
+    if($producto->foto!="default.jpg")
+    {
+        $rutaVieja="../fotosProd/".$producto->foto;
+        $rutaNueva=$producto->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosProd/".$rutaNueva);
+        unlink($rutaVieja);
+        $producto->foto=$rutaNueva;
+    }
+    $response->write(Producto::Insertar($producto));
+    return $response;
+});
+
+// MODIFICA UNO
+$app->put('/producto/{producto}', function ($request, $response, $args) {
+    $producto=json_decode($args["producto"]);
+    if($producto->foto!="default.jpg")
+    {
+        $rutaVieja="../fotosProd/".$producto->foto;
+        $rutaNueva=$producto->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosProd/".$rutaNueva);
+        unlink($rutaVieja);
+        $producto->foto=$rutaNueva;
+    }
+    $response->write(Producto::Modificar($producto));
+    return $response;
+});
+
+// BORRA UNO
+$app->delete('/producto/{producto}', function ($request, $response, $args) {
+    $producto=json_decode($args["producto"]);
+    if($producto->foto!="default.jpg")
+    {
+        unlink("../fotosProd/".$producto->foto);
+    }
+    $response->write(Producto::Borrar($producto->idProducto));
+    return $response;
+});
 
 
 //---------------------------------------------------------------------

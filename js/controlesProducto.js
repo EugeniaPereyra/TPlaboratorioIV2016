@@ -29,7 +29,8 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
 
       $scope.uploader.onCompleteAll = function() {
           console.info('Se cargo con exito');
-          $http.post('servidor/nexo.php', { datos: {accion :"insertarProd",producto:$scope.producto}})
+          var dato=JSON.stringify($scope.producto);
+          $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato)
           .then(function(respuesta) {             
                console.log(respuesta.data);
                $state.go("persona.menu");
@@ -41,7 +42,7 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
 });
 
 miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state){
-  $http.get('servidor/nexo.php', { params: {accion :"traerProd"}})
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/productos')
   .then(function(respuesta) {       
          $scope.ListadoProductos = respuesta.data.listado;
          console.log(respuesta.data);
@@ -51,10 +52,11 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state){
    });
 
   $scope.Borrar=function(producto){
-    $http.post("servidor/nexo.php",{datos:{accion :"borrarProd",producto:producto}})
+    var dato=JSON.stringify(producto);
+    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato)
          .then(function(respuesta) {              
                  console.log(respuesta.data);
-                  $http.get('servidor/nexo.php', { params: {accion :"traerProd"}})
+                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/productos')
                   .then(function(respuesta) {       
                          $scope.ListadoProductos = respuesta.data.listado;
                          console.log(respuesta.data);
@@ -102,8 +104,9 @@ miAplicacion.controller('controlProductoModificar',function($scope, $http, $stat
       };
 
       $scope.uploader.onCompleteAll = function() {
-          console.info('Se cargo con exito');
-          $http.post('servidor/nexo.php', { datos: {accion :"modificarProd",producto:$scope.producto}})
+          console.info('Foto cargada correctamente');
+          var dato=JSON.stringify($scope.producto);
+          $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato)
           .then(function(respuesta) 
           {      
             console.log(respuesta.data);
