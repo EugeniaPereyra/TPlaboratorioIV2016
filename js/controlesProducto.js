@@ -75,6 +75,12 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state){
     var dato=JSON.stringify(producto);
     $state.go('persona.prodModificar', {producto:dato});
   }
+
+  $scope.Informar = function(producto){
+    console.log( JSON.stringify(producto));
+    var dato=JSON.stringify(producto);
+    $state.go('persona.prodDetallar', {producto:dato});
+  }
 });
 
 miAplicacion.controller('controlProductoModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFotoProd){
@@ -118,4 +124,17 @@ miAplicacion.controller('controlProductoModificar',function($scope, $http, $stat
           });
       };
 
+});
+
+miAplicacion.controller('controlProductoDetallar',function($scope, $http, $state, $stateParams){
+  var dato=JSON.parse($stateParams.producto);
+  $scope.producto={};
+
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato.idProducto)
+  .then(function(respuesta) {       
+         $scope.producto = respuesta.data;
+         console.log(respuesta.data);
+    },function errorCallback(response) {
+        console.log( response);     
+   });
 });

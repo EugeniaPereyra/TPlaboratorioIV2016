@@ -152,6 +152,19 @@ $authProvider.authHearder='data';
           }
         })
 
+        .state(
+          'persona.prodDetallar',{
+          url:'/productoDetallar/:producto',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/producto/productoPerfil.html',
+              controller:'controlProductoDetallar'
+            }
+          }
+        })
+
 
         // OFERTAS
 
