@@ -167,6 +167,70 @@ $app->delete('/producto/{producto}', function ($request, $response, $args) {
 
 
 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+//---- OFERTAS ------
+
+// TRAE TODOS
+$app->get('/ofertas[/]', function ($request, $response, $args) {
+    $respuesta["listado"]=Oferta::TraerTodosLasOfertas();
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// TRAE UNO
+$app->get('/oferta/{id}', function ($request, $response, $args) {
+    $respuesta=Oferta::TraerUnaOferta($args["id"]);
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// ALTA
+$app->post('/oferta/{oferta}', function ($request, $response, $args){
+    $oferta=json_decode($args["oferta"]);
+    if($oferta->foto!="default.jpg")
+    {
+        $rutaVieja="../fotosOfer/".$oferta->foto;
+        $rutaNueva=$oferta->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosOfer/".$rutaNueva);
+        unlink($rutaVieja);
+        $oferta->foto=$rutaNueva;
+    }
+    $response->write(Oferta::Insertar($oferta));
+    return $response;
+});
+
+// MODIFICA UNO
+$app->put('/oferta/{oferta}', function ($request, $response, $args) {
+    $oferta=json_decode($args["oferta"]);
+    if($oferta->foto!="default.jpg")
+    {
+        $rutaVieja="../fotosOfer/".$oferta->foto;
+        $rutaNueva=$oferta->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosOfer/".$rutaNueva);
+        unlink($rutaVieja);
+        $oferta->foto=$rutaNueva;
+    }
+    $response->write(Oferta::Modificar($oferta));
+    return $response;
+});
+
+// BORRA UNO
+$app->delete('/oferta/{oferta}', function ($request, $response, $args) {
+    $oferta=json_decode($args["oferta"]);
+    if($oferta->foto!="default.jpg")
+    {
+        unlink("../fotosOfer/".$oferta->foto);
+    }
+    $response->write(Oferta::Borrar($oferta->idOferta));
+    return $response;
+});
+
+
+//---------------------------------------------------------------------
 
 
 /**

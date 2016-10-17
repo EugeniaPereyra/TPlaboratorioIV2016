@@ -188,7 +188,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/producto/productoGrilla.html',
+              templateUrl:'templates/producto/ofertaGrilla.html',
               controller:'controlOfertaGrilla'
             }
           }
@@ -203,6 +203,19 @@ $authProvider.authHearder='data';
             {
               templateUrl:'templates/producto/productoAlta.html',
               controller:'controlOfertaModificar'
+            }
+          }
+        })
+
+        .state(
+          'persona.oferDetallar',{
+          url:'/ofertaDetallar/:oferta',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/producto/ofertaPerfil.html',
+              controller:'controlOfertaDetallar'
             }
           }
         })
