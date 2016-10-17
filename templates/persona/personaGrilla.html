@@ -8,10 +8,9 @@
 									<thead>
 										<tr>
 											<th>  FOTO   </th>
-											<th>  NOMBRE   </th>				
-											<th>  EMAIL     </th>
-											<th>  PASSWORD   </th>
+											<th>  NOMBRE   </th>	
 											<th>  PERFIL        </th>
+
 											<th>  BORRAR     </th>
 											<th>  MODIFICAR  </th>
 											<th>  DETALLE </th>
@@ -25,8 +24,6 @@
 										<td><img  class='fotoGrilla' ng-src="fotos/{{persona.foto}}" /></td>
 							
 										<td>{{persona.nombre}}</td>
-										<td>{{persona.email}}</td>
-										<td>{{persona.password}}</td>
 										<td>{{persona.perfil}}</td>
 
 										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(persona)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
