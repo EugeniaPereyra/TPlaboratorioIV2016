@@ -18,17 +18,17 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $ht
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            var nombreFoto = $scope.uploader.queue[0].file.name;
             $scope.sucursal.foto1=nombreFoto;
           }
           if($scope.uploader.queue[1].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[1]._file.name;
+            var nombreFoto = $scope.uploader.queue[1].file.name;
             $scope.sucursal.foto2=nombreFoto;
           }
           if($scope.uploader.queue[2].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[2]._file.name;
+            var nombreFoto = $scope.uploader.queue[2].file.name;
             $scope.sucursal.foto3=nombreFoto;
           }
 
@@ -104,17 +104,17 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $http, $stat
     $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            var nombreFoto = $scope.uploader.queue[0].file.name;
             $scope.sucursal.foto1=nombreFoto;
           }
           if($scope.uploader.queue[1].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[1]._file.name;
+            var nombreFoto = $scope.uploader.queue[1].file.name;
             $scope.sucursal.foto2=nombreFoto;
           }
           if($scope.uploader.queue[2].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[2]._file.name;
+            var nombreFoto = $scope.uploader.queue[2].file.name;
             $scope.sucursal.foto3=nombreFoto;
           }
 

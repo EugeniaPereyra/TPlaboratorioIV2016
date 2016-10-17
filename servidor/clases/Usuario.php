@@ -20,7 +20,7 @@ class Usuario{
 			$this->email = $usuario->email;
 			$this->perfil = $usuario->perfil;
 			$this->password = $usuario->password;
-			$this->foto = $suaurio->foto;
+			$this->foto = $usuario->foto;
 		}
 	}
 

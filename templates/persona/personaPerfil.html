@@ -1,0 +1,24 @@
+<div>
+	<br><br><center>
+		<form>
+				<p>Correo:    {{usuario.email}}</p>
+				<p>Nombre:    {{usuario.nombre}}</p> 
+				<p>Perfil:     {{usuario.perfil}}</p>
+				<p>Password:     {{usuario.password}}</p>
+				<p>Id:     {{usuario.idPersona}}</p>
+
+				<td><img  class='fotoGrilla' ng-src="fotos/{{usuario.foto}}" style="width:200px; height:200px " /></td>
+
+				<br><br>
+
+				<ul class="nav nav-tabs">
+					<li  class="btn btn-success animated bounceInLeft" >
+			         	<a ui-sref="persona.grilla" style="color:yellow">
+			         		 <span class="glyphicon glyphicon-arrow-left">&nbsp;</span>
+			         		 Volver 
+			         	</a>
+			        </li>
+			    </ul>
+		</form>
+	</center>
+</div>

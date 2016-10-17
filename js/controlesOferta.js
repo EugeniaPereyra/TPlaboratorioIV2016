@@ -16,7 +16,7 @@ miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $http
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            var nombreFoto = $scope.uploader.queue[0].file.name;
             $scope.oferta.foto=nombreFoto;
           }
 
@@ -90,7 +90,7 @@ miAplicacion.controller('controlOfertaModificar',function($scope, $http, $state,
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
-            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            var nombreFoto = $scope.uploader.queue[0].file.name;
             $scope.oferta.foto=nombreFoto;
           }
 

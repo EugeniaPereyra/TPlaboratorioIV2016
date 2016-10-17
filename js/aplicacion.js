@@ -97,6 +97,19 @@ $authProvider.authHearder='data';
           }
         })
 
+        .state(
+          'persona.detallar',{
+          url:'/personaDetallar/:persona',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/persona/personaPerfil.html',
+              controller:'controlPersonaDetallar'
+            }
+          }
+        })
+
 
         // PRODUCTOS
 

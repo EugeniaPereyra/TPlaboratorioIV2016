@@ -16,7 +16,7 @@ if($usuarioLogueado)
 	$token["nombre"] =$usuarioLogueado->nombre;
 	$token["pass"] = $usuarioLogueado->password;
 	$token["perfil"] = $usuarioLogueado->perfil;
-	$token["exp"] = time()+10000;
+	$token["exp"] = time()+5000;
 
 	$jwt = JWT::encode($token, $key);
 	$array["miToken"]=$jwt;

@@ -35,26 +35,6 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
         })
   }
 
-  $scope.Administrador=function(){
-    $scope.dato.usuario="administrador@administrador.com";
-    $scope.dato.clave="123456";
-  }
-
-  $scope.Encargado=function(){
-    $scope.dato.usuario="encargado@encargado.com";
-    $scope.dato.clave="123456";
-  }
-
-  $scope.Empleado=function(){
-    $scope.dato.usuario="empleado@empleado.com";
-    $scope.dato.clave="123456";
-  }
-
-  $scope.Cliente=function(){
-    $scope.dato.usuario="cliente@cliente.com";
-    $scope.dato.clave="123456";
-  }
-
 });
 
 
@@ -140,7 +120,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
           {
-            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            var nombreFoto = $scope.uploader.queue[0].file.name;
             $scope.persona.foto=nombreFoto;
           }
 
@@ -153,7 +133,8 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
 
         $scope.uploader.onCompleteAll = function() {
             console.info('Se cargo con exito');
-            $http.post('servidor/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
+            var dato=JSON.stringify($scope.persona);
+            $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
             .then(function(respuesta) {             
                  console.log(respuesta.data);
                  $state.go("persona.menu");
@@ -166,7 +147,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
 });
 
 miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state){
-  $http.get('servidor/nexo.php', { params: {accion :"traer"}})
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
   .then(function(respuesta) {       
          $scope.ListadoPersonas = respuesta.data.listado;
          console.log(respuesta.data);
@@ -176,11 +157,12 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state){
    });
 
   $scope.Borrar=function(persona){
-    console.log("borrar"+persona);
-    $http.post("servidor/nexo.php",{datos:{accion :"borrar",persona:persona}})
+    //console.log("borrar"+persona);
+    var dato=JSON.stringify(persona);
+    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
          .then(function(respuesta) {              
                  console.log(respuesta.data);
-                  $http.get('servidor/nexo.php', { params: {accion :"traer"}})
+                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
                   .then(function(respuesta) {       
                          $scope.ListadoPersonas = respuesta.data.listado;
                          console.log(respuesta.data);
@@ -199,6 +181,13 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state){
     var dato=JSON.stringify(persona);
     $state.go('persona.modificar', {persona:dato});
   }
+
+  $scope.Informar = function(persona){
+    console.log( JSON.stringify(persona));
+    var dato=JSON.stringify(persona);
+    $state.go('persona.detallar', {persona:dato});
+  }
+
 });
 
 miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFoto){
@@ -218,7 +207,7 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
     $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
           {
-            var nombreFoto = $scope.uploader.queue[0]._file.name;
+            var nombreFoto = $scope.uploader.queue[0].file.name;
             $scope.persona.foto=nombreFoto;
           }
 
@@ -231,7 +220,8 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
 
     $scope.uploader.onCompleteAll = function() {
             console.info('Se cargo con exito');
-            $http.post('servidor/nexo.php', { datos: {accion :"modificar",persona:$scope.persona}})
+            var dato=JSON.stringify($scope.persona);
+            $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
               .then(function(respuesta) 
               {      
                 console.log(respuesta.data);
@@ -243,4 +233,17 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
               });
         }
 
+});
+
+miAplicacion.controller('controlPersonaDetallar',function($scope, $http, $state, $stateParams){
+  var dato=JSON.parse($stateParams.persona);
+  $scope.usuario={};
+
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato.idPersona)
+  .then(function(respuesta) {       
+         $scope.usuario = respuesta.data;
+         console.log(respuesta.data);
+    },function errorCallback(response) {
+        console.log( response);     
+   });
 });
