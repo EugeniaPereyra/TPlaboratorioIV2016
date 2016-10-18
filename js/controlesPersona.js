@@ -35,6 +35,26 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
         })
   }
 
+  $scope.Administrador=function(){
+    $scope.dato.usuario="administrador@administrador.com";
+    $scope.dato.clave="123456";
+  }
+
+  $scope.Encargado=function(){
+    $scope.dato.usuario="encargado@encargado.com";
+    $scope.dato.clave="123456";
+  }
+
+  $scope.Empleado=function(){
+    $scope.dato.usuario="empleado@empleado.com";
+    $scope.dato.clave="123456";
+  }
+
+  $scope.Cliente=function(){
+    $scope.dato.usuario=" cliente@cliente.com";
+    $scope.dato.clave="123456";
+  }
+
 });
 
 
