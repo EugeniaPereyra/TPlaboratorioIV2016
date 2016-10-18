@@ -315,6 +315,19 @@ $authProvider.authHearder='data';
           }
         })
 
+        .state(
+          'persona.sucDetallar',{
+          url:'/sucursalDetallar/:sucursal',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/sucursal/sucursalPerfil.html',
+              controller:'controlSucursalDetallar'
+            }
+          }
+        })
+
 
   $urlRouterProvider.otherwise('/inicio');
 

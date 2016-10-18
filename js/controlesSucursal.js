@@ -41,7 +41,8 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $ht
 
       $scope.uploader.onCompleteAll = function() {
           console.info('Se cargo con exito');
-          $http.post('servidor/nexo.php', { datos: {accion :"insertarSuc",sucursal:$scope.sucursal}})
+          var dato=JSON.stringify($scope.sucursal);
+          $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato)
           .then(function(respuesta) {             
                console.log(respuesta.data);
                $state.go("persona.menu");
@@ -53,7 +54,7 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $ht
 });
 
 miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state){
-  $http.get('servidor/nexo.php', { params: {accion :"traerSuc"}})
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
   .then(function(respuesta) {       
          $scope.ListadoSucursales = respuesta.data.listado;
          console.log(respuesta.data);
@@ -63,10 +64,11 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state){
    });
 
   $scope.Borrar=function(sucursal){
-    $http.post("servidor/nexo.php",{datos:{accion :"borrarSuc",sucursal:sucursal}})
+    var dato=JSON.stringify(sucursal);
+    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato)
          .then(function(respuesta) {              
                  console.log(respuesta.data);
-                  $http.get('servidor/nexo.php', { params: {accion :"traerSuc"}})
+                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
                   .then(function(respuesta) {       
                          $scope.ListadoSucursales = respuesta.data.listado;
                          console.log(respuesta.data);
@@ -84,6 +86,12 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state){
     console.log( JSON.stringify(sucursal));
     var dato=JSON.stringify(sucursal);
     $state.go('persona.sucModificar', {sucursal:dato});
+  }
+
+  $scope.Informar = function(sucursal){
+    console.log( JSON.stringify(sucursal));
+    var dato=JSON.stringify(sucursal);
+    $state.go('persona.sucDetallar', {sucursal:dato});
   }
 });
 
@@ -127,7 +135,8 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $http, $stat
 
       $scope.uploader.onCompleteAll = function() {
           console.info('Se cargo con exito');
-          $http.post('servidor/nexo.php', { datos: {accion :"modificarSuc",sucursal:$scope.sucursal}})
+          var dato=JSON.stringify($scope.sucursal);
+          $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato)
           .then(function(respuesta) 
           {      
             console.log(respuesta.data);
@@ -139,4 +148,17 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $http, $stat
           });
       };
 
+});
+
+miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state, $stateParams){
+  var dato=JSON.parse($stateParams.sucursal);
+  $scope.sucursal={};
+
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato.idSucursal)
+  .then(function(respuesta) {       
+         $scope.sucursal = respuesta.data;
+         console.log(respuesta.data);
+    },function errorCallback(response) {
+        console.log( response);     
+   });
 });

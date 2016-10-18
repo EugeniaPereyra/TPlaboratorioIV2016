@@ -274,6 +274,110 @@ $app->delete('/pedido/{id}', function ($request, $response, $args) {
 
 
 //---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+//---- SUCURSALES ------
+
+// TRAE TODOS
+$app->get('/sucursales[/]', function ($request, $response, $args) {
+    $respuesta["listado"]=Sucursal::TraerTodasLasSucursales();
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// TRAE UNO
+$app->get('/sucursal/{id}', function ($request, $response, $args) {
+    $respuesta=Sucursal::TraerUnaSucursal($args["id"]);
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// ALTA
+$app->post('/sucursal/{sucursal}', function ($request, $response, $args){
+    $sucursal=json_decode($args["sucursal"]);
+    if($sucursal->foto1!="default.jpg")
+    {
+        $rutaVieja="../fotosSuc/".$sucursal->foto1;
+        $rutaNueva=$sucursal->telefono."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+        unlink($rutaVieja);
+        $sucursal->foto1=$rutaNueva;
+    }
+    if($sucursal->foto2!="default.jpg")
+    {
+        $rutaVieja="../fotosSuc/".$sucursal->foto2;
+        $rutaNueva=$sucursal->telefono."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+        unlink($rutaVieja);
+        $sucursal->foto2=$rutaNueva;
+    }
+    if($sucursal->foto3!="default.jpg")
+    {
+        $rutaVieja="../fotosSuc/".$sucursal->foto3;
+        $rutaNueva=$sucursal->telefono."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+        unlink($rutaVieja);
+        $sucursal->foto3=$rutaNueva;
+    }
+    $response->write(Sucursal::Insertar($sucursal));
+    return $response;
+});
+
+// MODIFICA UNO
+$app->put('/sucursal/{sucursal}', function ($request, $response, $args) {
+    $sucursal=json_decode($args["sucursal"]);
+    if($sucursal->foto1!="default.jpg")
+    {
+        $rutaVieja="../fotosSuc/".$sucursal->foto1;
+        $rutaNueva=$sucursal->telefono."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+        unlink($rutaVieja);
+        $sucursal->foto1=$rutaNueva;
+    }
+    if($sucursal->foto2!="default.jpg")
+    {
+        $rutaVieja="../fotosSuc/".$sucursal->foto2;
+        $rutaNueva=$sucursal->telefono."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+        unlink($rutaVieja);
+        $sucursal->foto2=$rutaNueva;
+    }
+    if($sucursal->foto3!="default.jpg")
+    {
+        $rutaVieja="../fotosSuc/".$sucursal->foto3;
+        $rutaNueva=$sucursal->telefono."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosSuc/".$rutaNueva);
+        unlink($rutaVieja);
+        $sucursal->foto3=$rutaNueva;
+    }
+    $response->write(Sucursal::Modificar($sucursal));
+    return $response;
+});
+
+// BORRA UNO
+$app->delete('/sucursal/{sucursal}', function ($request, $response, $args){
+        $sucursal=json_decode($args["sucursal"]);
+        if($sucursal->foto1!="default.jpg")
+        {
+            unlink("../fotosSuc/".$sucursal->foto1);
+        }
+        if($sucursal->foto2!="default.jpg")
+        {
+            unlink("../fotosSuc/".$sucursal->foto2);
+        }
+        if($sucursal->foto3!="default.jpg")
+        {
+            unlink("../fotosSuc/".$sucursal->foto3);
+        }
+        $response->write(Sucursal::Borrar($sucursal->idSucursal));
+        return $response;
+});
+
+
+//---------------------------------------------------------------------
 
 
 /**

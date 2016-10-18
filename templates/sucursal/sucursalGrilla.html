@@ -7,14 +7,13 @@
 								<table class='table table-hover table-responsive' id="listadoSucursales">
 									<thead>
 										<tr>
-											<th>  FOTO 1  </th>
-											<th>  FOTO 2  </th>
-											<th>  FOTO 3  </th>
+											<th>  FOTO  </th>
 											<th>  DIRECCION   </th>
 											<th>  TELEFONO     </th>
 
 											<th>  BORRAR     </th>
 											<th>  MODIFICAR  </th>
+											<th>  DETALLE </th>
 										</tr> 
 									</thead>
 
@@ -23,8 +22,6 @@
 									<tr ng-repeat="sucursal in ListadoSucursales">
 
 										<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto1}}" /></td>
-										<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto2}}" /></td>
-										<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto3}}" /></td>
 							
 										<td>{{sucursal.direccion}}</td>
 										<td>{{sucursal.telefono}}</td>
@@ -32,6 +29,8 @@
 										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(sucursal)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
 										
 										<td><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(sucursal)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+
+										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(sucursal)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
 															
 									</tr>
 									

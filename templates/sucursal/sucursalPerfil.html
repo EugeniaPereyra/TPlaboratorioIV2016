@@ -1,0 +1,26 @@
+<div>
+	<br><br><center>
+		<form>
+				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto1}}" style="width:200px; height:200px " /></td>
+				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto2}}" style="width:200px; height:200px " /></td>
+				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto3}}" style="width:200px; height:200px " /></td>
+
+				<br><br>
+
+				<p>Direccion:    {{sucursal.direccion}}</p>
+				<p>Telefono:    {{sucursal.telefono}}</p> 
+				<p>Id:     {{sucursal.idSucursal}}</p>
+
+				<br>
+
+				<ul class="nav nav-tabs">
+					<li  class="btn btn-success animated bounceInLeft" >
+			         	<a ui-sref="persona.sucGrilla" style="color:yellow">
+			         		 <span class="glyphicon glyphicon-arrow-left">&nbsp;</span>
+			         		 Volver 
+			         	</a>
+			        </li>
+			    </ul>
+		</form>
+	</center>
+</div>
