@@ -19,9 +19,9 @@
 
 				<span>Perfil:</span><br>
 				<select name="perfil" ng-model="persona.perfil">
-				  <option value="administrador" ng-hide="UsuarioLogueado.perfil=='administrador'">Administrador</option>
-				  <option value="encargado">Encargado</option>
-				  <option value="empleado">Empleado</option>
+				  <option value="administrador" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='empleado'">Administrador</option>
+				  <option value="encargado" ng-hide="UsuarioLogueado.perfil=='empleado'">Encargado</option>
+				  <option value="empleado" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='empleado'">Empleado</option>
 				  <option value="cliente">Cliente</option>
 				</select>
 				<span style="color:red" ng-show="FormIngreso.perfil.$invalid">*</span> 
