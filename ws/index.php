@@ -66,7 +66,7 @@ $app->post('/usuario/{usuario}', function ($request, $response, $args) {
     if($persona->foto!="pordefecto.png")
     {
         $rutaVieja="../fotos/".$persona->foto;
-        $rutaNueva=$persona->nombre.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        $rutaNueva=$persona->dni.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotos/".$rutaNueva);
         unlink($rutaVieja);
         $persona->foto=$rutaNueva;
@@ -81,7 +81,7 @@ $app->put('/usuario/{usuario}', function ($request, $response, $args) {
     if($persona->foto!="pordefecto.png")
     {
         $rutaVieja="../fotos/".$persona->foto;
-        $rutaNueva=$persona->nombre.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        $rutaNueva=$persona->dni.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotos/".$rutaNueva);
         unlink($rutaVieja);
         $persona->foto=$rutaNueva;

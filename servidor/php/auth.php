@@ -11,11 +11,13 @@ $usuarioLogueado = Usuario::TraerUsuarioLogueado($respuesta);
 if($usuarioLogueado)
 {
 	$key = "1234";
-	$token["usuario"] = $usuarioLogueado->email;
 	$token["id"] = $usuarioLogueado->idPersona;
 	$token["nombre"] =$usuarioLogueado->nombre;
 	$token["pass"] = $usuarioLogueado->password;
 	$token["perfil"] = $usuarioLogueado->perfil;
+	$token["email"] = $usuarioLogueado->email;
+	$token["foto"] = $usuarioLogueado->foto;
+	$token["dni"] = $usuarioLogueado->dni;
 	$token["exp"] = time()+5000;
 
 	$jwt = JWT::encode($token, $key);

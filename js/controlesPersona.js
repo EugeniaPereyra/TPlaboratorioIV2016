@@ -51,7 +51,7 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
   }
 
   $scope.Cliente=function(){
-    $scope.dato.usuario=" cliente@cliente.com";
+    $scope.dato.usuario="cliente@cliente.com";
     $scope.dato.clave="123456";
   }
 
@@ -64,6 +64,8 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
 miAplicacion.controller('controlPersona',function($scope, $auth, $state){
     if($auth.isAuthenticated()){
         console.log("Sesión iniciada!");
+        $scope.UsuarioLogueado= $auth.getPayload();
+        console.info($scope.UsuarioLogueado);
     }
     else{
         console.log("No hay sesión!");
@@ -80,7 +82,21 @@ miAplicacion.controller('controlPersona',function($scope, $auth, $state){
     }
 });
 
-miAplicacion.controller('controlPersonaMenu',function($scope, $state){
+miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
+
+  if($auth.isAuthenticated()){
+    console.log("Sesión iniciada!");
+    $scope.UsuarioLogueado= $auth.getPayload();
+    console.info($scope.UsuarioLogueado);
+  }
+  else{
+    console.log("No hay sesión!");
+    $state.go('login');
+  }
+
+  $scope.isAuthenticated = function() {
+    return $auth.isAuthenticated();
+  };
 
   $scope.IrAltaUsuario=function(){
     $state.go('persona.alta');
@@ -123,7 +139,21 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state){
   }
 });
 
-miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $http, $state, cargadorDeFoto){
+miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $http, $state, cargadorDeFoto, $auth){
+
+      if($auth.isAuthenticated()){
+          console.log("Sesión iniciada!");
+          $scope.UsuarioLogueado= $auth.getPayload();
+          console.info($scope.UsuarioLogueado);
+      }
+      else{
+          console.log("No hay sesión!");
+          $state.go('login');
+      }
+
+      $scope.isAuthenticated = function() {
+        return $auth.isAuthenticated();
+      };
 
       $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
       $scope.uploader.queueLimit = 1;
@@ -133,6 +163,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.persona.email= "natalia@natalia.com" ;
       $scope.persona.password= "123456" ;
       $scope.persona.foto="pordefecto.png";
+      $scope.persona.dni=12345678;
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 

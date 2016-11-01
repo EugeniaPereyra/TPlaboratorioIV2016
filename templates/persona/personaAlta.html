@@ -2,17 +2,24 @@
 		<div class="CajaInicio animated bounceInRight">
 			<form id="FormIngreso" name="FormIngreso" enctype="multipart/form-data" style="background-image:url(img/marco.png);background-position: center;background-size: 100% 100%;background-repeat: no-repeat;" novalidate>
 
-				<center><h2 style="color:black">Datos Usuario</h2></center><br><br>
+				<center><h2 style="color:black">Datos Usuario</h2></center>
+				<br><br>
 			
 				<span>Nombre:</span><br>
 				<input type="text" name="nombre" ng-model="persona.nombre" placeholder="Ingrese nombre" required />
 				<span style="color:red" ng-show="FormIngreso.nombre.$invalid">*</span> 
 
 				<br><br>
+			
+				<span>Dni:</span><br>
+				<input type="number" name="dni" ng-model="persona.dni" placeholder="Ingrese dni" required />
+				<span style="color:red" ng-show="FormIngreso.dni.$invalid">*</span> 
+
+				<br><br>
 
 				<span>Perfil:</span><br>
 				<select name="perfil" ng-model="persona.perfil">
-				  <option value="administrador">Administrador</option>
+				  <option value="administrador" ng-hide="UsuarioLogueado.perfil=='administrador'">Administrador</option>
 				  <option value="encargado">Encargado</option>
 				  <option value="empleado">Empleado</option>
 				  <option value="cliente">Cliente</option>
