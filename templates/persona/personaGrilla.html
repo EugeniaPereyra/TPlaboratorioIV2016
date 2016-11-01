@@ -19,7 +19,7 @@
 
 									<!--{{listadoDeDatos}} -->
 									
-									<tr ng-repeat="persona in ListadoPersonas">
+									<tr ng-repeat="persona in ListadoPersonas" ng-hide="UsuarioLogueado.perfil=='encargado' && persona.perfil=='administrador' || UsuarioLogueado.perfil=='encargado' && persona.perfil=='encargado' || UsuarioLogueado.perfil=='encargado' && persona.perfil=='cliente'">
 
 										<td><img  class='fotoGrilla' ng-src="fotos/{{persona.foto}}" /></td>
 							

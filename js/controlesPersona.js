@@ -197,7 +197,21 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
 
 });
 
-miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state){
+miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state, $auth){
+  if($auth.isAuthenticated()){
+    console.log("Sesión iniciada!");
+    $scope.UsuarioLogueado= $auth.getPayload();
+    console.info($scope.UsuarioLogueado);
+  }
+  else{
+    console.log("No hay sesión!");
+    $state.go('login');
+  }
+
+  $scope.isAuthenticated = function() {
+    return $auth.isAuthenticated();
+  };
+
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
   .then(function(respuesta) {       
          $scope.ListadoPersonas = respuesta.data.listado;

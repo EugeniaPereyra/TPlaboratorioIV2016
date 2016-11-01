@@ -9,11 +9,11 @@
 						
 							<form id="FormIngreso" style="background-image:url(img/mantel.jpg);background-position: center;background-size: 100% 100%;background-repeat: no-repeat;">
 
-								<div style="text-align:center">
+								<div style="text-align:center" ng-hide="UsuarioLogueado.perfil=='encargado'">
                     				<h1 class="section-heading">Altas</h1>
                     			</div>
 
-								<div class="btn-group-vertical btn-block">
+								<div class="btn-group-vertical btn-block" ng-hide="UsuarioLogueado.perfil=='encargado'">
 
 								  <button type="button" class="btn btn-warning" ng-click="IrAltaUsuario()"><h4>AGREGAR USUARIO</h4></button>
 
@@ -29,21 +29,21 @@
 
 								<br><br><br>
 
-								<div style="text-align:center" ng-hide="UsuarioLogueado.perfil=='administrador'">
+								<div style="text-align:center">
                     				<h1 class="section-heading">Tablas</h1>
                     			</div>
 
                     			<div class="btn-group-vertical btn-block">
 
-								  <button type="button" class="btn btn-warning" ng-click="IrGrillaUsuario()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>GRILLA USUARIOS</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaUsuario()" ><h4>GRILLA USUARIOS</h4></button>
 
 								  <button type="button" class="btn btn-warning" ng-click="IrGrillaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>GRILLA PRODUCTOS</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrGrillaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>GRILLA OFERTAS</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador'" ><h4>GRILLA OFERTAS</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>GRILLA PEDIDOS</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador'" ><h4>GRILLA PEDIDOS</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrGrillaSucursal()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>GRILLA SUCURSALES</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaSucursal()" ng-hide="UsuarioLogueado.perfil=='encargado'"><h4>GRILLA SUCURSALES</h4></button>
 
 								</div>									
 							</form>
