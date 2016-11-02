@@ -41,7 +41,21 @@ miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $http
 
 });
 
-miAplicacion.controller('controlOfertaGrilla',function($scope, $http, $state){
+miAplicacion.controller('controlOfertaGrilla',function($scope, $http, $state, $auth){
+  if($auth.isAuthenticated()){
+    console.log("Sesión iniciada!");
+    $scope.UsuarioLogueado= $auth.getPayload();
+    console.info($scope.UsuarioLogueado);
+  }
+  else{
+    console.log("No hay sesión!");
+    $state.go('login');
+  }
+
+  $scope.isAuthenticated = function() {
+    return $auth.isAuthenticated();
+  };
+
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/ofertas')
   .then(function(respuesta) {       
          $scope.ListadoProductos = respuesta.data.listado;

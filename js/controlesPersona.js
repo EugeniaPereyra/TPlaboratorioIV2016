@@ -312,3 +312,47 @@ miAplicacion.controller('controlPersonaDetallar',function($scope, $http, $state,
         console.log( response);     
    });
 });
+
+miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, $http, $state, cargadorDeFoto){
+
+      $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
+      $scope.uploader.queueLimit = 1;
+      $scope.persona={};
+      $scope.persona.nombre= "Natalia Natalia" ;
+      $scope.persona.perfil= "cliente" ;
+      $scope.persona.email= "natalia@natalia.com" ;
+      $scope.persona.password= "123456" ;
+      $scope.persona.foto="pordefecto.png";
+      $scope.persona.dni=12345678;
+       
+      cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
+
+
+      $scope.Guardar = function(){
+          if($scope.uploader.queue[0].file.name!='pordefecto.png')
+          {
+            var nombreFoto = $scope.uploader.queue[0].file.name;
+            $scope.persona.foto=nombreFoto;
+          }
+
+          $scope.uploader.uploadAll();
+      }
+
+        $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+            console.info('onErrorItem', fileItem, response, status, headers);
+        };
+
+        $scope.uploader.onCompleteAll = function() {
+            console.info('Se cargo con exito');
+            var dato=JSON.stringify($scope.persona);
+            $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
+            .then(function(respuesta) {             
+                 console.log(respuesta.data);
+                 $state.go("persona.menu");
+
+            },function errorCallback(response) {        
+                console.log( response);           
+            });
+        };
+
+});

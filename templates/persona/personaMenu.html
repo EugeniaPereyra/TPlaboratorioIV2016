@@ -17,13 +17,13 @@
 
 								  <button type="button" class="btn btn-warning" ng-click="IrAltaUsuario()"><h4>AGREGAR USUARIO</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrAltaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>AGREGAR PRODUCTO</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>AGREGAR PRODUCTO</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrAltaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>AGREGAR OFERTA</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>AGREGAR OFERTA</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrAltaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>AGREGAR PEDIDO</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>AGREGAR PEDIDO</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrAltaSucursal()" ng-hide="UsuarioLogueado.perfil=='empleado'"><h4>AGREGAR SUCURSAL</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrAltaSucursal()" ng-hide="UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente'"><h4>AGREGAR SUCURSAL</h4></button>
 
 								</div>
 
@@ -35,13 +35,13 @@
 
                     			<div class="btn-group-vertical btn-block">
 
-								  <button type="button" class="btn btn-warning" ng-click="IrGrillaUsuario()" ><h4>GRILLA USUARIOS</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaUsuario()" ng-hide="UsuarioLogueado.perfil=='cliente'" ><h4>GRILLA USUARIOS</h4></button>
 
 								  <button type="button" class="btn btn-warning" ng-click="IrGrillaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>GRILLA PRODUCTOS</h4></button>
 
 								  <button type="button" class="btn btn-warning" ng-click="IrGrillaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador'" ><h4>GRILLA OFERTAS</h4></button>
 
-								  <button type="button" class="btn btn-warning" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador'" ><h4>GRILLA PEDIDOS</h4></button>
+								  <button type="button" class="btn btn-warning" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'" ><h4>GRILLA PEDIDOS</h4></button>
 
 								  <button type="button" class="btn btn-warning" ng-click="IrGrillaSucursal()" ng-hide="UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado'"><h4>GRILLA SUCURSALES</h4></button>
 

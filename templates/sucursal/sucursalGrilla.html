@@ -11,8 +11,8 @@
 											<th>  DIRECCION   </th>
 											<th>  TELEFONO     </th>
 
-											<th>  BORRAR     </th>
-											<th>  MODIFICAR  </th>
+											<th ng-hide="UsuarioLogueado.perfil=='cliente'">  BORRAR     </th>
+											<th ng-hide="UsuarioLogueado.perfil=='cliente'">  MODIFICAR  </th>
 											<th>  DETALLE </th>
 										</tr> 
 									</thead>
@@ -26,9 +26,9 @@
 										<td>{{sucursal.direccion}}</td>
 										<td>{{sucursal.telefono}}</td>
 
-										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(sucursal)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(sucursal)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
 										
-										<td><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(sucursal)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(sucursal)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
 
 										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(sucursal)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
 															
