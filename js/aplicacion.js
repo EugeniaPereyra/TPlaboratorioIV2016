@@ -30,8 +30,8 @@ $authProvider.authHearder='data';
         .state(
           'registro',{
           url:'/registro',
-          templateUrl:'templates/persona/personaAlta.html',
-          controller:'controlPersonaAlta'
+          templateUrl:'templates/registro.html',
+          controller:'controlPersonaRegistro'
         })
 
 
