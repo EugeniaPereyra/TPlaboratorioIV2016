@@ -17,6 +17,15 @@
 				<input style="color:black" type="number" name="cantidad" ng-model="pedido.cantidad" placeholder="Ingrese la cantidad" required /> 
 				<span style="color:red" ng-show="FormIngreso.cantidad.$invalid">*</span>
 
+				<br><br>
+				
+				<span>Sucursal:</span><br>
+				<select name="suc" ng-model="pedido.idSucursal" required>
+					<option value="">Seleccione la sucursal..</option>
+				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}}>{{s.direccion}}</option>
+				</select>
+				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
+
 				<br><br><br>
 
 				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>

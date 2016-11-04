@@ -15,6 +15,15 @@
 				<input style="color:black" type="text" name="precio" ng-model="producto.precio" placeholder="Ingrese el precio" required /> 
 				<span style="color:red" ng-show="FormIngreso.precio.$invalid">*</span> 
 
+				<br><br>
+				
+				<span>Sucursal:</span><br>
+				<select name="suc" ng-model="producto.idSucursal" required>
+					<option value="">Seleccione la sucursal..</option>
+				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}}>{{s.direccion}}</option>
+				</select>
+				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
+
 				<br>
 
 				<input type="hidden" name="idOculto" id="id" value="" />

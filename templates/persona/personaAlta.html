@@ -18,13 +18,23 @@
 				<br><br>
 
 				<span>Perfil:</span><br>
-				<select name="perfil" ng-model="persona.perfil">
+				<select name="perfil" ng-model="persona.perfil" required>
+				  <option value="">Seleccione un perfil..</option>
 				  <option value="administrador" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente'">Administrador</option>
 				  <option value="encargado" ng-hide="UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente'">Encargado</option>
-				  <option value="empleado" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente'">Empleado</option>
+				  <option value="empleado" ng-hide=" UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente'">Empleado</option>
 				  <option value="cliente">Cliente</option>
 				</select>
 				<span style="color:red" ng-show="FormIngreso.perfil.$invalid">*</span> 
+
+				<br><br>
+
+				<span>Sucursal:</span><br>
+				<select name="suc" ng-model="persona.idSucursal" required>
+					<option value="">Seleccione la sucursal..</option>
+				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}}>{{s.direccion}}</option>
+				</select>
+				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
 
 				<br>
 

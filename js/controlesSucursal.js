@@ -50,7 +50,6 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $ht
                console.log( response);           
           });
       };
-
 });
 
 miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state, $auth){
@@ -167,6 +166,16 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $http, $stat
 miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state, $stateParams){
   var dato=JSON.parse($stateParams.sucursal);
   $scope.sucursal={};
+  $scope.ListadoEmpleados = [];
+
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
+   .then(function(respuesta) {       
+      $scope.ListadoEmpleados = respuesta.data.listado;
+      console.log(respuesta.data);
+    },function errorCallback(response) {
+      $scope.ListadoEmpleados= [];
+      console.log( response);     
+  });
 
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato.idSucursal)
   .then(function(respuesta) {       
@@ -175,4 +184,12 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state
     },function errorCallback(response) {
         console.log( response);     
    });
+
+  $scope.VerOfertas=function(){
+    $state.go('persona.oferGrilla',$scope.sucursal.id);
+  }
+
+  $scope.VerPedidos=function(){
+    $state.go('persona.pedGrilla',$scope.sucursal.id);
+  }
 });

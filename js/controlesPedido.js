@@ -4,6 +4,17 @@
 miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state){
 
       $scope.pedido={};
+      $scope.pedido.idSucursal="";
+      $scope.ListadoSucursales = [];
+
+      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta.data.listado;
+             console.info(respuesta.data);
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log( response);     
+       });
 
       $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
       .then(function(respuesta) {       
@@ -27,7 +38,9 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state){
 
 });
 
-miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state){
+miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $stateParams){
+  $scope.idSucursal = $stateParams.id;
+
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
   .then(function(respuesta) {       
          $scope.ListadoProductos = respuesta.data.listado;

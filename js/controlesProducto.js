@@ -10,9 +10,20 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
       $scope.producto.descripcion= "producto" ;
       $scope.producto.precio= "0.00" ;
       $scope.producto.foto="default.jpg";
+      $scope.producto.idSucursal="";
+      $scope.ListadoSucursales = [];
 
       cargadorDeFotoProd.CargarFoto($scope.producto.foto,$scope.uploader);
 
+      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta.data.listado;
+             console.info(respuesta.data);
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log( response);     
+       });
+      
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {

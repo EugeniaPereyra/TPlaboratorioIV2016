@@ -1,17 +1,30 @@
 <div>
 	<br><br><center>
 		<form>
-				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto1}}" style="width:200px; height:200px " /></td>
-				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto2}}" style="width:200px; height:200px " /></td>
-				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto3}}" style="width:200px; height:200px " /></td>
+				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto1}}" style="width:300px; height:300px " /></td>
+				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto2}}" style="width:300px; height:300px " /></td>
+				<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto3}}" style="width:300px; height:300px " /></td>
 
 				<br><br>
 
 				<p>Direccion:    {{sucursal.direccion}}</p>
 				<p>Telefono:    {{sucursal.telefono}}</p> 
-				<p>Id:     {{sucursal.idSucursal}}</p>
+				
 
-				<br>
+				<div ng-repeat="e in ListadoEmpleados">
+					<div ng-if="e.idSucursal == sucursal.id">
+						<p ng-if="e.perfil == 'encargado'">Encargado: {{e.nombre}}</p>
+						<p ng-if="e.perfil == 'empleado'">Empleado:{{e.nombre}}</p>
+					</div>
+				</div>
+
+				<br/><br/>
+
+				<a ng-click="VerOfertas()" class="btn btn-warning btn-lg" style="width:300px"></span> Ver ofertas</a>
+				<br/><br/>
+				<a ng-click="VerPedidos()" class="btn btn-warning btn-lg" style="width:300px"></span> Ver pedidos</a>
+
+				<br/><br/>
 
 				<ul class="nav nav-tabs">
 					<li  class="btn btn-success animated bounceInLeft" >

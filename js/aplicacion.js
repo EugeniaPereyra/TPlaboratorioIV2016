@@ -183,7 +183,7 @@ $authProvider.authHearder='data';
 
         .state(
           'persona.oferGrilla',{
-          url:'/ofertaGrilla',
+          url:'/ofertaGrilla/:id',
           views:
           {
             'contenido':
@@ -237,7 +237,7 @@ $authProvider.authHearder='data';
 
         .state(
           'persona.pedGrilla',{
-          url:'/pedidoGrilla',
+          url:'/pedidoGrilla/:id',
           views:
           {
             'contenido':

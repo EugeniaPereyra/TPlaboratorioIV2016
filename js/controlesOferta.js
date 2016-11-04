@@ -10,9 +10,20 @@ miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $http
       $scope.producto.descripcion= "oferta" ;
       $scope.producto.precio= "0.00" ;
       $scope.producto.foto="default.jpg";
+      $scope.producto.idSucursal="";
+      $scope.ListadoSucursales = [];
 
       cargadorDeFotoOfer.CargarFoto($scope.producto.foto,$scope.uploader);
 
+      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta.data.listado;
+             console.info(respuesta.data);
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log( response);     
+       });
+      
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
@@ -41,7 +52,9 @@ miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $http
 
 });
 
-miAplicacion.controller('controlOfertaGrilla',function($scope, $http, $state, $auth){
+miAplicacion.controller('controlOfertaGrilla',function($scope, $http, $state, $auth, $stateParams){
+  $scope.idSucursal = $stateParams.id;
+
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();

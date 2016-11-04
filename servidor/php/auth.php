@@ -18,6 +18,7 @@ if($usuarioLogueado)
 	$token["email"] = $usuarioLogueado->email;
 	$token["foto"] = $usuarioLogueado->foto;
 	$token["dni"] = $usuarioLogueado->dni;
+	$token["idSucursal"] = $usuarioLogueado->idSucursal;
 	$token["exp"] = time()+5000;
 
 	$jwt = JWT::encode($token, $key);

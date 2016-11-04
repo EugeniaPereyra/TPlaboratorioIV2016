@@ -159,14 +159,24 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.uploader.queueLimit = 1;
       $scope.persona={};
       $scope.persona.nombre= "Natalia Natalia" ;
-      $scope.persona.perfil= "cliente" ;
+      $scope.persona.perfil= "" ;
       $scope.persona.email= "natalia@natalia.com" ;
       $scope.persona.password= "123456" ;
       $scope.persona.foto="pordefecto.png";
       $scope.persona.dni=12345678;
+      $scope.persona.idSucursal="";
+      $scope.ListadoSucursales = [];
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
+      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta.data.listado;
+             console.info(respuesta.data);
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log( response);     
+       });
 
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
@@ -266,8 +276,20 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
   $scope.persona.email=dato.email;
   $scope.persona.password=dato.password;
   $scope.persona.foto=dato.foto;
+  $scope.persona.dni=parseInt(dato.dni);
+  $scope.persona.idSucursal=parseInt(dato.idSucursal);
+  $scope.ListadoSucursales = [];
 
   cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
+
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+  .then(function(respuesta) {       
+      $scope.ListadoSucursales = respuesta.data.listado;
+      console.info(respuesta.data);
+  },function errorCallback(response) {
+      $scope.ListadoSucursales = [];
+      console.log( response);     
+  });
 
     $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
@@ -303,14 +325,28 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
 miAplicacion.controller('controlPersonaDetallar',function($scope, $http, $state, $stateParams){
   var dato=JSON.parse($stateParams.persona);
   $scope.usuario={};
+  var listadoSucursales = [];
 
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato.idPersona)
   .then(function(respuesta) {       
          $scope.usuario = respuesta.data;
          console.log(respuesta.data);
+        $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+          .then(function(respuesta) {       
+                 listadoSucursales = respuesta.data.listado;
+                 console.log(respuesta.data);
+                   listadoSucursales.map(function(dato){
+                    if($scope.usuario.idSucursal == dato.idSucursal)
+                      $scope.usuario.sucursalDir = dato.direccion;
+                  });
+            },function errorCallback(response) {
+                 listadoSucursales = [];
+                console.log( response);     
+           });
     },function errorCallback(response) {
         console.log( response);     
    });
+
 });
 
 miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, $http, $state, cargadorDeFoto){
@@ -319,14 +355,24 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
       $scope.uploader.queueLimit = 1;
       $scope.persona={};
       $scope.persona.nombre= "Natalia Natalia" ;
-      $scope.persona.perfil= "cliente" ;
+      $scope.persona.perfil= "" ;
       $scope.persona.email= "natalia@natalia.com" ;
       $scope.persona.password= "123456" ;
       $scope.persona.foto="pordefecto.png";
+      $scope.persona.idSucursal="";
       $scope.persona.dni=12345678;
+      $scope.ListadoSucursales = [];
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
+      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta.data.listado;
+             console.info(respuesta.data);
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log( response);     
+       });
 
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
