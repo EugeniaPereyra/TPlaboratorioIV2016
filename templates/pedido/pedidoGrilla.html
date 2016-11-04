@@ -18,7 +18,7 @@
 
 									<!--{{listadoDeDatos}} -->
 									<div ng-hide="idSucursal">
-									<tr ng-repeat="pedido in ListadoProductos">
+									<tr ng-repeat="pedido in ListadoPedidos">
 							
 										<td>{{pedido.producto}}</td>
 										<td>{{pedido.cantidad}}</td>
@@ -33,7 +33,7 @@
 									</div>
 
 									<div ng-if="idSucursal">
-									<tr ng-repeat="pedido in ListadoProductos">
+									<tr ng-repeat="pedido in ListadoPedidos">
 							
 										<td ng-if="idSucursal==pedido.idSucursal">{{pedido.producto}}</td>
 										<td ng-if="idSucursal==pedido.idSucursal">{{pedido.cantidad}}</td>

@@ -224,7 +224,7 @@ $authProvider.authHearder='data';
 
         .state(
           'persona.pedAlta',{
-          url:'/pedidoAlta',
+          url:'/pedidoAlta/:usuario',
           views:
           {
             'contenido':

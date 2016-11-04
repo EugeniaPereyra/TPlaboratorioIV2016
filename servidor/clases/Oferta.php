@@ -8,6 +8,7 @@ class Oferta
 	public $descripcion;
   	public $precio;
   	public $foto;
+  	public $idSucursal;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
@@ -19,16 +20,11 @@ class Oferta
 			$this->descripcion = $obj->descripcion;
 			$this->precio = $precio;
 			$this->foto = $obj->foto;
+			$this->idSucursal = $obj->idSucursal;
 		}
 	}
 
-//--------------------------------------------------------------------------------//
-//--TOSTRING	
-  	public function ToString()
-	{
-	  	return $this->descripcion."-".$this->precio."-".$this->foto;
-	}
-//--------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------
 //--METODO DE CLASE
 	public static function TraerUnaOferta($idOferta) 
 	{	
@@ -69,13 +65,15 @@ class Oferta
 				update oferta 
 				set descripcion=:descripcion,
 				precio=:precio,
-				foto=:foto
+				foto=:foto,
+				idSucursal=:idSucursal
 				WHERE idOferta=:idOferta");
 
 			$consulta->bindValue(':idOferta',$producto->idOferta, PDO::PARAM_INT);
 			$consulta->bindValue(':precio', $producto->precio, PDO::PARAM_STR);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
+			$consulta->bindValue(':idSucursal', $producto->idSucursal, PDO::PARAM_INT);
 			return $consulta->execute();
 	}
 
@@ -83,11 +81,12 @@ class Oferta
 	public static function Insertar($producto)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into oferta (descripcion,precio,foto)values(:descripcion,:precio,:foto)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into oferta (descripcion,precio,foto,idSucursal)values(:descripcion,:precio,:foto,:idSucursal)");
 
 			$consulta->bindValue(':precio', $producto->precio, PDO::PARAM_STR);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
+			$consulta->bindValue(':idSucursal', $producto->idSucursal, PDO::PARAM_INT);
 		$consulta->execute();		
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	

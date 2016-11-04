@@ -5,8 +5,13 @@ class Pedido
 //--------------------------------------------------------------------------------//
 //--ATRIBUTOS
 	public $idPedido;
-	public $producto;
+	public $idProducto;
   	public $cantidad;
+  	public $idSucursal;
+  	public $clienteNombre;
+  	public $idPersona;
+  	public $total;
+  	public $idOferta;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
@@ -15,8 +20,13 @@ class Pedido
 		if($idPedido != NULL){
 			$obj = Pedido::TraerUnPedido($idPedido);
 			$this->idPedido = $obj->idPedido;
-			$this->producto = $obj->producto;
+			$this->producto = $obj->idProducto;
 			$this->cantidad = $obj->cantidad;
+			$this->idSucursal = $obj->idSucursal;
+			$this->clienteNombre = $obj->clienteNombre;
+			$this->idPersona = $obj->idPersona;
+			$this->total = $obj->total;
+			$this->idOferta = $obj->idOferta;
 		}
 	}
 
@@ -61,12 +71,22 @@ class Pedido
 			$consulta =$objetoAccesoDato->RetornarConsulta("
 				update pedido 
 				set cantidad=:cantidad,
-				producto=:producto
+				idProducto=:idProducto,
+				idSucursal=:idSucursal,
+				clienteNombre=:clienteNombre,
+				idPersona=:idPersona,
+				tottal=:total,
+				idOferta=:idOferta
 				WHERE idPedido=:idPedido");
 
 			$consulta->bindValue(':idPedido',$pedido->idPedido, PDO::PARAM_INT);
 			$consulta->bindValue(':cantidad', $pedido->cantidad, PDO::PARAM_INT);
-			$consulta->bindValue(':producto', $pedido->producto, PDO::PARAM_STR);
+			$consulta->bindValue(':idProducto', $pedido->idProducto, PDO::PARAM_INT);
+			$consulta->bindValue(':idSucursal', $pedido->idSucursal, PDO::PARAM_INT);
+			$consulta->bindValue(':idPersona', $pedido->idPersona, PDO::PARAM_INT);
+			$consulta->bindValue(':clienteNombre', $pedido->clienteNombre, PDO::PARAM_STR);
+			$consulta->bindValue(':total', $pedido->total, PDO::PARAM_INT);
+			$consulta->bindValue(':idOferta', $pedido->idOferta, PDO::PARAM_INT);
 			return $consulta->execute();
 	}
 
@@ -74,10 +94,15 @@ class Pedido
 	public static function Insertar($pedido)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (producto,cantidad)values(:producto,:cantidad)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (idProducto,cantidad,idSucursal,clienteNombre,idPersona,total,idOferta)values(:idProducto,:cantidad,:idSucursal,:clienteNombre,:idPersona,:total,:idOferta)");
 
-			$consulta->bindValue(':producto', $pedido->producto, PDO::PARAM_STR);
+			$consulta->bindValue(':idProducto', $pedido->idProducto, PDO::PARAM_INT);
 			$consulta->bindValue(':cantidad',$pedido->cantidad, PDO::PARAM_INT);
+			$consulta->bindValue(':idSucursal',$pedido->idSucursal, PDO::PARAM_INT);
+			$consulta->bindValue(':idPersona', $pedido->idPersona, PDO::PARAM_INT);
+			$consulta->bindValue(':clienteNombre', $pedido->clienteNombre, PDO::PARAM_STR);
+			$consulta->bindValue(':total', $pedido->total, PDO::PARAM_INT);
+			$consulta->bindValue(':idOferta', $pedido->idOferta, PDO::PARAM_INT);
 		$consulta->execute();		
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	

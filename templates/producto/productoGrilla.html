@@ -24,7 +24,7 @@
 										<td><img  class='fotoGrilla' ng-src="fotosProd/{{producto.foto}}" /></td>
 							
 										<td>{{producto.descripcion}}</td>
-										<td>{{producto.precio}}</td>
+										<td>{{producto.precio | currency}}</td>
 
 										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
 										

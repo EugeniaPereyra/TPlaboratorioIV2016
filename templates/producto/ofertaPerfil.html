@@ -6,8 +6,9 @@
 				<br><br>
 
 				<p>Descripcion:    {{producto.descripcion}}</p>
-				<p>Precio:    {{producto.precio}}</p> 
-				<p>Id:     {{producto.idOferta}}</p>
+				<p>Precio:    {{producto.precio | currency}}</p> 
+				<p ng-if="producto.sucursalDir">Sucursal:     {{producto.sucursalDir}}</p>
+				<p ng-if="producto.sucursalTel">Telefono:     {{producto.sucursalTel}}</p>
 
 				<br>
 

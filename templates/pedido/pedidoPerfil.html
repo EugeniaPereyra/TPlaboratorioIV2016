@@ -4,9 +4,11 @@
 
 				<p>Producto:    {{pedido.producto}}</p>
 				<p>Cantidad:    {{pedido.cantidad}}</p> 
-				<p>Id:     {{pedido.idPedido}}</p>
+				<p>Nombre del cliente:    {{pedido.clienteNombre}}</p> 
+				<p ng-if="pedido.sucursalDir">Sucursal:     {{pedido.sucursalDir}}</p>
+				<p ng-if="pedido.sucursalTel">Telefono:     {{pedido.sucursalTel}}</p>
 
-				<br>
+				<br><br><br>
 
 				<ul class="nav nav-tabs">
 					<li  class="btn btn-success animated bounceInLeft" >

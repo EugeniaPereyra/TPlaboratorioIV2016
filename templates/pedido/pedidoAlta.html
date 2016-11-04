@@ -5,11 +5,21 @@
 
 				<center><h2 style="color:black">Datos Pedido</h2></center><br><br>
 
-				<input type="hidden" name="idOculto" id="id" value="" />
+				<span>Sucursal:</span><br>
+				<select name="suc" ng-model="pedido.idSucursal" required>
+					<option value="">Seleccione la sucursal..</option>
+				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}}>{{s.direccion}}</option>
+				</select>
+				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
 
 				<span>Producto:</span><br>
-				<input style="color:black" type="text" name="producto" ng-model="pedido.producto" placeholder="Ingrese descripcion" required /> 
-				<span style="color:red" ng-show="FormIngreso.producto.$invalid">*</span> 
+				<select name="producto" ng-model="pedido.idProducto" required>
+					<option value="">Seleccione el producto..</option>
+				  	<option ng-repeat="p in ListadoProductos" value={{p.idProducto}} ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
+				  	<option>OFERTAS</option>
+				  	<option ng-repeat="p in ListadoOfertas" value={{p.idOferta}} ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
+				</select>
+				<span style="color:red" ng-show="FormIngreso.producto.$invalid">*</span>
 
 				<br><br>
 
@@ -18,13 +28,14 @@
 				<span style="color:red" ng-show="FormIngreso.cantidad.$invalid">*</span>
 
 				<br><br>
+
+				<span>Nombre del cliente:</span><br>
+				<input style="color:black" type="text" name="nombre" ng-model="pedido.clienteNombre" placeholder="Ingrese el nombre del cliente" required /> 
+				<span style="color:red" ng-show="FormIngreso.nombre.$invalid">*</span>
+
+				<br><br>
 				
-				<span>Sucursal:</span><br>
-				<select name="suc" ng-model="pedido.idSucursal" required>
-					<option value="">Seleccione la sucursal..</option>
-				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}}>{{s.direccion}}</option>
-				</select>
-				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
+
 
 				<br><br><br>
 

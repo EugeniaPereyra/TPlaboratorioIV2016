@@ -8,7 +8,7 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
 
       $scope.producto={};
       $scope.producto.descripcion= "producto" ;
-      $scope.producto.precio= "0.00" ;
+      $scope.producto.precio=0 ;
       $scope.producto.foto="default.jpg";
       $scope.producto.idSucursal="";
       $scope.ListadoSucursales = [];
@@ -154,11 +154,27 @@ miAplicacion.controller('controlProductoModificar',function($scope, $http, $stat
 miAplicacion.controller('controlProductoDetallar',function($scope, $http, $state, $stateParams){
   var dato=JSON.parse($stateParams.producto);
   $scope.producto={};
+  var listadoSucursales = [];
 
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato.idProducto)
   .then(function(respuesta) {       
          $scope.producto = respuesta.data;
          console.log(respuesta.data);
+          $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+            .then(function(respuesta) {       
+                   listadoSucursales = respuesta.data.listado;
+                   console.log(respuesta.data);
+                   listadoSucursales.map(function(dato){
+                      if($scope.producto.idSucursal == dato.idSucursal)
+                      {
+                        $scope.producto.sucursalDir = dato.direccion;
+                        $scope.producto.sucursalTel = dato.telefono;
+                      }
+                    });
+              },function errorCallback(response) {
+                   listadoSucursales = [];
+                  console.log( response);     
+             });
     },function errorCallback(response) {
         console.log( response);     
    });

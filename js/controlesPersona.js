@@ -57,8 +57,6 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
 
 });
 
-
-
 // PERSONAS
 
 miAplicacion.controller('controlPersona',function($scope, $auth, $state){
@@ -123,7 +121,8 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
   }
 
   $scope.IrAltaPedido=function(){
-    $state.go('persona.pedAlta');
+    var dato = JSON.stringify($scope.UsuarioLogueado);
+    $state.go('persona.pedAlta', {usuario:dato} );
   }
 
   $scope.IrGrillaPedido=function(){
@@ -337,7 +336,10 @@ miAplicacion.controller('controlPersonaDetallar',function($scope, $http, $state,
                  console.log(respuesta.data);
                    listadoSucursales.map(function(dato){
                     if($scope.usuario.idSucursal == dato.idSucursal)
+                    {
                       $scope.usuario.sucursalDir = dato.direccion;
+                      $scope.usuario.sucursalTel = dato.telefono;
+                    }
                   });
             },function errorCallback(response) {
                  listadoSucursales = [];
