@@ -6,12 +6,15 @@ class Pedido
 //--ATRIBUTOS
 	public $idPedido;
 	public $idProducto;
+	public $productoDescripcion;
   	public $cantidad;
   	public $idSucursal;
+  	public $sucursalDireccion;
   	public $clienteNombre;
   	public $idPersona;
   	public $total;
   	public $idOferta;
+  	public $ofertaDescripcion;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
@@ -27,6 +30,9 @@ class Pedido
 			$this->idPersona = $obj->idPersona;
 			$this->total = $obj->total;
 			$this->idOferta = $obj->idOferta;
+			$this->productoDescripcion = $obj->productoDescripcion;
+			$this->sucursalDireccion = $obj->sucursalDireccion;
+			$this->ofertaDescripcion = $obj->ofertaDescripcion;
 		}
 	}
 
@@ -76,7 +82,10 @@ class Pedido
 				clienteNombre=:clienteNombre,
 				idPersona=:idPersona,
 				tottal=:total,
-				idOferta=:idOferta
+				idOferta=:idOferta,
+				ofertaDescripcion=:ofertaDescripcion,
+				productoDescripcion=:productoDescripcion,
+				sucursalDireccion=:sucursalDireccion
 				WHERE idPedido=:idPedido");
 
 			$consulta->bindValue(':idPedido',$pedido->idPedido, PDO::PARAM_INT);
@@ -87,6 +96,9 @@ class Pedido
 			$consulta->bindValue(':clienteNombre', $pedido->clienteNombre, PDO::PARAM_STR);
 			$consulta->bindValue(':total', $pedido->total, PDO::PARAM_INT);
 			$consulta->bindValue(':idOferta', $pedido->idOferta, PDO::PARAM_INT);
+			$consulta->bindValue(':ofertaDescripcion', $pedido->ofertaDescripcion, PDO::PARAM_STR);
+			$consulta->bindValue(':productoDescripcion', $pedido->productoDescripcion, PDO::PARAM_STR);
+			$consulta->bindValue(':sucursalDireccion', $pedido->sucursalDireccion, PDO::PARAM_STR);
 			return $consulta->execute();
 	}
 
@@ -94,7 +106,7 @@ class Pedido
 	public static function Insertar($pedido)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (idProducto,cantidad,idSucursal,clienteNombre,idPersona,total,idOferta)values(:idProducto,:cantidad,:idSucursal,:clienteNombre,:idPersona,:total,:idOferta)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (idProducto,cantidad,idSucursal,clienteNombre,idPersona,total,idOferta,ofertaDescripcion, productoDescripcion, sucursalDireccion )values(:idProducto,:cantidad,:idSucursal,:clienteNombre,:idPersona,:total,:idOferta, :ofertaDescripcion, :productoDescripcion, :sucursalDireccion  )");
 
 			$consulta->bindValue(':idProducto', $pedido->idProducto, PDO::PARAM_INT);
 			$consulta->bindValue(':cantidad',$pedido->cantidad, PDO::PARAM_INT);
@@ -103,6 +115,9 @@ class Pedido
 			$consulta->bindValue(':clienteNombre', $pedido->clienteNombre, PDO::PARAM_STR);
 			$consulta->bindValue(':total', $pedido->total, PDO::PARAM_INT);
 			$consulta->bindValue(':idOferta', $pedido->idOferta, PDO::PARAM_INT);
+			$consulta->bindValue(':ofertaDescripcion', $pedido->ofertaDescripcion, PDO::PARAM_STR);
+			$consulta->bindValue(':productoDescripcion', $pedido->productoDescripcion, PDO::PARAM_STR);
+			$consulta->bindValue(':sucursalDireccion', $pedido->sucursalDireccion, PDO::PARAM_STR);
 		$consulta->execute();		
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	

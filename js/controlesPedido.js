@@ -11,6 +11,9 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
       $scope.pedido.cantidad=0;
       $scope.pedido.idOferta=0;
       $scope.pedido.idProducto=0;
+      $scope.pedido.sucursalDireccion = "";
+      $scope.pedido.productoDescripcion = "";
+      $scope.pedido.ofertaDescripcion = "";
 
 
       $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
@@ -41,30 +44,45 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
        });
 
       $scope.Guardar=function(){
-        if($scope.pedido.idProducto)
-        {
-          $scope.ListadoProductos.map(function(dato){
-            if($scope.pedido.idProducto==dato.idProducto){
-              $scope.pedido.total=$scope.pedido.cantidad * dato.precio;
-            }
-          })
-        }
-        if($scope.pedido.idOferta)
-        {
-          $scope.ListadoOfertas.map(function(dato){
-            if($scope.pedido.idOferta==dato.idOferta){
-              $scope.pedido.total=$scope.pedido.cantidad * dato.precio;
-            }
-          })
-        }
-      var dato=JSON.stringify($scope.pedido);
-      $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+dato)
-          .then(function(respuesta) {             
-               console.log(respuesta.data);
-               $state.go("persona.menu");
-          },function errorCallback(response) {        
-               console.log( response);           
-          });
+          console.info($scope.pedido);
+          if($scope.pedido.idSucursal != 0){
+            var id = parseInt($scope.pedido.idSucursal);
+            $scope.ListadoSucursales.map(function(dato){
+              if(id==dato.idSucursal)
+              {
+                $scope.pedido.sucursalDireccion = dato.direccion;
+              }
+            })
+          }
+          if($scope.pedido.idProducto != 0){
+            var id = parseInt($scope.pedido.idProducto);
+            $scope.ListadoProductos.map(function(dato){
+              if(id==dato.idProducto)
+              {
+                $scope.pedido.total=$scope.pedido.cantidad * dato.precio;
+                $scope.pedido.productoDescripcion = dato.descripcion;
+              }
+            })
+          }
+          if($scope.pedido.idOferta != 0)
+          {
+            var id = parseInt($scope.pedido.idOferta);
+            $scope.ListadoOfertas.map(function(dato){
+              if(id==dato.idOferta)
+              {
+                $scope.pedido.total=$scope.pedido.cantidad * dato.precio;
+                $scope.pedido.ofertaDescripcion = dato.descripcion;
+              }
+            })
+          }
+        var dato=JSON.stringify($scope.pedido);
+        $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+dato)
+            .then(function(respuesta) {             
+                 console.log(respuesta.data);
+                 $state.go('persona.pedGrilla');
+            },function errorCallback(response) {        
+                 console.log( response);           
+            });
       }
 
 });
@@ -107,10 +125,10 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $s
                  console.log(respuesta.data);
                   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
                   .then(function(respuesta) {       
-                         $scope.ListadoProductos = respuesta.data.listado;
+                         $scope.ListadoPedidos = respuesta.data.listado;
                          console.log(respuesta.data);
                     },function errorCallback(response) {
-                         $scope.ListadoProductos = [];
+                         $scope.ListadoPedidos = [];
                         console.log( response);     
                    });
 

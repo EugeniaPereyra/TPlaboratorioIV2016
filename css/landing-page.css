@@ -105,6 +105,7 @@ h6 {
 .content-section-a {
     padding: 50px 0;
     background-color: #f8f8f8;
+    color: black;
 }
 
 .content-section-b {
@@ -121,6 +122,12 @@ h6 {
     float: left;
     width: 200px;
     border-top: 3px solid #e7e7e7;
+}
+
+.section-heading-spacer2 {
+    float: left;
+    width: 200px;
+    border-top: 3px solid black;
 }
 
 .banner {

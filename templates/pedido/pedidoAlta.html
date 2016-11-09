@@ -12,14 +12,23 @@
 				</select>
 				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
 
+				<br><br>
+
 				<span>Producto:</span><br>
 				<select name="producto" ng-model="pedido.idProducto" required>
 					<option value="">Seleccione el producto..</option>
-				  	<option ng-repeat="p in ListadoProductos" value={{p.idProducto}} ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
-				  	<option>OFERTAS</option>
-				  	<option ng-repeat="p in ListadoOfertas" value={{p.idOferta}} ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
+				  	<option ng-repeat="p in ListadoProductos" value="{{p.idProducto}}" ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
 				</select>
 				<span style="color:red" ng-show="FormIngreso.producto.$invalid">*</span>
+
+				<br><br>
+
+				<span>Oferta:</span><br>
+				<select name="oferta" ng-model="pedido.idOferta" required>
+					<option value="">Seleccione la oferta..</option>
+				  	<option ng-repeat="p in ListadoOfertas" value="{{p.idOferta}}" ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
+				</select>
+				<span style="color:red" ng-show="FormIngreso.oferta.$invalid">*</span>
 
 				<br><br>
 
