@@ -18,38 +18,38 @@
 									</thead>
 
 									<!--{{listadoDeDatos}} -->
-									<div ng-hide="idSucursal">
-									<tr ng-repeat="producto in ListadoProductos">
+									<div ng-show="verProductos">
+										<tr ng-repeat="producto in ListadoProductos" ng-show="verProductos">
 
-										<td><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
-							
-										<td>{{producto.descripcion}}</td>
-										<td>{{producto.precio | currency}}</td>
+											<td><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
+								
+											<td>{{producto.descripcion}}</td>
+											<td>{{producto.precio | currency}}</td>
 
-										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
-										
-										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+											<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+											
+											<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
 
-										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
-															
-									</tr>
+											<td><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
+																
+										</tr>
 									</div>
 
-									<div ng-if="idSucursal">
-									<tr ng-repeat="producto in ListadoProductos">
+									<div ng-show="verOfertas">
+										<tr ng-repeat="producto in ListadoProductos" ng-show="verOfertas">
 
-										<td ng-if="idSucursal==producto.idSucursal"><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
-							
-										<td ng-if="idSucursal==producto.idSucursal">{{producto.descripcion}}</td>
-										<td ng-if="idSucursal==producto.idSucursal">{{producto.precio}}</td>
+											<td ng-if="idSucursal==producto.idSucursal"><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
+								
+											<td ng-if="idSucursal==producto.idSucursal">{{producto.descripcion}}</td>
+											<td ng-if="idSucursal==producto.idSucursal">{{producto.precio | currency}}</td>
 
-										<td ng-if="idSucursal==producto.idSucursal" ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
-										
-										<td ng-if="idSucursal==producto.idSucursal" ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+											<td ng-hide="UsuarioLogueado.perfil=='cliente' || idSucursal!=producto.idSucursal"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+											
+											<td ng-hide="UsuarioLogueado.perfil=='cliente' || idSucursal!=producto.idSucursal"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
 
-										<td ng-if="idSucursal==producto.idSucursal" ><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
-															
-									</tr>
+											<td ng-hide="idSucursal!=producto.idSucursal" ><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
+																
+										</tr>
 									</div>
 									
 								</table>

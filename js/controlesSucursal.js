@@ -186,7 +186,8 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state
    });
 
   $scope.VerOfertas=function(){
-    $state.go('persona.oferGrilla',$scope.sucursal.id);
+    var dato = JSON.stringify($scope.sucursal);
+    $state.go('persona.oferGrilla',{sucursal : dato});
   }
 
   $scope.VerPedidos=function(){
