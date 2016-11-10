@@ -22,7 +22,7 @@
 
 				<a ng-click="VerOfertas()" class="btn btn-warning btn-lg" style="width:300px"></span> Ver ofertas</a>
 				<br/><br/>
-				<a ng-click="VerPedidos()" class="btn btn-warning btn-lg" style="width:300px"></span> Ver pedidos</a>
+				<a ng-click="VerPedidos()" class="btn btn-warning btn-lg" style="width:300px" ng-hide="UsuarioLogueado.perfil=='cliente'"></span> Ver pedidos</a>
 
 				<br/><br/>
 

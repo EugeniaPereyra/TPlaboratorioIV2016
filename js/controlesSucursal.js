@@ -163,10 +163,24 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $http, $stat
 
 });
 
-miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state, $stateParams){
+miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state, $stateParams, $auth){
   var dato=JSON.parse($stateParams.sucursal);
   $scope.sucursal={};
   $scope.ListadoEmpleados = [];
+
+    if($auth.isAuthenticated()){
+        console.log("Sesión iniciada!");
+        $scope.UsuarioLogueado= $auth.getPayload();
+        console.info($scope.UsuarioLogueado);
+    }
+    else{
+        console.log("No hay sesión!");
+        $state.go('login');
+    }
+
+    $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+    };
 
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
    .then(function(respuesta) {       

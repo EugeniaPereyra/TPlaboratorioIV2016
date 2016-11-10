@@ -18,8 +18,8 @@
 									</thead>
 
 									<!--{{listadoDeDatos}} -->
-									<div ng-show="verProductos">
-										<tr ng-repeat="producto in ListadoProductos" ng-show="verProductos" ng-hide="UsuarioLogueado.perfil=='empleado' && producto.idSucursal!=UsuarioLogueado.idSucursal">
+									<div>
+										<tr ng-repeat="producto in ListadoProductos" ng-show="verProductos" ng-hide="UsuarioLogueado.perfil=='empleado' && producto.idSucursal!=UsuarioLogueado.idSucursal || UsuarioLogueado.perfil=='encargado' && producto.idSucursal!=UsuarioLogueado.idSucursal || verOfertas">
 
 											<td><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
 								
@@ -35,19 +35,19 @@
 										</tr>
 									</div>
 
-									<div ng-show="verOfertas">
-										<tr ng-repeat="producto in ListadoProductos" ng-show="verOfertas">
+									<div>
+										<tr ng-repeat="producto in ListadoProductos" ng-show="verOfertas" ng-hide="UsuarioLogueado.perfil=='cliente' && idSucursal!=producto.idSucursal || verProductos">
 
-											<td ng-if="idSucursal==producto.idSucursal"><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
+											<td><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
 								
-											<td ng-if="idSucursal==producto.idSucursal">{{producto.descripcion}}</td>
-											<td ng-if="idSucursal==producto.idSucursal">{{producto.precio | currency}}</td>
+											<td>{{producto.descripcion}}</td>
+											<td>{{producto.precio | currency}}</td>
 
-											<td ng-hide="UsuarioLogueado.perfil=='cliente' || idSucursal!=producto.idSucursal"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+											<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
 											
-											<td ng-hide="UsuarioLogueado.perfil=='cliente' || idSucursal!=producto.idSucursal"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+											<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
 
-											<td ng-hide="idSucursal!=producto.idSucursal" ><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
+											<td><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
 																
 										</tr>
 									</div>

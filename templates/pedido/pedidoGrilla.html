@@ -21,7 +21,7 @@
 
 									<!--{{listadoDeDatos}} -->
 									<div ng-hide="idSucursal">
-									<tr ng-repeat="pedido in ListadoPedidos" ng-hide="UsuarioLogueado.perfil=='empleado' && pedido.idSucursal!=UsuarioLogueado.idSucursal">
+									<tr ng-repeat="pedido in ListadoPedidos" ng-hide="UsuarioLogueado.perfil=='empleado' && pedido.idSucursal!=UsuarioLogueado.idSucursal || UsuarioLogueado.perfil=='encargado' && pedido.idSucursal!=UsuarioLogueado.idSucursal">
 							
 										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
