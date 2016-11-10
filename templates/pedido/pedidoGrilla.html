@@ -10,6 +10,7 @@
 											<th>  PRODUCTO   </th>
 											<th>  CANTIDAD     </th>
 											<th>  TOTAL     </th>
+											<th>  ESTADO     </th>
 											<th>  CLIENTE     </th>
 
 											<th>  BORRAR     </th>
@@ -20,12 +21,13 @@
 
 									<!--{{listadoDeDatos}} -->
 									<div ng-hide="idSucursal">
-									<tr ng-repeat="pedido in ListadoPedidos">
+									<tr ng-repeat="pedido in ListadoPedidos" ng-hide="UsuarioLogueado.perfil=='empleado' && pedido.idSucursal!=UsuarioLogueado.idSucursal">
 							
 										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
 										<td>{{pedido.cantidad}}</td>
 										<td>{{pedido.total | currency}}</td>
+										<td>{{pedido.estado}}</td>
 										<td>{{pedido.clienteNombre}}</td>
 
 										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(pedido)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>

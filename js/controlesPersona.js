@@ -136,6 +136,10 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
   $scope.IrGrillaSucursal=function(){
     $state.go('persona.sucGrilla');
   }
+
+  $scope.IrHistorial=function(){
+    $state.go('persona.historial');
+  }
 });
 
 miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $http, $state, cargadorDeFoto, $auth){
@@ -402,5 +406,32 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
                 console.log( response);           
             });
         };
+
+});
+
+miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $http, $auth){
+
+      if($auth.isAuthenticated()){
+          console.log("Sesión iniciada!");
+          $scope.UsuarioLogueado= $auth.getPayload();
+          console.info($scope.UsuarioLogueado);
+      }
+      else{
+          console.log("No hay sesión!");
+          $state.go('login');
+      }
+
+      $scope.isAuthenticated = function() {
+        return $auth.isAuthenticated();
+      };
+
+  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
+  .then(function(respuesta) {       
+         $scope.ListadoPedidos = respuesta.data.listado;
+         console.log(respuesta.data);
+    },function errorCallback(response) {
+         $scope.ListadoPedidos= [];
+        console.log( response);     
+   });
 
 });

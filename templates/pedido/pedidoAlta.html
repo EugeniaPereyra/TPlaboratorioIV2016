@@ -5,6 +5,7 @@
 
 				<center><h2 style="color:black">Datos Pedido</h2></center><br><br>
 
+				<div ng-hide="mostrarEstado">
 				<span>Sucursal:</span><br>
 				<select name="suc" ng-model="pedido.idSucursal" required>
 					<option value="">Seleccione la sucursal..</option>
@@ -15,7 +16,7 @@
 				<br><br>
 
 				<span>Producto:</span><br>
-				<select name="producto" ng-model="pedido.idProducto" required>
+				<select name="producto" ng-model="pedido.idProducto" required ng-disabled="pedido.idOferta">
 					<option value="">Seleccione el producto..</option>
 				  	<option ng-repeat="p in ListadoProductos" value="{{p.idProducto}}" ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
 				</select>
@@ -24,11 +25,26 @@
 				<br><br>
 
 				<span>Oferta:</span><br>
-				<select name="oferta" ng-model="pedido.idOferta" required>
+				<select name="oferta" ng-model="pedido.idOferta" required ng-disabled="pedido.idProducto">
 					<option value="">Seleccione la oferta..</option>
 				  	<option ng-repeat="p in ListadoOfertas" value="{{p.idOferta}}" ng-if="p.idSucursal==pedido.idSucursal">{{p.descripcion}}</option>
 				</select>
 				<span style="color:red" ng-show="FormIngreso.oferta.$invalid">*</span>
+
+				</div>
+
+				<div ng-show="mostrarEstado">
+
+				<span>Sucursal:</span><br>
+				<input style="color:black" type="text" ng-model="pedido.sucursalDireccion"  /> 
+				<br><br>
+				<span>Producto:</span><br>
+				<input style="color:black" type="text" ng-model="pedido.productoDescripcion" ng-disabled="pedido.ofertaDescripcion" />
+				<br><br>
+				<span>Oferta:</span><br>
+				<input style="color:black" type="text" ng-model="pedido.ofertaDescripcion" ng-disabled="pedido.productoDescripcion"/>
+
+				</div>
 
 				<br><br>
 
@@ -44,6 +60,16 @@
 
 				<br><br>
 				
+				<div ng-show="mostrarEstado">
+					<span>Estado del pedido:</span><br>
+					<select name="estado" ng-model="pedido.estado" required>
+						<option value="">Seleccione el estado del pedido..</option>
+					  	<option value="En proceso">En proceso</option>
+					  	<option value="Cancelado">Cancelado</option>
+					  	<option value="Finalizado">Finalizado</option>
+					</select>
+					<span style="color:red" ng-show="FormIngreso.estado.$invalid">*</span>
+				</div>
 
 
 				<br><br><br>

@@ -19,7 +19,7 @@
 
 									<!--{{listadoDeDatos}} -->
 									<div ng-show="verProductos">
-										<tr ng-repeat="producto in ListadoProductos" ng-show="verProductos">
+										<tr ng-repeat="producto in ListadoProductos" ng-show="verProductos" ng-hide="UsuarioLogueado.perfil=='empleado' && producto.idSucursal!=UsuarioLogueado.idSucursal">
 
 											<td><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" /></td>
 								

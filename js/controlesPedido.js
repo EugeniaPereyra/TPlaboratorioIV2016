@@ -1,8 +1,22 @@
 // PEDIDOS
 
 
-miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $stateParams){
+miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $stateParams, $auth){
+        if($auth.isAuthenticated()){
+          console.log("Sesión iniciada!");
+          $scope.UsuarioLogueado= $auth.getPayload();
+          console.info($scope.UsuarioLogueado);
+        }
+        else{
+          console.log("No hay sesión!");
+          $state.go('login');
+        }
 
+        $scope.isAuthenticated = function() {
+          return $auth.isAuthenticated();
+        };
+
+      $scope.mostrarEstado=false;
       $scope.pedido={};
       $scope.pedido.idSucursal="";
       $scope.pedido.clienteNombre="";
@@ -14,7 +28,13 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
       $scope.pedido.sucursalDireccion = "";
       $scope.pedido.productoDescripcion = "";
       $scope.pedido.ofertaDescripcion = "";
+      $scope.pedido.estado="En proceso";
 
+      if($scope.UsuarioLogueado.perfil=='cliente')
+      {
+        $scope.pedido.clienteNombre=$scope.UsuarioLogueado.nombre;
+        $scope.pedido.idPersona=$scope.UsuarioLogueado.id;
+      }
 
       $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
       .then(function(respuesta) {       
@@ -79,7 +99,16 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
         $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+dato)
             .then(function(respuesta) {             
                  console.log(respuesta.data);
-                 $state.go('persona.pedGrilla');
+                 if($scope.UsuarioLogueado.perfil=='cliente')
+                 {
+                  alert("Pedido realizado correctamente");
+                  $state.go('persona.menu');
+                 }
+                 else
+                 {
+                  alert("Pedido realizado correctamente");
+                  $state.go('persona.pedGrilla');
+                  }
             },function errorCallback(response) {        
                  console.log( response);           
             });
@@ -138,13 +167,11 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $s
   }
 
   $scope.Modificar = function(pedido){
-    console.log( JSON.stringify(pedido));
     var dato=JSON.stringify(pedido);
     $state.go('persona.pedModificar', {pedido:dato});
   }
 
   $scope.Informar = function(pedido){
-    console.log( JSON.stringify(pedido));
     var dato=JSON.stringify(pedido);
     $state.go('persona.pedDetallar', {pedido:dato});
   }
@@ -152,25 +179,22 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $s
 
 miAplicacion.controller('controlPedidoModificar',function($scope, $http, $state, $stateParams){
   var dato=JSON.parse($stateParams.pedido);
+  console.log(dato);
+  $scope.mostrarEstado=true;
   $scope.pedido={};
-  $scope.pedido.idPedido=dato.idPedido;
-  $scope.pedido.producto=dato.producto;
-  $scope.pedido.cantidad=dato.cantidad;
+  $scope.pedido=dato;
 
 
   $scope.Guardar = function(){
-          var dato=JSON.stringify($scope.pedido);
-          $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+dato)
-          .then(function(respuesta) 
-          {      
-            console.log(respuesta.data);
-            $state.go("persona.pedGrilla");
-          },
-          function errorCallback(response)
-          {
-            console.log( response);           
-          });
-      };
+        var datoPed=JSON.stringify($scope.pedido);
+        $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+datoPed)
+            .then(function(respuesta) {             
+                 console.log(respuesta.data);
+                 $state.go('persona.pedGrilla');
+            },function errorCallback(response) {        
+                 console.log( response);           
+            });
+      }
 
 });
 

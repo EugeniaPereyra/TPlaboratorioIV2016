@@ -13,7 +13,7 @@
                
                     <a style="color:white" ng-click="IrAltaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'"><h4>Agregar oferta</h4></a>
                
-                    <a style="color:white" ng-click="IrAltaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'"><h4>Registrar pedido</h4></a>
+                    <a style="color:white" ng-click="IrAltaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='encargado'"><h4>Registrar pedido</h4></a>
                
                     <a style="color:white" ng-click="IrAltaSucursal()" ng-hide="UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'"><h4>Nueva sucursal</h4></a>
                 
@@ -26,6 +26,8 @@
                     <a style="color:white" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Ver pedidos</h4></a>
                 
                     <a style="color:white" ng-click="IrGrillaSucursal()" ng-hide="UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado'"><h4>Ver sucursales</h4></a>
+
+                    <a style="color:white" ng-click="IrHistorial()" ng-if="UsuarioLogueado.perfil=='cliente'"><h4>Historial</h4></a>
                 
             		<br/></center>
         </form>

@@ -110,6 +110,19 @@ $authProvider.authHearder='data';
           }
         })
 
+        .state(
+          'persona.historial',{
+          url:'/personaHistorial',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/persona/personaHistorial.html',
+              controller:'controlPersonaHistorial'
+            }
+          }
+        })
+
 
         // PRODUCTOS
 
