@@ -213,6 +213,7 @@ miAplicacion.controller('controlPedidoModificar',function($scope, $http, $state,
   $scope.mostrarEstado=true;
   $scope.pedido={};
   $scope.pedido=dato;
+  console.info($scope.pedido);
 
 
   $scope.Guardar = function(){

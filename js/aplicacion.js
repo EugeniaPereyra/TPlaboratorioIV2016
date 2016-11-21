@@ -1,4 +1,9 @@
-var miAplicacion = angular.module('angularABM',['ui.router', 'angularFileUpload', 'satellizer']);
+var miAplicacion = angular.module('angularABM',[
+  'ui.router', 
+  'angularFileUpload', 
+  'satellizer',
+  'highcharts-ng'
+  ]);
 
 miAplicacion.config(function($stateProvider,$urlRouterProvider, $authProvider){
 
@@ -337,6 +342,49 @@ $authProvider.authHearder='data';
             {
               templateUrl:'templates/sucursal/sucursalPerfil.html',
               controller:'controlSucursalDetallar'
+            }
+          }
+        })
+
+        // ESTADISTICAS
+
+        .state(
+          'persona.estadisticaMenu',{
+          url:'/estadisticaMenu',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/estadistica/estadisticaMenu.html',
+              controller:'controlEstadisticaMenu'
+            }
+          }
+        })
+
+        .state(
+          'persona.estadisticaVentasLocal',{
+          url:'/estadisticaVentasLocal',
+          cache: false,
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/estadistica/estadisticaVentasLocal.html',
+              controller:'controlEstadisticaVentasLocal'
+            }
+          }
+        })
+
+        .state(
+          'persona.estadisticaProductos',{
+          url:'/estadisticaProductos',
+          cache: false,
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/estadistica/estadisticaProductos.html',
+              controller:'controlEstadisticaProductos'
             }
           }
         })

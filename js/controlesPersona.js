@@ -144,6 +144,10 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
   $scope.IrLocal=function(){
     $state.go('persona.sucGrilla');
   }
+
+  $scope.IrEstadisticas=function(){
+    $state.go('persona.estadisticaMenu');
+  }
 });
 
 miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $http, $state, cargadorDeFoto, $auth){
