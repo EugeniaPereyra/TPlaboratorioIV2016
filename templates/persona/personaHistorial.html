@@ -23,7 +23,7 @@
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
 										<td>{{pedido.cantidad}}</td>
 										<td>{{pedido.estado}}</td>
-										<td>{{pedido.total}}</td>
+										<td>{{pedido.total | currency}}</td>
 										<td>{{pedido.sucursalDireccion}}</td>
 															
 									</tr>

@@ -205,6 +205,7 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state
   }
 
   $scope.VerPedidos=function(){
-    $state.go('persona.pedGrilla',$scope.sucursal.id);
+    var dato = JSON.stringify($scope.sucursal);
+    $state.go('persona.pedGrilla',{sucursal : dato});
   }
 });

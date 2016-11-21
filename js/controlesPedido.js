@@ -116,8 +116,38 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
 
 });
 
-miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $stateParams){
-  $scope.idSucursal = $stateParams.id;
+miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $stateParams, $auth){
+  $scope.sucursal={};
+    $scope.sucursal.mostrarTodo=false;
+    $scope.sucursal.mostrarPart=false;
+        if($auth.isAuthenticated()){
+          console.log("Sesión iniciada!");
+          $scope.UsuarioLogueado= $auth.getPayload();
+          console.info($scope.UsuarioLogueado);
+        }
+        else{
+          console.log("No hay sesión!");
+          $state.go('login');
+        }
+
+        $scope.isAuthenticated = function() {
+          return $auth.isAuthenticated();
+        };
+  if($stateParams.sucursal != "")
+  {
+    var dato = JSON.parse($stateParams.sucursal);
+    $scope.sucursal.idSucursal= dato.idSucursal;
+
+    console.info($scope.sucursal.idSucursal);
+    $scope.sucursal.mostrarTodo=false;
+    $scope.sucursal.mostrarPart=true;
+  }
+  else
+  {
+    $scope.sucursal.idSucursal= $scope.UsuarioLogueado.idSucursal;
+    $scope.sucursal.mostrarTodo=true;
+    $scope.sucursal.mostrarPart=false;
+  }
 
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
   .then(function(respuesta) {       

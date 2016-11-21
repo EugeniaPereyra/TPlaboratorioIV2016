@@ -20,8 +20,8 @@
 									</thead>
 
 									<!--{{listadoDeDatos}} -->
-									<div ng-hide="idSucursal">
-									<tr ng-repeat="pedido in ListadoPedidos" ng-hide="UsuarioLogueado.perfil=='empleado' && pedido.idSucursal!=UsuarioLogueado.idSucursal || UsuarioLogueado.perfil=='encargado' && pedido.idSucursal!=UsuarioLogueado.idSucursal">
+									<div>
+										<tr ng-show="sucursal.mostrarTodo" ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idSucursal==sucursal.idSucursal">
 							
 										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
@@ -36,20 +36,24 @@
 
 										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(pedido)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
 															
-									</tr>
+										</tr>
 									</div>
 
-									<div ng-if="idSucursal">
-									<tr ng-repeat="pedido in ListadoPedidos">
-							
-										<td ng-if="idSucursal==pedido.idSucursal">{{pedido.producto}}</td>
-										<td ng-if="idSucursal==pedido.idSucursal">{{pedido.cantidad}}</td>
+									<div>
+										<tr ng-show="sucursal.mostrarPart" ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idSucursal==sucursal.idSucursal">
+																	
+										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
+										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
+										<td>{{pedido.cantidad}}</td>
+										<td>{{pedido.total | currency}}</td>
+										<td>{{pedido.estado}}</td>
+										<td>{{pedido.clienteNombre}}</td>
 
-										<td ng-if="idSucursal==pedido.idSucursal"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(pedido)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(pedido)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
 										
-										<td ng-if="idSucursal==pedido.idSucursal"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+										<td><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
 
-										<td ng-if="idSucursal==pedido.idSucursal"><button class='btn btn-info' name='Informar'  ng-click="Informar(pedido)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
+										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(pedido)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
 															
 									</tr>
 									</div>

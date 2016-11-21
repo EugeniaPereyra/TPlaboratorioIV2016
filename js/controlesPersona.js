@@ -140,6 +140,10 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
   $scope.IrHistorial=function(){
     $state.go('persona.historial');
   }
+  
+  $scope.IrLocal=function(){
+    $state.go('persona.sucGrilla');
+  }
 });
 
 miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $http, $state, cargadorDeFoto, $auth){
@@ -228,7 +232,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state, $
   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
   .then(function(respuesta) {       
          $scope.ListadoPersonas = respuesta.data.listado;
-         console.log(respuesta.data);
+         console.log(respuesta.data.listado);
     },function errorCallback(response) {
          $scope.ListadoPersonas= [];
         console.log( response);     

@@ -250,7 +250,7 @@ $authProvider.authHearder='data';
 
         .state(
           'persona.pedGrilla',{
-          url:'/pedidoGrilla/:id',
+          url:'/pedidoGrilla/:sucursal',
           views:
           {
             'contenido':

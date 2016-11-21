@@ -46,7 +46,7 @@ $app = new Slim\App();
 
 // TRAE TODOS
 $app->get('/usuarios[/]', function ($request, $response, $args) {
-    $respuesta["listado"]=Usuario::TraerTodosLosUsuarios();
+    $respuesta['listado']=Usuario::TraerTodosLosUsuarios();
     $response->write(json_encode($respuesta));
     return $response;
 });
@@ -110,7 +110,7 @@ $app->delete('/usuario/{usuario}', function ($request, $response, $args) {
 
 // TRAE TODOS
 $app->get('/productos[/]', function ($request, $response, $args) {
-    $respuesta["listado"]=Producto::TraerTodosLosProductos();
+    $respuesta['listado']=Producto::TraerTodosLosProductos();
     $response->write(json_encode($respuesta));
     return $response;
 });
@@ -174,7 +174,7 @@ $app->delete('/producto/{producto}', function ($request, $response, $args) {
 
 // TRAE TODOS
 $app->get('/ofertas[/]', function ($request, $response, $args) {
-    $respuesta["listado"]=Oferta::TraerTodosLasOfertas();
+    $respuesta['listado']=Oferta::TraerTodosLasOfertas();
     $response->write(json_encode($respuesta));
     return $response;
 });
@@ -238,7 +238,7 @@ $app->delete('/oferta/{oferta}', function ($request, $response, $args) {
 
 // TRAE TODOS
 $app->get('/pedidos[/]', function ($request, $response, $args) {
-    $respuesta["listado"]=Pedido::TraerTodosLosPedidos();
+    $respuesta['listado']=Pedido::TraerTodosLosPedidos();
     $response->write(json_encode($respuesta));
     return $response;
 });
@@ -281,7 +281,7 @@ $app->delete('/pedido/{id}', function ($request, $response, $args) {
 
 // TRAE TODOS
 $app->get('/sucursales[/]', function ($request, $response, $args) {
-    $respuesta["listado"]=Sucursal::TraerTodasLasSucursales();
+    $respuesta['listado']=Sucursal::TraerTodasLasSucursales();
     $response->write(json_encode($respuesta));
     return $response;
 });
