@@ -8,7 +8,7 @@ $respuesta=json_decode($post);
 
 $usuarioLogueado = Usuario::TraerUsuarioLogueado($respuesta);
 
-if($usuarioLogueado)
+if($usuarioLogueado && $usuarioLogueado->estado!='bloqueado')
 {
 	$key = "1234";
 	$token["id"] = $usuarioLogueado->idPersona;
@@ -19,14 +19,15 @@ if($usuarioLogueado)
 	$token["foto"] = $usuarioLogueado->foto;
 	$token["dni"] = $usuarioLogueado->dni;
 	$token["idSucursal"] = $usuarioLogueado->idSucursal;
+	$token["estado"] = $usuarioLogueado->estado;
 	$token["exp"] = time()+5000;
 
 	$jwt = JWT::encode($token, $key);
-	$array["miToken"]=$jwt;
+	$array["PizzeriaToken"]=$jwt;
 }
 else
 {
-	$array["miToken"]=false;
+	$array["PizzeriaToken"]=false;
 }
 
 echo( json_encode($array) );

@@ -11,6 +11,7 @@ class Usuario{
 	public $foto;
 	public $dni;
 	public $idSucursal;
+	public $estado;
 
 	//CONSTRUCTOR
 	public function __construct($idPersona = NULL)
@@ -25,6 +26,7 @@ class Usuario{
 			$this->foto = $usuario->foto;
 			$this->dni = $usuario->dni;
 			$this->idSucursal = $usuario->idSucursal;
+			$this->estado = $usuario->estado;
 		}
 	}
 
@@ -32,7 +34,7 @@ class Usuario{
 	public static function TraerUnUsuarioPorId($idPersona){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto, U.dni, U.idSucursal
+		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto, U.dni, U.idSucursal, U.estado
 				FROM persona U
 				WHERE U.idPersona = :idPersona";
 
@@ -47,7 +49,7 @@ class Usuario{
 	public static function TraerTodosLosUsuarios(){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto, U.dni, U.idSucursal
+		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto, U.dni, U.idSucursal, U.estado
 				FROM persona U";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
@@ -60,7 +62,7 @@ class Usuario{
 	public static function TraerUsuarioLogueado($usuario){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto, U.dni, U.idSucursal
+		$sql = "SELECT U.idPersona, U.nombre, U.email, U.perfil, U.password, U.foto, U.dni, U.idSucursal, U.estado
 				FROM persona U
 				WHERE U.email = :email AND U.password = :pass";
 
@@ -76,8 +78,8 @@ class Usuario{
 	public static function Agregar($usuario){
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
-		$sql = "INSERT INTO persona (nombre, email, password, perfil, foto, dni, idSucursal)
-				VALUES (:nombre, :email, :pass, :perfil, :foto, :dni, :idSucursal)";
+		$sql = "INSERT INTO persona (nombre, email, password, perfil, foto, dni, idSucursal, estado)
+				VALUES (:nombre, :email, :pass, :perfil, :foto, :dni, :idSucursal, :estado)";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
 		$consulta->bindValue(":nombre", $usuario->nombre, PDO::PARAM_STR);
@@ -87,6 +89,7 @@ class Usuario{
 		$consulta->bindValue(":foto", $usuario->foto, PDO::PARAM_STR);
 		$consulta->bindValue(":dni", $usuario->dni, PDO::PARAM_STR);
 		$consulta->bindValue(":idSucursal", $usuario->idSucursal, PDO::PARAM_INT);
+		$consulta->bindValue(":estado", $usuario->estado, PDO::PARAM_STR);
 		$consulta->execute();
 	}
 
@@ -94,7 +97,7 @@ class Usuario{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 
 		$sql = "UPDATE persona
-				SET nombre = :nombre, email = :email, password = :pass, perfil = :perfil, foto = :foto, dni = :dni, idSucursal = :idSucursal
+				SET nombre = :nombre, email = :email, password = :pass, perfil = :perfil, foto = :foto, dni = :dni, idSucursal = :idSucursal, estado = :estado
 				WHERE idPersona = :idPersona";
 
 		$consulta = $objetoAccesoDato->RetornarConsulta($sql);
@@ -106,6 +109,7 @@ class Usuario{
 		$consulta->bindValue(":foto", $usuario->foto, PDO::PARAM_STR);
 		$consulta->bindValue(":dni", $usuario->dni, PDO::PARAM_STR);
 		$consulta->bindValue(":idSucursal", $usuario->idSucursal, PDO::PARAM_INT);
+		$consulta->bindValue(":estado", $usuario->estado, PDO::PARAM_STR);
 		$consulta->execute();
 
 		$cantidad = $consulta->rowCount();

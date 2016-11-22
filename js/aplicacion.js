@@ -8,13 +8,9 @@ var miAplicacion = angular.module('angularABM',[
 miAplicacion.config(function($stateProvider,$urlRouterProvider, $authProvider){
 
 $authProvider.loginUrl='TPlaboratorioIV2016/servidor/php/auth.php';
-$authProvider.tokenName='miToken';
+$authProvider.tokenName='PizzeriaToken';
 $authProvider.tokenPrefix='angularABM';
 $authProvider.authHearder='data';
-// $authProvider.github({
-//     clientId: 'e6ff35c81000243ceb47',
-//     responseType: 'token'
-//     });
 
   $stateProvider
 

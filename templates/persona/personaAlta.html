@@ -29,6 +29,18 @@
 
 				<br><br>
 
+				<div ng-if="UsuarioLogueado.perfil=='encargado'">
+					<span>Estado:</span><br>
+					<select name="estado" ng-model="persona.estado" required>
+					  <option value="">Seleccione un estado..</option>
+					  <option value="activo">Activo</option>
+					  <option value="bloqueado">Bloqueado</option>
+					</select>
+					<span style="color:red" ng-show="FormIngreso.estado.$invalid">*</span> 
+
+					<br><br>
+				</div>
+
 				<span>Sucursal:</span><br>
 				<select name="suc" ng-model="persona.idSucursal" required>
 					<option value="">Seleccione la sucursal..</option>

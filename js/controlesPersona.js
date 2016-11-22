@@ -27,6 +27,7 @@ miAplicacion.controller('controlLogin',function($scope, $auth, $state){
           else
           {
             console.log("No logueado");
+            console.log("Error en el token o usuario bloqueado");
             console.info("Info login:",$auth.getPayload());
           }
 
@@ -176,6 +177,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
       $scope.persona.foto="pordefecto.png";
       $scope.persona.dni=12345678;
       $scope.persona.idSucursal="";
+      $scope.persona.estado="activo";
       $scope.ListadoSucursales = [];
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
@@ -276,7 +278,21 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state, $
 
 });
 
-miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFoto){
+miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFoto, $auth){
+      if($auth.isAuthenticated()){
+          console.log("Sesión iniciada!");
+          $scope.UsuarioLogueado= $auth.getPayload();
+          console.info($scope.UsuarioLogueado);
+      }
+      else{
+          console.log("No hay sesión!");
+          $state.go('login');
+      }
+
+      $scope.isAuthenticated = function() {
+        return $auth.isAuthenticated();
+      };
+
   $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
   $scope.uploader.queueLimit = 1;
   var dato=JSON.parse($stateParams.persona);
@@ -289,6 +305,7 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
   $scope.persona.foto=dato.foto;
   $scope.persona.dni=parseInt(dato.dni);
   $scope.persona.idSucursal=parseInt(dato.idSucursal);
+  $scope.persona.estado=dato.estado;
   $scope.ListadoSucursales = [];
 
   cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
@@ -375,6 +392,7 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
       $scope.persona.foto="pordefecto.png";
       $scope.persona.idSucursal="";
       $scope.persona.dni=12345678;
+      $scope.persona.estado="activo";
       $scope.ListadoSucursales = [];
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
