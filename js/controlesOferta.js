@@ -90,7 +90,7 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $http, $state, $a
 
   $scope.Borrar=function(oferta){
     var dato=JSON.stringify(oferta);
-    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/oferta/'+dato.idSucursal)
+    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/oferta/'+dato)
          .then(function(respuesta) {              
                  console.log(respuesta.data);
                   $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/ofertas')

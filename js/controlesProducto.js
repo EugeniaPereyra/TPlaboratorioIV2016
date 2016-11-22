@@ -4,16 +4,18 @@
 miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $http, $state, cargadorDeFotoProd){
 
       $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
-      $scope.uploader.queueLimit = 1;
+      $scope.uploader.queueLimit = 3;
 
       $scope.producto={};
       $scope.producto.descripcion= "producto" ;
       $scope.producto.precio=0 ;
-      $scope.producto.foto="default.jpg";
+      $scope.producto.foto1="default.jpg";
+      $scope.producto.foto2="default.jpg";
+      $scope.producto.foto3="default.jpg";
       $scope.producto.idSucursal="";
       $scope.ListadoSucursales = [];
 
-      cargadorDeFotoProd.CargarFoto($scope.producto.foto,$scope.uploader);
+      cargadorDeFotoProd.CargarFoto($scope.producto.foto1,$scope.producto.foto2,$scope.producto.foto3,$scope.uploader);
 
       $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
       .then(function(respuesta) {       
@@ -28,7 +30,17 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
             var nombreFoto = $scope.uploader.queue[0].file.name;
-            $scope.producto.foto=nombreFoto;
+            $scope.producto.foto1=nombreFoto;
+          }
+          if($scope.uploader.queue[1].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[1].file.name;
+            $scope.producto.foto2=nombreFoto;
+          }
+          if($scope.uploader.queue[2].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[2].file.name;
+            $scope.producto.foto3=nombreFoto;
           }
 
           $scope.uploader.uploadAll();
@@ -116,15 +128,27 @@ miAplicacion.controller('controlProductoModificar',function($scope, $http, $stat
   $scope.producto.idProducto=dato.idProducto;
   $scope.producto.descripcion=dato.descripcion;
   $scope.producto.precio=dato.precio;
-  $scope.producto.foto=dato.foto;
+  $scope.producto.foto1=dato.foto1;
+  $scope.producto.foto2=dato.foto2;
+  $scope.producto.foto3=dato.foto3;
 
-  cargadorDeFotoProd.CargarFoto($scope.producto.foto,$scope.uploader);
+  cargadorDeFotoProd.CargarFoto($scope.producto.foto1,$scope.producto.foto2,$scope.producto.foto3,$scope.uploader);
 
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
             var nombreFoto = $scope.uploader.queue[0].file.name;
-            $scope.producto.foto=nombreFoto;
+            $scope.producto.foto1=nombreFoto;
+          }
+          if($scope.uploader.queue[1].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[1].file.name;
+            $scope.producto.foto2=nombreFoto;
+          }
+          if($scope.uploader.queue[2].file.name!='default.jpg')
+          {
+            var nombreFoto = $scope.uploader.queue[2].file.name;
+            $scope.producto.foto3=nombreFoto;
           }
 
           $scope.uploader.uploadAll();

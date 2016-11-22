@@ -30,7 +30,7 @@
 
 				<br>
 
-				<span>Foto:</span><br>
+				<span>Fotos:</span><br>
 				<center>
 
 				<!-- FOTO -->
@@ -46,9 +46,10 @@
 			            </button>
 			        </li>		
 			    </ul>
-				 <input type="file" ng-show="!uploader.queue[0] " nv-file-select uploader="uploader"/>
+				 <input type="file" ng-show="!uploader.queue[2] " nv-file-select uploader="uploader" multiple/>
 
 				 <br><br>
+				 
 				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>
 				<span style="color:red" ng-show="FormIngreso.$invalid">FALTAN DATOS!!</span>
 

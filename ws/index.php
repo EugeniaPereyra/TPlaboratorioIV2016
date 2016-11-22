@@ -127,13 +127,29 @@ $app->get('/producto/{id}', function ($request, $response, $args) {
 // ALTA
 $app->post('/producto/{producto}', function ($request, $response, $args){
     $producto=json_decode($args["producto"]);
-    if($producto->foto!="default.jpg")
+    if($producto->foto1!="default.jpg")
     {
-        $rutaVieja="../fotosProd/".$producto->foto;
-        $rutaNueva=$producto->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        $rutaVieja="../fotosProd/".$producto->foto1;
+        $rutaNueva=$producto->descripcion."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosProd/".$rutaNueva);
         unlink($rutaVieja);
-        $producto->foto=$rutaNueva;
+        $producto->foto1=$rutaNueva;
+    }
+    if($producto->foto2!="default.jpg")
+    {
+        $rutaVieja="../fotosProd/".$producto->foto2;
+        $rutaNueva=$producto->descripcion."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosProd/".$rutaNueva);
+        unlink($rutaVieja);
+        $producto->foto2=$rutaNueva;
+    }
+    if($producto->foto3!="default.jpg")
+    {
+        $rutaVieja="../fotosProd/".$producto->foto3;
+        $rutaNueva=$producto->descripcion."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosProd/".$rutaNueva);
+        unlink($rutaVieja);
+        $producto->foto3=$rutaNueva;
     }
     $response->write(Producto::Insertar($producto));
     return $response;
@@ -142,13 +158,29 @@ $app->post('/producto/{producto}', function ($request, $response, $args){
 // MODIFICA UNO
 $app->put('/producto/{producto}', function ($request, $response, $args) {
     $producto=json_decode($args["producto"]);
-    if($producto->foto!="default.jpg")
+    if($producto->foto1!="default.jpg")
     {
-        $rutaVieja="../fotosProd/".$producto->foto;
-        $rutaNueva=$producto->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        $rutaVieja="../fotosProd/".$producto->foto1;
+        $rutaNueva=$producto->descripcion."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosProd/".$rutaNueva);
         unlink($rutaVieja);
-        $producto->foto=$rutaNueva;
+        $producto->foto1=$rutaNueva;
+    }
+    if($producto->foto2!="default.jpg")
+    {
+        $rutaVieja="../fotosProd/".$producto->foto2;
+        $rutaNueva=$producto->descripcion."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosProd/".$rutaNueva);
+        unlink($rutaVieja);
+        $producto->foto2=$rutaNueva;
+    }
+    if($producto->foto3!="default.jpg")
+    {
+        $rutaVieja="../fotosProd/".$producto->foto3;
+        $rutaNueva=$producto->descripcion."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosProd/".$rutaNueva);
+        unlink($rutaVieja);
+        $producto->foto3=$rutaNueva;
     }
     $response->write(Producto::Modificar($producto));
     return $response;
@@ -157,9 +189,17 @@ $app->put('/producto/{producto}', function ($request, $response, $args) {
 // BORRA UNO
 $app->delete('/producto/{producto}', function ($request, $response, $args) {
     $producto=json_decode($args["producto"]);
-    if($producto->foto!="default.jpg")
+    if($producto->foto1!="default.jpg")
     {
-        unlink("../fotosProd/".$producto->foto);
+        unlink("../fotosProd/".$producto->foto1);
+    }
+    if($producto->foto2!="default.jpg")
+    {
+        unlink("../fotosProd/".$producto->foto2);
+    }
+    if($producto->foto3!="default.jpg")
+    {
+        unlink("../fotosProd/".$producto->foto3);
     }
     $response->write(Producto::Borrar($producto->idProducto));
     return $response;
