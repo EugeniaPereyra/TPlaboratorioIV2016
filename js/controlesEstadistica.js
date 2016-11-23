@@ -13,7 +13,7 @@ miAplicacion.controller('controlEstadisticaMenu',function($scope, $state){
       
 });
 
-miAplicacion.controller('controlEstadisticaVentasLocal',function($scope, $http){
+miAplicacion.controller('controlEstadisticaVentasLocal',function($scope, fPedidos){
 
  // Sample options for first chart
   $scope.pedidos= [];
@@ -21,9 +21,9 @@ miAplicacion.controller('controlEstadisticaVentasLocal',function($scope, $http){
   $scope.sucursal2=0;
   $scope.sucursal3=0;
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
+  fPedidos.traerTodo()
   .then(function(respuesta) {       
-         $scope.pedidos = respuesta.data.listado;
+         $scope.pedidos = respuesta;
          //console.info($scope.pedidos);
          angular.forEach($scope.pedidos,function(value){
             //console.log(value);
@@ -102,7 +102,7 @@ $scope.chartConfig = {
 });
 
 
-miAplicacion.controller('controlEstadisticaProductos',function($scope, $http){
+miAplicacion.controller('controlEstadisticaProductos',function($scope, fPedidos){
 
  // Sample options for first chart
   $scope.pedidos= [];
@@ -122,9 +122,9 @@ miAplicacion.controller('controlEstadisticaProductos',function($scope, $http){
   $scope.oferMayorDescr = "";
   $scope.oferMayorCont = 0;
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
+  fPedidos.traerTodo()
   .then(function(respuesta) {       
-         $scope.pedidos = respuesta.data.listado;
+         $scope.pedidos = respuesta;
          //console.info($scope.pedidos);
          angular.forEach($scope.pedidos,function(value){
             //console.log(value);

@@ -1,7 +1,7 @@
 // PEDIDOS
 
 
-miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $stateParams, $auth){
+miAplicacion.controller('controlPedidoAlta',function($scope, $state, $stateParams, $auth, fPedidos, fSucursales, fProductos, fOfertas){
         if($auth.isAuthenticated()){
           console.log("Sesión iniciada!");
           $scope.UsuarioLogueado= $auth.getPayload();
@@ -36,32 +36,29 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
         $scope.pedido.idPersona=$scope.UsuarioLogueado.id;
       }
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      fSucursales.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoSucursales = respuesta.data.listado;
-             console.info(respuesta.data);
+             $scope.ListadoSucursales = respuesta;
         },function errorCallback(response) {
              $scope.ListadoSucursales = [];
-            console.log( response);     
+            console.log(response);     
        });
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/productos')
+      fProductos.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoProductos = respuesta.data.listado;
-             console.log(respuesta.data);
-        },function errorCallback(response) {
-             $scope.ListadoProductos = [];
-            console.log( response);     
-       });
+           $scope.ListadoProductos = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoProductos = [];
+          console.log(response);     
+      });
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/ofertas')
+      fOfertas.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoOfertas = respuesta.data.listado;
-             console.log(respuesta.data);
-        },function errorCallback(response) {
-             $scope.ListadoOfertas = [];
-            console.log( response);     
-       });
+           $scope.ListadoOfertas = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoOfertas = [];
+          console.log(response);     
+      });
 
       $scope.Guardar=function(){
           console.info($scope.pedido);
@@ -96,27 +93,25 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $http, $state, $sta
             })
           }
         var dato=JSON.stringify($scope.pedido);
-        $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+dato)
-            .then(function(respuesta) {             
-                 console.log(respuesta.data);
-                 if($scope.UsuarioLogueado.perfil=='cliente')
-                 {
-                  alert("Pedido realizado correctamente");
-                  $state.go('persona.menu');
-                 }
-                 else
-                 {
-                  alert("Pedido realizado correctamente");
-                  $state.go('persona.pedGrilla');
-                  }
-            },function errorCallback(response) {        
-                 console.log( response);           
-            });
+        fPedidos.Agregar(dato)
+        .then(function(respuesta) {             
+            console.log("pedido agregado correctamente");
+            if($scope.UsuarioLogueado.perfil=='cliente')
+            {
+              $state.go('persona.menu');
+            }
+            else
+            {
+              $state.go('persona.pedGrilla');
+            }
+          },function errorCallback(response) {        
+            console.log( response);           
+        });
       }
 
 });
 
-miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $stateParams, $auth){
+miAplicacion.controller('controlPedidoGrilla',function($scope, $state, $stateParams, $auth, fPedidos, fProductos, fOfertas){
   $scope.sucursal={};
     $scope.sucursal.mostrarTodo=false;
     $scope.sucursal.mostrarPart=false;
@@ -149,51 +144,45 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $s
     $scope.sucursal.mostrarPart=false;
   }
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
-  .then(function(respuesta) {       
-         $scope.ListadoPedidos = respuesta.data.listado;
-         console.log(respuesta.data);
-    },function errorCallback(response) {
-         $scope.ListadoPedidos= [];
-        console.log( response);     
-   });
-
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/productos')
+      fPedidos.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoProductos = respuesta.data.listado;
-             console.log(respuesta.data);
-        },function errorCallback(response) {
-             $scope.ListadoProductos = [];
-            console.log( response);     
-       });
+           $scope.ListadoPedidos = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoPedidos = [];
+          console.log(response);     
+      });
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/ofertas')
+      fProductos.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoOfertas = respuesta.data.listado;
-             console.log(respuesta.data);
-        },function errorCallback(response) {
-             $scope.ListadoOfertas = [];
-            console.log( response);     
-       });
+           $scope.ListadoProductos = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoProductos = [];
+          console.log(response);     
+      });
 
+      fOfertas.traerTodo()
+      .then(function(respuesta) {       
+           $scope.ListadoOfertas = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoOfertas = [];
+          console.log(response);     
+      });
       
 
   $scope.Borrar=function(pedido){
-    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+pedido.idPedido)
-         .then(function(respuesta) {              
-                 console.log(respuesta.data);
-                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
-                  .then(function(respuesta) {       
-                         $scope.ListadoPedidos = respuesta.data.listado;
-                         console.log(respuesta.data);
-                    },function errorCallback(response) {
-                         $scope.ListadoPedidos = [];
-                        console.log( response);     
-                   });
-
-          },function errorCallback(response) {        
-              console.log( response);           
-      });
+    fPedidos.Borrar(pedido.idPedido)
+    .then(function(respuesta) {              
+        console.log("pedido borrado correctamente");
+        fPedidos.traerTodo()
+        .then(function(respuesta) {       
+             $scope.ListadoPedidos = respuesta;
+        },function errorCallback(response) {
+             $scope.ListadoPedidos = [];
+            console.log(response);     
+        });
+      },function errorCallback(response) {        
+          console.log(response);           
+    });
   }
 
   $scope.Modificar = function(pedido){
@@ -207,42 +196,39 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $http, $state, $s
   }
 });
 
-miAplicacion.controller('controlPedidoModificar',function($scope, $http, $state, $stateParams){
+miAplicacion.controller('controlPedidoModificar',function($scope, $state, $stateParams, fPedidos){
   var dato=JSON.parse($stateParams.pedido);
   console.log(dato);
   $scope.mostrarEstado=true;
   $scope.pedido={};
   $scope.pedido=dato;
-  console.info($scope.pedido);
-
+  //console.info($scope.pedido);
 
   $scope.Guardar = function(){
         var datoPed=JSON.stringify($scope.pedido);
-        $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+datoPed)
-            .then(function(respuesta) {             
-                 console.log(respuesta.data);
-                 $state.go('persona.pedGrilla');
-            },function errorCallback(response) {        
-                 console.log( response);           
-            });
+        fPedidos.Modificar(datoPed)
+        .then(function(respuesta) {             
+            console.log("pedido modificado correctamente");
+            $state.go('persona.pedGrilla');
+         },function errorCallback(response) {        
+            console.log(response);           
+        });
       }
 
 });
 
-miAplicacion.controller('controlPedidoDetallar',function($scope, $http, $state, $stateParams){
+miAplicacion.controller('controlPedidoDetallar',function($scope, $state, $stateParams, fPedidos, fSucursales){
   var dato=JSON.parse($stateParams.pedido);
   $scope.pedido={};
   var listadoSucursales = [];
   var listadoUsuarios = [];
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedido/'+dato.idPedido)
+  fPedidos.Detallar(dato.idPedido)
   .then(function(respuesta) {       
-         $scope.pedido = respuesta.data;
-         console.log(respuesta.data);
-          $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
-            .then(function(respuesta) {       
-                   listadoSucursales = respuesta.data.listado;
-                   console.log(respuesta.data);
+         $scope.pedido = respuesta;
+         fSucursales.traerTodo()
+          .then(function(respuesta) {       
+                   listadoSucursales = respuesta;
                    listadoSucursales.map(function(dato){
                       if($scope.pedido.idSucursal == dato.idSucursal)
                       {
@@ -252,9 +238,10 @@ miAplicacion.controller('controlPedidoDetallar',function($scope, $http, $state, 
                     });
               },function errorCallback(response) {
                    listadoSucursales = [];
-                  console.log( response);     
+                  console.log(response);     
              });
     },function errorCallback(response) {
-        console.log( response);     
-   });
+        console.log(response);     
+   });      
+
 });

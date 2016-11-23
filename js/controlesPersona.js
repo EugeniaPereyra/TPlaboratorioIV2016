@@ -3,10 +3,6 @@ miAplicacion.controller('controlInicio',function($scope){
 
 miAplicacion.controller('controlLogin',function($scope, $auth, $state){
 
-  // $scope.authenticate = function(provider) {
-  //   $auth.authenticate(provider);
-  // };
-
   $scope.dato={};
 
   $scope.Login=function(){
@@ -151,7 +147,7 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
   }
 });
 
-miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $http, $state, cargadorDeFoto, $auth){
+miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $state, cargadorDeFoto, $auth, fPersonas, fSucursales){
 
       if($auth.isAuthenticated()){
           console.log("Sesión iniciada!");
@@ -182,14 +178,13 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
-      .then(function(respuesta) {       
-             $scope.ListadoSucursales = respuesta.data.listado;
-             console.info(respuesta.data);
-        },function errorCallback(response) {
-             $scope.ListadoSucursales = [];
-            console.log( response);     
-       });
+    fSucursales.traerTodo()
+    .then(function(respuesta) {       
+           $scope.ListadoSucursales = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoSucursales = [];
+          console.log(response);     
+     });
 
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
@@ -206,21 +201,19 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $htt
         };
 
         $scope.uploader.onCompleteAll = function() {
-            console.info('Se cargo con exito');
             var dato=JSON.stringify($scope.persona);
-            $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
+            fPersonas.Agregar(dato)
             .then(function(respuesta) {             
-                 console.log(respuesta.data);
+                 console.log("Se agregó al usuario correctamente");
                  $state.go("persona.menu");
-
             },function errorCallback(response) {        
-                console.log( response);           
+                 console.log(response);           
             });
         };
 
 });
 
-miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state, $auth){
+miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, fPersonas){
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();
@@ -235,32 +228,29 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state, $
     return $auth.isAuthenticated();
   };
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
-  .then(function(respuesta) {       
-         $scope.ListadoPersonas = respuesta.data.listado;
-         console.log(respuesta.data.listado);
+    fPersonas.traerTodo()
+    .then(function(respuesta) {       
+         $scope.ListadoPersonas = respuesta;
     },function errorCallback(response) {
-         $scope.ListadoPersonas= [];
-        console.log( response);     
-   });
+         $scope.ListadoPersonas = [];
+        console.log(response);     
+    });
 
   $scope.Borrar=function(persona){
     //console.log("borrar"+persona);
     var dato=JSON.stringify(persona);
-    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
+    fPersonas.Borrar(dato)
          .then(function(respuesta) {              
-                 console.log(respuesta.data);
-                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
+                 console.log("Usuario borrado");
+                  fPersonas.traerTodo()
                   .then(function(respuesta) {       
-                         $scope.ListadoPersonas = respuesta.data.listado;
-                         console.log(respuesta.data);
-                    },function errorCallback(response) {
-                         $scope.ListadoPersonas= [];
-                        console.log( response);     
-                   });
-
+                       $scope.ListadoPersonas = respuesta;
+                  },function errorCallback(response) {
+                       $scope.ListadoPersonas = [];
+                      console.log(response);     
+                  });
           },function errorCallback(response) {        
-              console.log( response);           
+              console.log(response);           
       });
   }
 
@@ -278,7 +268,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $http, $state, $
 
 });
 
-miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFoto, $auth){
+miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFoto, $auth, fPersonas, fSucursales){
       if($auth.isAuthenticated()){
           console.log("Sesión iniciada!");
           $scope.UsuarioLogueado= $auth.getPayload();
@@ -310,14 +300,13 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
 
   cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+  fSucursales.traerTodo()
   .then(function(respuesta) {       
-      $scope.ListadoSucursales = respuesta.data.listado;
-      console.info(respuesta.data);
-  },function errorCallback(response) {
-      $scope.ListadoSucursales = [];
-      console.log( response);     
-  });
+         $scope.ListadoSucursales = respuesta;
+    },function errorCallback(response) {
+         $scope.ListadoSucursales = [];
+        console.log(response);     
+   });
 
     $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
@@ -334,53 +323,46 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $http, $state
         };
 
     $scope.uploader.onCompleteAll = function() {
-            console.info('Se cargo con exito');
             var dato=JSON.stringify($scope.persona);
-            $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
-              .then(function(respuesta) 
-              {      
-                console.log(respuesta.data);
-                $state.go("persona.grilla");
-              },
-              function errorCallback(response)
-              {
-                console.log( response);           
-              });
+            fPersonas.Modificar(dato)
+            .then(function(respuesta) {             
+                 console.log("Usuario modificado correctamente");
+                 $state.go("persona.menu");
+            },function errorCallback(response) {        
+                 console.log( response);           
+            });
         }
 
 });
 
-miAplicacion.controller('controlPersonaDetallar',function($scope, $http, $state, $stateParams){
+miAplicacion.controller('controlPersonaDetallar',function($scope, $state, $stateParams, fPersonas, fSucursales){
   var dato=JSON.parse($stateParams.persona);
   $scope.usuario={};
   var listadoSucursales = [];
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato.idPersona)
-  .then(function(respuesta) {       
-         $scope.usuario = respuesta.data;
-         console.log(respuesta.data);
-        $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
-          .then(function(respuesta) {       
-                 listadoSucursales = respuesta.data.listado;
-                 console.log(respuesta.data);
-                   listadoSucursales.map(function(dato){
+  fPersonas.Detallar(dato.idPersona)
+  .then(function(respuesta) {             
+      $scope.usuario = respuesta;
+        fSucursales.traerTodo()
+        .then(function(respuesta) {       
+          listadoSucursales = respuesta;
+          listadoSucursales.map(function(dato){
                     if($scope.usuario.idSucursal == dato.idSucursal)
                     {
                       $scope.usuario.sucursalDir = dato.direccion;
                       $scope.usuario.sucursalTel = dato.telefono;
                     }
-                  });
-            },function errorCallback(response) {
+            });
+          },function errorCallback(response) {
                  listadoSucursales = [];
-                console.log( response);     
-           });
-    },function errorCallback(response) {
-        console.log( response);     
-   });
-
+                console.log(response);     
+        });
+  },function errorCallback(response) {        
+      console.log(response);           
+  });
 });
 
-miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, $http, $state, cargadorDeFoto){
+miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, $state, cargadorDeFoto, fPersonas, fSucursales){
 
       $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
       $scope.uploader.queueLimit = 1;
@@ -397,13 +379,12 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      fSucursales.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoSucursales = respuesta.data.listado;
-             console.info(respuesta.data);
+             $scope.ListadoSucursales = respuesta;
         },function errorCallback(response) {
              $scope.ListadoSucursales = [];
-            console.log( response);     
+            console.log(response);     
        });
 
       $scope.Guardar = function(){
@@ -423,19 +404,18 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
         $scope.uploader.onCompleteAll = function() {
             console.info('Se cargo con exito');
             var dato=JSON.stringify($scope.persona);
-            $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/usuario/'+dato)
+            fPersonas.Agregar(dato)
             .then(function(respuesta) {             
-                 console.log(respuesta.data);
+                 console.log("Se agregó al usuario correctamente");
                  $state.go("persona.menu");
-
             },function errorCallback(response) {        
-                console.log( response);           
+                 console.log( response);           
             });
         };
 
 });
 
-miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $http, $auth){
+miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $http, $auth, fPedidos){
 
       if($auth.isAuthenticated()){
           console.log("Sesión iniciada!");
@@ -451,13 +431,12 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
         return $auth.isAuthenticated();
       };
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/pedidos')
-  .then(function(respuesta) {       
-         $scope.ListadoPedidos = respuesta.data.listado;
-         console.log(respuesta.data);
-    },function errorCallback(response) {
-         $scope.ListadoPedidos= [];
-        console.log( response);     
-   });
+    fPedidos.traerTodo()
+    .then(function(respuesta) {       
+           $scope.ListadoPedidos = respuesta;
+      },function errorCallback(response) {
+           $scope.ListadoPedidos= [];
+          console.log(response);     
+     });
 
 });

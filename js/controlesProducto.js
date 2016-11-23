@@ -1,7 +1,7 @@
 // PRODUCTOS
 
 
-miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $http, $state, cargadorDeFotoProd){
+miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $state, cargadorDeFotoProd, fProductos, fSucursales){
 
       $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
       $scope.uploader.queueLimit = 3;
@@ -17,13 +17,12 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
 
       cargadorDeFotoProd.CargarFoto($scope.producto.foto1,$scope.producto.foto2,$scope.producto.foto3,$scope.uploader);
 
-      $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+      fSucursales.traerTodo()
       .then(function(respuesta) {       
-             $scope.ListadoSucursales = respuesta.data.listado;
-             console.info(respuesta.data);
+             $scope.ListadoSucursales = respuesta;
         },function errorCallback(response) {
              $scope.ListadoSucursales = [];
-            console.log( response);     
+            console.log(response);     
        });
       
       $scope.Guardar = function(){
@@ -51,11 +50,10 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
       };
 
       $scope.uploader.onCompleteAll = function() {
-          console.info('Se cargo con exito');
           var dato=JSON.stringify($scope.producto);
-          $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato)
+          fProductos.Agregar(dato)
           .then(function(respuesta) {             
-               console.log(respuesta.data);
+               console.log("Se agrego el id "+respuesta);
                $state.go("persona.menu");
           },function errorCallback(response) {        
                console.log( response);           
@@ -64,7 +62,7 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $ht
 
 });
 
-miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state, $auth){
+miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, fProductos){
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();
@@ -79,31 +77,28 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state, 
     return $auth.isAuthenticated();
   };
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/productos')
-  .then(function(respuesta) {       
-         $scope.ListadoProductos = respuesta.data.listado;
-         console.log(respuesta.data);
+    fProductos.traerTodo()
+    .then(function(respuesta) {       
+         $scope.ListadoProductos = respuesta;
     },function errorCallback(response) {
          $scope.ListadoProductos = [];
-        console.log( response);     
-   });
+        console.log(response);     
+    });
 
   $scope.Borrar=function(producto){
     var dato=JSON.stringify(producto);
-    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato)
+    fProductos.Borrar(dato)
          .then(function(respuesta) {              
-                 console.log(respuesta.data);
-                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/productos')
+                 console.log("Producto borrado");
+                  fProductos.traerTodo()
                   .then(function(respuesta) {       
-                         $scope.ListadoProductos = respuesta.data.listado;
-                         console.log(respuesta.data);
-                    },function errorCallback(response) {
-                         $scope.ListadoProductos = [];
-                        console.log( response);     
-                   });
-
+                       $scope.ListadoProductos = respuesta;
+                  },function errorCallback(response) {
+                       $scope.ListadoProductos = [];
+                      console.log( response);     
+                  });
           },function errorCallback(response) {        
-              console.log( response);           
+              console.log(response);           
       });
   }
 
@@ -120,7 +115,7 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $http, $state, 
   }
 });
 
-miAplicacion.controller('controlProductoModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFotoProd){
+miAplicacion.controller('controlProductoModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoProd, fProductos){
   $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
   $scope.uploader.queueLimit = 1;
   var dato=JSON.parse($stateParams.producto);
@@ -159,36 +154,30 @@ miAplicacion.controller('controlProductoModificar',function($scope, $http, $stat
       };
 
       $scope.uploader.onCompleteAll = function() {
-          console.info('Foto cargada correctamente');
           var dato=JSON.stringify($scope.producto);
-          $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato)
-          .then(function(respuesta) 
-          {      
-            console.log(respuesta.data);
-            $state.go("persona.prodGrilla");
-          },
-          function errorCallback(response)
-          {
-            console.log( response);           
+          fProductos.Modificar(dato)
+          .then(function(respuesta) {             
+               console.log("producto modificado");
+               $state.go("persona.prodGrilla");
+          },function errorCallback(response) {        
+               console.log( response);           
           });
       };
 
 });
 
-miAplicacion.controller('controlProductoDetallar',function($scope, $http, $state, $stateParams){
+miAplicacion.controller('controlProductoDetallar',function($scope, $state, $stateParams, fProductos, fSucursales){
   var dato=JSON.parse($stateParams.producto);
   $scope.producto={};
   var listadoSucursales = [];
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/producto/'+dato.idProducto)
-  .then(function(respuesta) {       
-         $scope.producto = respuesta.data;
-         console.log(respuesta.data);
-          $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
-            .then(function(respuesta) {       
-                   listadoSucursales = respuesta.data.listado;
-                   console.log(respuesta.data);
-                   listadoSucursales.map(function(dato){
+  fProductos.Detallar(dato.idProducto)
+  .then(function(respuesta) {             
+      $scope.producto = respuesta;
+        fSucursales.traerTodo()
+        .then(function(respuesta) {       
+               listadoSucursales = respuesta;
+               listadoSucursales.map(function(dato){
                       if($scope.producto.idSucursal == dato.idSucursal)
                       {
                         $scope.producto.sucursalDir = dato.direccion;
@@ -197,9 +186,9 @@ miAplicacion.controller('controlProductoDetallar',function($scope, $http, $state
                     });
               },function errorCallback(response) {
                    listadoSucursales = [];
-                  console.log( response);     
-             });
-    },function errorCallback(response) {
-        console.log( response);     
-   });
+                  console.log(response);     
+        });
+  },function errorCallback(response) {        
+      console.log(response);           
+  });
 });

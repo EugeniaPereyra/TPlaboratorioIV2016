@@ -1,7 +1,7 @@
 // SUCURSALES
 
 
-miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $http, $state, cargadorDeFotoSuc){
+miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $state, cargadorDeFotoSuc, fSucursales){
 
       $scope.uploader = new FileUploader({url: 'servidor/uploadSuc.php'});
       $scope.uploader.queueLimit = 3;
@@ -40,19 +40,18 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $ht
       };
 
       $scope.uploader.onCompleteAll = function() {
-          console.info('Se cargo con exito');
           var dato=JSON.stringify($scope.sucursal);
-          $http.post('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato)
+          fSucursales.Agregar(dato)
           .then(function(respuesta) {             
-               console.log(respuesta.data);
-               $state.go("persona.menu");
+              console.log("Se agregó la sucursal correctamente");
+              $state.go("persona.menu");
           },function errorCallback(response) {        
-               console.log( response);           
+              console.log(response);           
           });
       };
 });
 
-miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state, $auth){
+miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, fSucursales){
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();
@@ -67,32 +66,29 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state, 
     return $auth.isAuthenticated();
   };
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
+  fSucursales.traerTodo()
   .then(function(respuesta) {       
-         $scope.ListadoSucursales = respuesta.data.listado;
-         console.log(respuesta.data);
+         $scope.ListadoSucursales = respuesta;
     },function errorCallback(response) {
          $scope.ListadoSucursales = [];
-        console.log( response);     
+        console.log(response);     
    });
 
   $scope.Borrar=function(sucursal){
     var dato=JSON.stringify(sucursal);
-    $http.delete('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato)
-         .then(function(respuesta) {              
-                 console.log(respuesta.data);
-                  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursales')
-                  .then(function(respuesta) {       
-                         $scope.ListadoSucursales = respuesta.data.listado;
-                         console.log(respuesta.data);
-                    },function errorCallback(response) {
-                         $scope.ListadoSucursales = [];
-                        console.log( response);     
-                   });
-
-          },function errorCallback(response) {        
-              console.log( response);           
-      });
+    fSucursales.Borrar(dato)
+    .then(function(respuesta){
+      console.log("Sucursal borrada");
+        fSucursales.traerTodo()
+        .then(function(respuesta) {       
+               $scope.ListadoSucursales = respuesta;
+          },function errorCallback(response) {
+               $scope.ListadoSucursales = [];
+              console.log(response);     
+         });
+    },function errorCallback(response) {        
+          console.log(response);           
+    });
   }
 
   $scope.Modificar = function(sucursal){
@@ -108,7 +104,7 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $http, $state, 
   }
 });
 
-miAplicacion.controller('controlSucursalModificar',function($scope, $http, $state, $stateParams, FileUploader, cargadorDeFotoSuc){
+miAplicacion.controller('controlSucursalModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoSuc, fSucursales){
   $scope.uploader = new FileUploader({url: 'servidor/uploadSuc.php'});
   $scope.uploader.queueLimit = 3;
   var dato=JSON.parse($stateParams.sucursal);
@@ -149,21 +145,18 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $http, $stat
       $scope.uploader.onCompleteAll = function() {
           console.info('Se cargo con exito');
           var dato=JSON.stringify($scope.sucursal);
-          $http.put('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato)
-          .then(function(respuesta) 
-          {      
-            console.log(respuesta.data);
-            $state.go("persona.sucGrilla");
-          },
-          function errorCallback(response)
-          {
-            console.log( response);           
-          });
+            fSucursales.Modificar(dato)
+            .then(function(respuesta) {             
+                 console.log("Sucursal modificada correctamente");
+                 $state.go("persona.sucGrilla");
+            },function errorCallback(response) {        
+                 console.log(response);           
+            });
       };
 
 });
 
-miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state, $stateParams, $auth){
+miAplicacion.controller('controlSucursalDetallar',function($scope, $state, $stateParams, $auth, fSucursales, fPersonas){
   var dato=JSON.parse($stateParams.sucursal);
   $scope.sucursal={};
   $scope.ListadoEmpleados = [];
@@ -182,21 +175,19 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $http, $state
       return $auth.isAuthenticated();
     };
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios')
-   .then(function(respuesta) {       
-      $scope.ListadoEmpleados = respuesta.data.listado;
-      console.log(respuesta.data);
+    fPersonas.traerTodo()
+    .then(function(respuesta) {       
+         $scope.ListadoEmpleados = respuesta;
     },function errorCallback(response) {
-      $scope.ListadoEmpleados= [];
-      console.log( response);     
-  });
+         $scope.ListadoEmpleados= [];
+        console.log(response);     
+    });
 
-  $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/sucursal/'+dato.idSucursal)
-  .then(function(respuesta) {       
-         $scope.sucursal = respuesta.data;
-         console.log(respuesta.data);
+  fSucursales.Detallar(dato.idSucursal)
+  .then(function(respuesta) {             
+      $scope.sucursal = respuesta;
     },function errorCallback(response) {
-        console.log( response);     
+        console.log(response);     
    });
 
   $scope.VerOfertas=function(){
