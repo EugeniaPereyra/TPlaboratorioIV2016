@@ -16,6 +16,8 @@ class Pedido
   	public $idOferta;
   	public $ofertaDescripcion;
   	public $estado;
+  	public $fecha;
+  	public $encuesta;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
@@ -35,6 +37,8 @@ class Pedido
 			$this->sucursalDireccion = $obj->sucursalDireccion;
 			$this->ofertaDescripcion = $obj->ofertaDescripcion;
 			$this->estado = $obj->estado;
+			$this->fecha = $obj->fecha;
+			$this->encuesta = $obj->encuesta;
 
 		}
 	}
@@ -89,7 +93,9 @@ class Pedido
 				ofertaDescripcion=:ofertaDescripcion,
 				productoDescripcion=:productoDescripcion,
 				sucursalDireccion=:sucursalDireccion,
-				estado=:estado
+				estado=:estado,
+				fecha=:fecha,
+				encuesta=:encuesta
 				WHERE idPedido=:idPedido");
 
 			$consulta->bindValue(':idPedido',$pedido->idPedido, PDO::PARAM_INT);
@@ -104,6 +110,8 @@ class Pedido
 			$consulta->bindValue(':productoDescripcion', $pedido->productoDescripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':sucursalDireccion', $pedido->sucursalDireccion, PDO::PARAM_STR);
 			$consulta->bindValue(':estado', $pedido->estado, PDO::PARAM_STR);
+			$consulta->bindValue(':fecha', $pedido->fecha, PDO::PARAM_STR);
+			$consulta->bindValue(':encuesta', $pedido->encuesta, PDO::PARAM_STR);
 			return $consulta->execute();
 	}
 
@@ -111,7 +119,7 @@ class Pedido
 	public static function Insertar($pedido)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (idProducto,cantidad,idSucursal,clienteNombre,idPersona,total,idOferta,ofertaDescripcion, productoDescripcion, sucursalDireccion, estado )values(:idProducto,:cantidad,:idSucursal,:clienteNombre,:idPersona,:total,:idOferta, :ofertaDescripcion, :productoDescripcion, :sucursalDireccion, :estado  )");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into pedido (idProducto,cantidad,idSucursal,clienteNombre,idPersona,total,idOferta,ofertaDescripcion, productoDescripcion, sucursalDireccion, estado, fecha, encuesta )values(:idProducto,:cantidad,:idSucursal,:clienteNombre,:idPersona,:total,:idOferta, :ofertaDescripcion, :productoDescripcion, :sucursalDireccion, :estado, :fecha, :encuesta)");
 
 			$consulta->bindValue(':idProducto', $pedido->idProducto, PDO::PARAM_INT);
 			$consulta->bindValue(':cantidad',$pedido->cantidad, PDO::PARAM_INT);
@@ -124,6 +132,8 @@ class Pedido
 			$consulta->bindValue(':productoDescripcion', $pedido->productoDescripcion, PDO::PARAM_STR);
 			$consulta->bindValue(':sucursalDireccion', $pedido->sucursalDireccion, PDO::PARAM_STR);
 			$consulta->bindValue(':estado', $pedido->estado, PDO::PARAM_STR);
+			$consulta->bindValue(':fecha', $pedido->fecha, PDO::PARAM_STR);
+			$consulta->bindValue(':encuesta', $pedido->encuesta, PDO::PARAM_STR);
 		$consulta->execute();		
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	

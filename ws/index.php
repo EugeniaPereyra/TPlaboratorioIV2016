@@ -12,6 +12,7 @@ require_once '../servidor/clases/Producto.php';
 require_once '../servidor/clases/Oferta.php';
 require_once '../servidor/clases/Pedido.php';
 require_once '../servidor/clases/Sucursal.php';
+require_once '../servidor/clases/Encuesta.php';
 
 /**
  * Step 2: Instantiate a Slim application
@@ -413,6 +414,43 @@ $app->delete('/sucursal/{sucursal}', function ($request, $response, $args){
             unlink("../fotosSuc/".$sucursal->foto3);
         }
         $response->write(Sucursal::Borrar($sucursal->idSucursal));
+        return $response;
+});
+
+
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+//---- ENCUESTAS ------
+
+// TRAE TODOS
+$app->get('/encuestas[/]', function ($request, $response, $args) {
+    $respuesta['listado']=Encuesta::TraerTodasLasEncuestas();
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// TRAE UNO
+$app->get('/encuesta/{id}', function ($request, $response, $args) {
+    $respuesta=Encuesta::TraerUnaEncuesta($args["id"]);
+    $response->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// ALTA
+$app->post('/encuesta/{encuesta}', function ($request, $response, $args){
+    $encuesta=json_decode($args["encuesta"]);
+    $response->write(Encuesta::Insertar($encuesta));
+    return $response;
+});
+
+// BORRA UNO
+$app->delete('/encuesta/{encuesta}', function ($request, $response, $args){
+        $encuesta=json_decode($args["encuesta"]);
+        $response->write(Encuesta::Borrar($encuesta->idEncuesta));
         return $response;
 });
 

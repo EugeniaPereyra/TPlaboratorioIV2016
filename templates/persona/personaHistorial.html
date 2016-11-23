@@ -1,17 +1,19 @@
 
 
 		<div class="CajaInicio animated bounceInRight">
-							<h1>Listado de Usuarios</h1>
+							<h1>Historial de Pedidos</h1>
 							<!-- id="listaPersonas" -->
 								
 								<table class='table table-hover table-responsive' id="listaPersonas">
 									<thead>
 										<tr>
+											<th>  FECHA  </th>
 											<th>  PEDIDO   </th>
 											<th>  CANTIDAD  </th>	
 											<th>  ESTADO    </th>
 											<th>  TOTAL     </th>
 											<th>  SUCURSAL  </th>
+											<th>  ENCUESTA  </th>
 										</tr> 
 									</thead>
 
@@ -19,12 +21,15 @@
 									
 									<tr ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idPersona==UsuarioLogueado.id">
 
+										<td>{{pedido.fecha | date:'dd/MM/yyyy'}}</td>
 										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
-										<td>{{pedido.cantidad}}</td>
+										<td><center>{{pedido.cantidad}}</center></td>
 										<td>{{pedido.estado}}</td>
 										<td>{{pedido.total | currency}}</td>
 										<td>{{pedido.sucursalDireccion}}</td>
+										<td ng-if="pedido.encuesta=='no'"><button class='btn btn-warning' name='Responder'  ng-click="Responder(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Responder</button></td>
+										<td ng-if="pedido.encuesta=='si'"><center><span class='glyphicon glyphicon-ok' style="color:limegreen">&nbsp;</span></center></td>
 															
 									</tr>
 									

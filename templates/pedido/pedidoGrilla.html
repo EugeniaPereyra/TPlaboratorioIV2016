@@ -7,10 +7,11 @@
 								<table class='table table-hover table-responsive' >
 									<thead>
 										<tr>
+											<th>  FECHA </th>
 											<th>  PRODUCTO   </th>
 											<th>  CANTIDAD     </th>
 											<th>  TOTAL     </th>
-											<th>  ESTADO     </th>
+											<th>  ESTADO  </th>
 											<th>  CLIENTE     </th>
 
 											<th>  BORRAR     </th>
@@ -22,7 +23,8 @@
 									<!--{{listadoDeDatos}} -->
 									<div>
 										<tr ng-show="sucursal.mostrarTodo" ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idSucursal==sucursal.idSucursal">
-							
+										
+										<td>{{pedido.fecha | date:'dd/MM/yyyy'}}</td>
 										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
 										<td>{{pedido.cantidad}}</td>
@@ -41,7 +43,8 @@
 
 									<div>
 										<tr ng-show="sucursal.mostrarPart" ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idSucursal==sucursal.idSucursal">
-																	
+												
+									    <td>{{pedido.fecha | date:'dd/MM/yyyy'}}</td>					
 										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
 										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
 										<td>{{pedido.cantidad}}</td>
