@@ -415,7 +415,7 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
 
 });
 
-miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $http, $auth, fPedidos){
+miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $state, $auth, fPedidos){
 
       if($auth.isAuthenticated()){
           console.log("Sesión iniciada!");
@@ -438,5 +438,57 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
            $scope.ListadoPedidos= [];
           console.log(response);     
      });
+
+    $scope.Responder = function(pedido){
+      var dato=JSON.stringify(pedido);
+      $state.go('persona.encuesta', {pedido:dato});
+    }
+
+});
+
+miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $stateParams, fProductos, fPedidos, fEncuestas){
+
+  var dato=JSON.parse($stateParams.pedido);
+  console.log(dato);
+  $scope.encuesta = {};
+  $scope.encuesta.uno = "si";
+  $scope.encuesta.dos = "mucho";
+  $scope.encuesta.tres = "unico";
+  $scope.encuesta.cuatro = "mucho";
+  $scope.encuesta.cinco = "alta";
+  $scope.encuesta.seis = "excelente";
+  $scope.encuesta.siete = "mucho";
+  $scope.encuesta.ocho = "primera_compra";
+  $scope.encuesta.nueve = "mucho";
+  $scope.encuesta.diez = "";
+  $scope.encuesta.idProducto=dato.idProducto;
+
+  fProductos.Detallar(dato.idProducto)
+  .then(function(respuesta) {       
+         $scope.producto = respuesta;
+    },function errorCallback(response) {
+        console.log(response);     
+   }); 
+
+   $scope.Guardar = function(){
+        dato.encuesta="si";
+        var datoPed=JSON.stringify(dato);
+        fPedidos.Modificar(datoPed)
+        .then(function(respuesta) {             
+            console.log("pedido modificado correctamente");
+         },function errorCallback(response) {        
+            console.log(response);           
+        });
+
+        var datoEncuesta=JSON.stringify($scope.encuesta);
+        console.info(datoEncuesta);
+        fEncuestas.Agregar(datoEncuesta)
+        .then(function(respuesta) {             
+            console.log("Encuesta enviada correctamente");
+            $state.go('persona.menu');
+         },function errorCallback(response) {        
+            console.log(response);           
+        });
+   } 
 
 });

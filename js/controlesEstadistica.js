@@ -10,6 +10,10 @@ miAplicacion.controller('controlEstadisticaMenu',function($scope, $state){
   $scope.VentasProductos=function(){
     $state.go('persona.estadisticaProductos');
   }
+
+  $scope.EncuestaSatisfaccion=function(){
+    $state.go('persona.estadisticaEncuesta');
+  }
       
 });
 
@@ -247,3 +251,173 @@ $scope.chartConfig = {
       
 });
 
+
+miAplicacion.controller('controlEstadisticaEncuesta',function($scope, fEncuestas){
+
+ // Sample options for first chart
+  $scope.unoA=0;
+  $scope.unoB=0;
+  $scope.unoC=0;
+  $scope.dosA=0;
+  $scope.dosB=0;
+  $scope.dosC=0;
+  $scope.cuatroA=0;
+  $scope.cuatroB=0;
+  $scope.cuatroC=0;
+  $scope.sieteA=0;
+  $scope.sieteB=0;
+  $scope.sieteC=0;
+  $scope.nueveA=0;
+  $scope.nueveB=0;
+  $scope.nueveC=0;
+
+  fEncuestas.traerTodo()
+  .then(function(respuesta) {       
+         $scope.encuestas = respuesta;
+         angular.forEach($scope.encuestas,function(value){
+            //console.log(value);
+            if(value.uno=='mucho')
+            {
+              $scope.unoA +=1;
+            }
+            if(value.uno=='poco')
+            { 
+              $scope.unoB +=1;
+            }
+            if(value.uno=='nada')
+            { 
+              $scope.unoC +=1;
+            }
+
+            if(value.dos=='mucho')
+            {
+              $scope.dosA +=1;
+            }
+            if(value.dos=='poco')
+            { 
+              $scope.dosB +=1;
+            }
+            if(value.dos=='nada')
+            { 
+              $scope.dosC +=1;
+            }
+
+            if(value.cuatro=='mucho')
+            {
+              $scope.cuatroA +=1;
+            }
+            if(value.cuatro=='poco')
+            { 
+              $scope.cuatroB +=1;
+            }
+            if(value.cuatro=='nada')
+            { 
+              $scope.cuatroC +=1;
+            }
+
+            if(value.siete=='mucho')
+            {
+              $scope.sieteA +=1;
+            }
+            if(value.siete=='poco')
+            { 
+              $scope.sieteB +=1;
+            }
+            if(value.siete=='nada')
+            { 
+              $scope.sieteC +=1;
+            }
+
+            if(value.nueve=='mucho')
+            {
+              $scope.nueveA +=1;
+            }
+            if(value.nueve=='poco')
+            { 
+              $scope.nueveB +=1;
+            }
+            if(value.nueve=='nada')
+            { 
+              $scope.nueveC +=1;
+            }
+          });
+
+         $scope.chartConfig.series = [{
+              name: 'Mucho',
+              data: [$scope.unoA, $scope.dosA, $scope.cuatroA, $scope.sieteA, $scope.nueveA]
+
+          }, {
+              name: 'Poco',
+              data: [$scope.unoB, $scope.dosB, $scope.cuatroB, $scope.sieteB, $scope.nueveB]
+
+          }, {
+              name: 'Nada',
+              data: [$scope.unoC, $scope.dosC, $scope.cuatroC, $scope.sieteC, $scope.nueveC]
+
+          }];
+    },function errorCallback(response) {
+         $scope.encuestas = [];
+        console.log(response);     
+   });
+    
+
+    $scope.chartConfig = {
+          title: {
+                 text: ""
+              },
+          options: {
+                chart: {
+                      type: 'column'
+                   },
+                plotOptions: {
+                       series: {
+                            stacking: ''
+                             }
+                    },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:black;padding:0">{series.name}: </td>' +
+                '<td style="padding:0;color:black"><b>{point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        }
+             },
+          xAxis: {
+                  title: {
+                    text: 'Encuestas'
+                  },
+                categories: [
+                'Nos recomiendan',
+                'Clientes satisfechos',
+                'Necesidades satisfechas',
+                'Nuestra responsabilidad',
+                'Comprarían denuevo'
+            ]
+             },
+        yAxis: {
+                // Pongo el título para el eje de las 'Y'
+                title: {
+                  text: 'Clientes'
+                }
+              },
+          credits: {
+                enabled: true
+             },
+        series: [{
+            name: 'Mucho',
+            data: [$scope.unoA, $scope.dosA, $scope.cuatroA, $scope.sieteA, $scope.nueveA]
+
+        }, {
+            name: 'Poco',
+            data: [$scope.unoB, $scope.dosB, $scope.cuatroB, $scope.sieteB, $scope.nueveB]
+
+        }, {
+            name: 'Nada',
+            data: [$scope.unoC, $scope.dosC, $scope.cuatroC, $scope.sieteC, $scope.nueveC]
+
+        }],
+          loading: false
+    }
+      
+});

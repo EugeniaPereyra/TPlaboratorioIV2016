@@ -29,6 +29,8 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $state, $stateParam
       $scope.pedido.productoDescripcion = "";
       $scope.pedido.ofertaDescripcion = "";
       $scope.pedido.estado="En proceso";
+      $scope.pedido.fecha=new Date();
+      $scope.pedido.encuesta="no";
 
       if($scope.UsuarioLogueado.perfil=='cliente')
       {

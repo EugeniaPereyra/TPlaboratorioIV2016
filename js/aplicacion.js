@@ -124,6 +124,19 @@ $authProvider.authHearder='data';
           }
         })
 
+        .state(
+          'persona.encuesta',{
+          url:'/personaEncuesta/:pedido',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/encuesta.html',
+              controller:'controlPersonaEncuesta'
+            }
+          }
+        })
+
 
         // PRODUCTOS
 
@@ -365,7 +378,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/estadistica/estadisticaVentasLocal.html',
+              templateUrl:'templates/estadistica/estadistica.html',
               controller:'controlEstadisticaVentasLocal'
             }
           }
@@ -379,8 +392,22 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/estadistica/estadisticaProductos.html',
+              templateUrl:'templates/estadistica/estadistica.html',
               controller:'controlEstadisticaProductos'
+            }
+          }
+        })
+
+        .state(
+          'persona.estadisticaEncuesta',{
+          url:'/estadisticaEncuesta',
+          cache: false,
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/estadistica/estadistica.html',
+              controller:'controlEstadisticaEncuesta'
             }
           }
         })
