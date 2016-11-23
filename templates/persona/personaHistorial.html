@@ -28,7 +28,7 @@
 										<td>{{pedido.estado}}</td>
 										<td>{{pedido.total | currency}}</td>
 										<td>{{pedido.sucursalDireccion}}</td>
-										<td ng-if="pedido.encuesta=='no'"><button class='btn btn-warning' name='Responder'  ng-click="Responder(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Responder</button></td>
+										<td ng-if="pedido.encuesta=='no'&& pedido.estado=='Finalizado'"><button class='btn btn-warning' name='Responder'  ng-click="Responder(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Responder</button></td>
 										<td ng-if="pedido.encuesta=='si'"><center><span class='glyphicon glyphicon-ok' style="color:limegreen">&nbsp;</span></center></td>
 															
 									</tr>

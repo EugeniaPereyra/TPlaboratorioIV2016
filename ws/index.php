@@ -232,13 +232,29 @@ $app->get('/oferta/{id}', function ($request, $response, $args) {
 // ALTA
 $app->post('/oferta/{oferta}', function ($request, $response, $args){
     $oferta=json_decode($args["oferta"]);
-    if($oferta->foto!="default.jpg")
+    if($oferta->foto1!="default.jpg")
     {
-        $rutaVieja="../fotosOfer/".$oferta->foto;
-        $rutaNueva=$oferta->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        $rutaVieja="../fotosOfer/".$oferta->foto1;
+        $rutaNueva=$oferta->descripcion."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosOfer/".$rutaNueva);
         unlink($rutaVieja);
-        $oferta->foto=$rutaNueva;
+        $oferta->foto1=$rutaNueva;
+    }
+    if($oferta->foto2!="default.jpg")
+    {
+        $rutaVieja="../fotosOfer/".$oferta->foto2;
+        $rutaNueva=$oferta->descripcion."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosOfer/".$rutaNueva);
+        unlink($rutaVieja);
+        $oferta->foto2=$rutaNueva;
+    }
+    if($oferta->foto3!="default.jpg")
+    {
+        $rutaVieja="../fotosOfer/".$oferta->foto3;
+        $rutaNueva=$oferta->descripcion."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosOfer/".$rutaNueva);
+        unlink($rutaVieja);
+        $oferta->foto3=$rutaNueva;
     }
     $response->write(Oferta::Insertar($oferta));
     return $response;
@@ -247,13 +263,29 @@ $app->post('/oferta/{oferta}', function ($request, $response, $args){
 // MODIFICA UNO
 $app->put('/oferta/{oferta}', function ($request, $response, $args) {
     $oferta=json_decode($args["oferta"]);
-    if($oferta->foto!="default.jpg")
+    if($oferta->foto1!="default.jpg")
     {
-        $rutaVieja="../fotosOfer/".$oferta->foto;
-        $rutaNueva=$oferta->descripcion.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        $rutaVieja="../fotosOfer/".$oferta->foto1;
+        $rutaNueva=$oferta->descripcion."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosOfer/".$rutaNueva);
         unlink($rutaVieja);
-        $oferta->foto=$rutaNueva;
+        $oferta->foto1=$rutaNueva;
+    }
+    if($oferta->foto2!="default.jpg")
+    {
+        $rutaVieja="../fotosOfer/".$oferta->foto2;
+        $rutaNueva=$oferta->descripcion."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosOfer/".$rutaNueva);
+        unlink($rutaVieja);
+        $oferta->foto2=$rutaNueva;
+    }
+    if($oferta->foto3!="default.jpg")
+    {
+        $rutaVieja="../fotosOfer/".$oferta->foto3;
+        $rutaNueva=$oferta->descripcion."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+        copy($rutaVieja, "../fotosOfer/".$rutaNueva);
+        unlink($rutaVieja);
+        $oferta->foto3=$rutaNueva;
     }
     $response->write(Oferta::Modificar($oferta));
     return $response;
@@ -262,9 +294,17 @@ $app->put('/oferta/{oferta}', function ($request, $response, $args) {
 // BORRA UNO
 $app->delete('/oferta/{oferta}', function ($request, $response, $args) {
     $oferta=json_decode($args["oferta"]);
-    if($oferta->foto!="default.jpg")
+    if($oferta->foto1!="default.jpg")
     {
-        unlink("../fotosOfer/".$oferta->foto);
+        unlink("../fotosOfer/".$oferta->foto1);
+    }
+    if($oferta->foto2!="default.jpg")
+    {
+        unlink("../fotosOfer/".$oferta->foto2);
+    }
+    if($oferta->foto3!="default.jpg")
+    {
+        unlink("../fotosOfer/".$oferta->foto3);
     }
     $response->write(Oferta::Borrar($oferta->idOferta));
     return $response;

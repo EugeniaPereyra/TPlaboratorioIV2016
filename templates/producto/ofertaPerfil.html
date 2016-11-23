@@ -1,16 +1,39 @@
+
 <div>
 	<br><br><center>
-		<form>
-				<td><img  class='fotoGrilla' ng-src="fotosOfer/{{producto.foto}}" style="width:200px; height:200px " /></td>
+		
+            <div >
 
-				<br><br>
+                <div style="width: 500px;">
+                    <div id="carousel-example-generic" class="carousel slide">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators hidden-xs">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        </ol>
 
-				<p>Descripcion:    {{producto.descripcion}}</p>
-				<p>Precio:    {{producto.precio | currency}}</p> 
-				<p ng-if="producto.sucursalDir">Sucursal:     {{producto.sucursalDir}}</p>
-				<p ng-if="producto.sucursalTel">Telefono:     {{producto.sucursalTel}}</p>
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" >
+                            <div class="item active">
+                                <img class="img-responsive img-full" ng-src="fotosProd/{{producto.foto1}}" alt="" style="width: 250px; height: 200px;">
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive img-full" ng-src="fotosProd/{{producto.foto2}}" alt="" style="width: 250px; height: 200px;">
+                            </div>
+                            <div class="item">
+                                <img class="img-responsive img-full" ng-src="fotosProd/{{producto.foto3}}" alt="" style="width: 250px; height: 200px;">
+                            </div>
+                        </div>
 
-				<br>
-		</form>
+                    </div>
+                    <h1>{{producto.descripcion}}</h1>
+                    <h2>{{producto.precio | currency}}</h2>
+                    <hr>
+                    <p ng-if="producto.sucursalDir">Sucursal: {{producto.sucursalDir}}</p>
+                    <p ng-if="producto.sucursalTel">Telefono: {{producto.sucursalTel}}</p>
+                    <br/><br/>
+                </div>
+            </div>
 	</center>
 </div>

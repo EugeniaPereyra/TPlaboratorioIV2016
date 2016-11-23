@@ -7,7 +7,9 @@ class Oferta
 	public $idOferta;
 	public $descripcion;
   	public $precio;
-  	public $foto;
+  	public $foto1;
+  	public $foto2;
+  	public $foto3;
   	public $idSucursal;
 
 //--------------------------------------------------------------------------------//
@@ -19,7 +21,9 @@ class Oferta
 			$this->idOferta = $obj->idOferta;
 			$this->descripcion = $obj->descripcion;
 			$this->precio = $precio;
-			$this->foto = $obj->foto;
+			$this->foto1 = $obj->foto1;
+			$this->foto2 = $obj->foto2;
+			$this->foto3 = $obj->foto3;
 			$this->idSucursal = $obj->idSucursal;
 		}
 	}
@@ -65,14 +69,18 @@ class Oferta
 				update oferta 
 				set descripcion=:descripcion,
 				precio=:precio,
-				foto=:foto,
+				foto1=:foto1,
+				foto2=:foto2,
+				foto3=:foto3,
 				idSucursal=:idSucursal
 				WHERE idOferta=:idOferta");
 
 			$consulta->bindValue(':idOferta',$producto->idOferta, PDO::PARAM_INT);
 			$consulta->bindValue(':precio', $producto->precio, PDO::PARAM_STR);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
-			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
+			$consulta->bindValue(':foto1', $producto->foto1, PDO::PARAM_STR);
+			$consulta->bindValue(':foto2', $producto->foto2, PDO::PARAM_STR);
+			$consulta->bindValue(':foto3', $producto->foto3, PDO::PARAM_STR);
 			$consulta->bindValue(':idSucursal', $producto->idSucursal, PDO::PARAM_INT);
 			return $consulta->execute();
 	}
@@ -81,11 +89,13 @@ class Oferta
 	public static function Insertar($producto)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into oferta (descripcion,precio,foto,idSucursal)values(:descripcion,:precio,:foto,:idSucursal)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into oferta (descripcion,precio,foto1,foto2,foto3,idSucursal)values(:descripcion,:precio,:foto1,:foto2,:foto3,:idSucursal)");
 
 			$consulta->bindValue(':precio', $producto->precio, PDO::PARAM_STR);
 			$consulta->bindValue(':descripcion',$producto->descripcion, PDO::PARAM_STR);
-			$consulta->bindValue(':foto', $producto->foto, PDO::PARAM_STR);
+			$consulta->bindValue(':foto1', $producto->foto1, PDO::PARAM_STR);
+			$consulta->bindValue(':foto2', $producto->foto2, PDO::PARAM_STR);
+			$consulta->bindValue(':foto3', $producto->foto3, PDO::PARAM_STR);
 			$consulta->bindValue(':idSucursal', $producto->idSucursal, PDO::PARAM_INT);
 		$consulta->execute();		
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
