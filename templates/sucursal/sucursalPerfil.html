@@ -12,9 +12,8 @@
 				
 
 				<div ng-repeat="e in ListadoEmpleados">
-					<div ng-if="e.idSucursal == sucursal.id">
+					<div ng-if="e.idSucursal == sucursal.idSucursal">
 						<p ng-if="e.perfil == 'encargado'">Encargado: {{e.nombre}}</p>
-						<p ng-if="e.perfil == 'empleado'">Empleado:{{e.nombre}}</p>
 					</div>
 				</div>
 
@@ -26,7 +25,17 @@
 
 				<br/><br/>
 
-				<ul class="nav nav-tabs">
+		</form>
+		<div style="width: 700px;height: 500px">
+		    <ng-map center="[{{mapa.latitud}}, {{mapa.longitud}}]" zoom-to-include-markers="auto">
+		        <custom-marker position="[{{UsuarioLogueado.latitud}},{{UsuarioLogueado.longitud}}]"><img width='50px' src="./marcadores/usuario.png" />
+		        </custom-marker>
+		        <custom-marker position="[{{datoMap.latitud}},{{datoMap.longitud}}]"><img width='50px' src="./marcadores/pizzeria.png" />
+		        </custom-marker>
+		     </ng-map>
+		</div>
+		<br/><br/>
+    				<ul class="nav nav-tabs">
 					<li  class="btn btn-success animated bounceInLeft" >
 			         	<a ui-sref="persona.sucGrilla" style="color:yellow">
 			         		 <span class="glyphicon glyphicon-arrow-left">&nbsp;</span>
@@ -34,6 +43,5 @@
 			         	</a>
 			        </li>
 			    </ul>
-		</form>
 	</center>
 </div>

@@ -175,6 +175,21 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
       $scope.persona.idSucursal="";
       $scope.persona.estado="activo";
       $scope.ListadoSucursales = [];
+
+      navigator.geolocation.getCurrentPosition(obtenerPosicion,error, {
+          enableHighAccuracy: true,
+          timeout: 30000,
+          maximumAge: 30000
+        });
+
+      function obtenerPosicion(posicion){
+            $scope.persona.latitud=posicion.coords.latitude;
+            $scope.persona.longitud=posicion.coords.longitude;
+      }
+
+      function error(error){
+        console.log(error);
+      }
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
@@ -296,6 +311,8 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stat
   $scope.persona.dni=parseInt(dato.dni);
   $scope.persona.idSucursal=parseInt(dato.idSucursal);
   $scope.persona.estado=dato.estado;
+  $scope.persona.latitud=dato.latitud;
+  $scope.persona.longitud=dato.longitud;
   $scope.ListadoSucursales = [];
 
   cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
@@ -377,6 +394,20 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
       $scope.persona.estado="activo";
       $scope.ListadoSucursales = [];
        
+      navigator.geolocation.getCurrentPosition(obtenerPosicion,error, {
+          enableHighAccuracy: true,
+          timeout: 30000,
+          maximumAge: 30000
+        });
+
+      function obtenerPosicion(posicion){
+            $scope.persona.latitud=posicion.coords.latitude;
+            $scope.persona.longitud=posicion.coords.longitude;
+      }
+
+      function error(error){
+        console.log(error);
+      }
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
       fSucursales.traerTodo()

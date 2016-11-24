@@ -10,6 +10,8 @@ class Sucursal
   	public $foto1;
   	public $foto2;
   	public $foto3;
+  	public $latitud;
+  	public $longitud;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
@@ -23,6 +25,8 @@ class Sucursal
 			$this->foto1 = $obj->foto1;
 			$this->foto2 = $obj->foto2;
 			$this->foto3 = $obj->foto3;
+			$this->latitud = $obj->latitud;
+			$this->longitud = $obj->longitud;
 		}
 	}
 
@@ -70,7 +74,9 @@ class Sucursal
 				telefono=:telefono,
 				foto1=:foto1,
 				foto2=:foto2,
-				foto3=:foto3
+				foto3=:foto3,
+				latitud=:latitud,
+				longitud=:longitud
 				WHERE idSucursal=:idSucursal");
 
 			$consulta->bindValue(':idSucursal',$sucursal->idSucursal, PDO::PARAM_INT);
@@ -79,6 +85,8 @@ class Sucursal
 			$consulta->bindValue(':foto1', $sucursal->foto1, PDO::PARAM_STR);
 			$consulta->bindValue(':foto2', $sucursal->foto2, PDO::PARAM_STR);
 			$consulta->bindValue(':foto3', $sucursal->foto3, PDO::PARAM_STR);
+			$consulta->bindValue(':latitud', $sucursal->latitud, PDO::PARAM_STR);
+			$consulta->bindValue(':longitud', $sucursal->longitud, PDO::PARAM_STR);
 			return $consulta->execute();
 	}
 
@@ -86,13 +94,15 @@ class Sucursal
 	public static function Insertar($sucursal)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into sucursales (direccion,telefono,foto1,foto2,foto3)values(:direccion,:telefono,:foto1,:foto2,:foto3)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into sucursales (direccion,telefono,foto1,foto2,foto3, latitud, longitud)values(:direccion,:telefono,:foto1,:foto2,:foto3, :latitud, :longitud)");
 
 			$consulta->bindValue(':direccion', $sucursal->direccion, PDO::PARAM_STR);
 			$consulta->bindValue(':telefono',$sucursal->telefono, PDO::PARAM_STR);
 			$consulta->bindValue(':foto1', $sucursal->foto1, PDO::PARAM_STR);
 			$consulta->bindValue(':foto2', $sucursal->foto2, PDO::PARAM_STR);
 			$consulta->bindValue(':foto3', $sucursal->foto3, PDO::PARAM_STR);
+			$consulta->bindValue(':latitud', $sucursal->latitud, PDO::PARAM_STR);
+			$consulta->bindValue(':longitud', $sucursal->longitud, PDO::PARAM_STR);
 		$consulta->execute();		
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	

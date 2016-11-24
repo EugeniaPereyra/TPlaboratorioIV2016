@@ -2,7 +2,8 @@ var miAplicacion = angular.module('angularABM',[
   'ui.router', 
   'angularFileUpload', 
   'satellizer',
-  'highcharts-ng'
+  'highcharts-ng',
+  'ngMap'
   ]);
 
 miAplicacion.config(function($stateProvider,$urlRouterProvider, $authProvider){
@@ -345,6 +346,7 @@ $authProvider.authHearder='data';
         .state(
           'persona.sucDetallar',{
           url:'/sucursalDetallar/:sucursal',
+          cache: false,
           views:
           {
             'contenido':

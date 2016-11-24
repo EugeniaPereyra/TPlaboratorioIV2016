@@ -19,7 +19,7 @@
 
 									<!--{{listadoDeDatos}} -->
 									
-									<tr ng-repeat="sucursal in ListadoSucursales" ng-if="UsuarioLogueado.perfil=='encargado' && UsuarioLogueado.idSucursal==sucursal.idSucursal || UsuarioLogueado.perfil=='administrador'">
+									<tr ng-repeat="sucursal in ListadoSucursales" ng-if="UsuarioLogueado.perfil=='encargado' && UsuarioLogueado.idSucursal==sucursal.idSucursal || UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'" >
 
 										<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto1}}" /></td>
 							

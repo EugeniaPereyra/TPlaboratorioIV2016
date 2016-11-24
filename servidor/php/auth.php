@@ -20,6 +20,8 @@ if($usuarioLogueado && $usuarioLogueado->estado!='bloqueado')
 	$token["dni"] = $usuarioLogueado->dni;
 	$token["idSucursal"] = $usuarioLogueado->idSucursal;
 	$token["estado"] = $usuarioLogueado->estado;
+	$token["latitud"] = $usuarioLogueado->latitud;
+	$token["longitud"] = $usuarioLogueado->longitud;
 	$token["exp"] = time()+5000;
 
 	$jwt = JWT::encode($token, $key);
