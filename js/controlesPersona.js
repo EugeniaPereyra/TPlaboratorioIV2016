@@ -228,7 +228,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
 
 });
 
-miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, fPersonas, uiGridConstants){
+miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, fPersonas, uiGridConstants, i18nService){
     if($auth.isAuthenticated()){
       console.log("Sesión iniciada!");
       $scope.UsuarioLogueado= $auth.getPayload();
@@ -243,22 +243,47 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
     };
 
     $scope.titulo = "Listado de Usuarios";
-    $scope.gridOptions = {};
+    $scope.gridOptions = {
+      exporterCsvFilename: 'usuarios.csv',
+      exporterCsvColumnSeparator: ';',
+      exporterPdfDefaultStyle: {fontSize: 9},
+      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+      exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+      exporterPdfFooter: function ( currentPage, pageCount ) {
+        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+      },
+      exporterPdfCustomFormatter: function ( docDefinition ) {
+        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+        return docDefinition;
+      },
+      exporterPdfOrientation: 'portrait',
+      exporterPdfPageSize: 'LETTER',
+      exporterPdfMaxGridWidth: 500,
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      }
+    };
+    $scope.gridOptions.enableGridMenu = true;
+    $scope.gridOptions.selectAll = true;
     $scope.gridOptions.paginationPageSizes = [10, 50, 75];
     $scope.gridOptions.paginationPageSize = 10;
     $scope.gridOptions.columnDefs = columnDefs();
     $scope.gridOptions.enableFiltering = true;
     $scope.gridOptions.rowHeight= 65;
     $scope.gridOptions.enableSorting= false;
+    i18nService.setCurrentLang('es');
 
    function columnDefs(){
             return [
-                { field: 'foto', name: 'foto', cellTemplate:"<center><img style='line-height:3em;' width='40px' ng-src='fotos/{{grid.getCellValue(row, col)}}' lazy-src></center>", enableHiding: false, enableFiltering: false},
+                { field: 'foto', name: 'foto', cellTemplate:"<center><img style='line-height:3em;' width='40px' ng-src='fotos/{{grid.getCellValue(row, col)}}' lazy-src></center>"},
                 { field: 'nombre',
                     filter:{
                         condition: uiGridConstants.filter.STARTS_WITH,
                         placeholder: 'Comienza con...'
-                    }, enableHiding: false, enableFiltering: false
+                    }
                 },
                 { field: 'perfil', name: 'perfil'
                   ,filter:{
@@ -269,7 +294,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
                       {value: 'empleado', label: 'Empleado'},
                       {value: 'cliente', label: 'Cliente'}
                     ]
-                  }, cellFilter: 'perfil',enableHiding: false
+                  }, cellFilter: 'perfil'
                 },
                 { field: 'estado', name: 'estado'
                   ,filter:{
@@ -278,11 +303,11 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
                       {value: 'activo', label: 'Activo'},
                       {value: 'bloqueado', label: 'Bloqueado'}
                     ]
-                  }, cellFilter: 'estado',enableHiding: false
+                  }, cellFilter: 'estado'
                 },        
-                { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='line-height:3em; width:60px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>", enableHiding: false, enableFiltering: false},
-                { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='line-height:3em;width:60px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableHiding: false, enableFiltering: false},
-                { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='line-height:3em;width:60px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableHiding: false, enableFiltering:false}
+                { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='line-height:3em; width:60px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>"},
+                { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='line-height:3em;width:60px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>"},
+                { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='line-height:3em;width:60px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>"}
               ];
         };
 
@@ -323,19 +348,19 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
 });
 
 miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFoto, $auth, fPersonas, fSucursales){
-      if($auth.isAuthenticated()){
-          console.log("Sesión iniciada!");
-          $scope.UsuarioLogueado= $auth.getPayload();
-          console.info($scope.UsuarioLogueado);
-      }
-      else{
-          console.log("No hay sesión!");
-          $state.go('login');
-      }
+  if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+  }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+  }
 
-      $scope.isAuthenticated = function() {
-        return $auth.isAuthenticated();
-      };
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
 
   $scope.uploader = new FileUploader({url: 'servidor/upload.php'});
   $scope.uploader.queueLimit = 1;
