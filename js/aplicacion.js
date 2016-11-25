@@ -1,5 +1,8 @@
 var miAplicacion = angular.module('angularABM',[
   'ui.router', 
+  'ui.grid',
+  'ui.grid.pagination',
+  'ui.grid.selection',
   'angularFileUpload', 
   'satellizer',
   'highcharts-ng',

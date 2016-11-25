@@ -3,7 +3,7 @@
 miAplicacion.service('ServicioPersonas', function ($http) {
 
     this.traerTodo = function () {
-      return $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios').then(function(respuesta) {       
+      return $http.get('http://localhost:8080/TPlaboratorioIV2016/ws/usuarios').then(function(respuesta) {      
          return respuesta.data.listado;    
       });
     }

@@ -4,7 +4,7 @@
             <div >
 
                 <div style="width: 500px;">
-                    <div id="carousel-example-generic" class="carousel slide">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="3000">
                         <!-- Indicators -->
                         <ol class="carousel-indicators hidden-xs">
                             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -36,3 +36,9 @@
             </div>
 	</center>
 </div>
+
+<script>
+    $('.carousel').carousel({
+        interval: 3000
+    })
+</script>

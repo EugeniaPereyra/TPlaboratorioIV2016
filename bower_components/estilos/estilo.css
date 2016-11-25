@@ -11,6 +11,22 @@ span{
   color:black;
 }
 
+.ui-grid-header-cell {
+    text-align: center;
+    white-space: normal;
+    line-height:3em;
+}
+
+.ui-grid-cell-contents {
+  text-align: center;
+  white-space: normal;
+   line-height:3em;
+}
+
+.ui-grid-column-menu-button{
+  display: none;
+}
+
 
 
 /*
@@ -66,7 +82,6 @@ li.btn {
 * {
   margin:0;
   padding:0;
-  border-radius: 10px;
 }
 
 .table-hover>tbody>tr:hover {

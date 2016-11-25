@@ -47,8 +47,8 @@ $app = new Slim\App();
 
 // TRAE TODOS
 $app->get('/usuarios[/]', function ($request, $response, $args) {
-    $respuesta['listado']=Usuario::TraerTodosLosUsuarios();
-    $response->write(json_encode($respuesta));
+    $respuesta["listado"]=Usuario::TraerTodosLosUsuarios();
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -56,7 +56,7 @@ $app->get('/usuarios[/]', function ($request, $response, $args) {
 // TRAE UNO
 $app->get('/usuario/{id}', function ($request, $response, $args) {
     $respuesta=Usuario::TraerUnUsuarioPorId($args["id"]);
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -72,7 +72,7 @@ $app->post('/usuario/{usuario}', function ($request, $response, $args) {
         unlink($rutaVieja);
         $persona->foto=$rutaNueva;
     }
-    $response->write(Usuario::Agregar($persona));
+    $response->getBody()->write(Usuario::Agregar($persona));
     return $response;
 });
 
@@ -87,7 +87,7 @@ $app->put('/usuario/{usuario}', function ($request, $response, $args) {
         unlink($rutaVieja);
         $persona->foto=$rutaNueva;
     }
-    $response->write(Usuario::Modificar($persona));
+    $response->getBody()->write(Usuario::Modificar($persona));
     return $response;
 });
 
@@ -98,7 +98,7 @@ $app->delete('/usuario/{usuario}', function ($request, $response, $args) {
     {
         unlink("../fotos/".$persona->foto);
     }
-    $response->write(Usuario::Eliminar($persona->idPersona));
+    $response->getBody()->write(Usuario::Eliminar($persona->idPersona));
     return $response;
 });
 
@@ -112,7 +112,7 @@ $app->delete('/usuario/{usuario}', function ($request, $response, $args) {
 // TRAE TODOS
 $app->get('/productos[/]', function ($request, $response, $args) {
     $respuesta['listado']=Producto::TraerTodosLosProductos();
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -120,7 +120,7 @@ $app->get('/productos[/]', function ($request, $response, $args) {
 // TRAE UNO
 $app->get('/producto/{id}', function ($request, $response, $args) {
     $respuesta=Producto::TraerUnProducto($args["id"]);
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -152,7 +152,7 @@ $app->post('/producto/{producto}', function ($request, $response, $args){
         unlink($rutaVieja);
         $producto->foto3=$rutaNueva;
     }
-    $response->write(Producto::Insertar($producto));
+    $response->getBody()->write(Producto::Insertar($producto));
     return $response;
 });
 
@@ -183,7 +183,7 @@ $app->put('/producto/{producto}', function ($request, $response, $args) {
         unlink($rutaVieja);
         $producto->foto3=$rutaNueva;
     }
-    $response->write(Producto::Modificar($producto));
+    $response->getBody()->write(Producto::Modificar($producto));
     return $response;
 });
 
@@ -202,7 +202,7 @@ $app->delete('/producto/{producto}', function ($request, $response, $args) {
     {
         unlink("../fotosProd/".$producto->foto3);
     }
-    $response->write(Producto::Borrar($producto->idProducto));
+    $response->getBody()->write(Producto::Borrar($producto->idProducto));
     return $response;
 });
 
@@ -216,7 +216,7 @@ $app->delete('/producto/{producto}', function ($request, $response, $args) {
 // TRAE TODOS
 $app->get('/ofertas[/]', function ($request, $response, $args) {
     $respuesta['listado']=Oferta::TraerTodosLasOfertas();
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -224,7 +224,7 @@ $app->get('/ofertas[/]', function ($request, $response, $args) {
 // TRAE UNO
 $app->get('/oferta/{id}', function ($request, $response, $args) {
     $respuesta=Oferta::TraerUnaOferta($args["id"]);
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -256,7 +256,7 @@ $app->post('/oferta/{oferta}', function ($request, $response, $args){
         unlink($rutaVieja);
         $oferta->foto3=$rutaNueva;
     }
-    $response->write(Oferta::Insertar($oferta));
+    $response->getBody()->write(Oferta::Insertar($oferta));
     return $response;
 });
 
@@ -287,7 +287,7 @@ $app->put('/oferta/{oferta}', function ($request, $response, $args) {
         unlink($rutaVieja);
         $oferta->foto3=$rutaNueva;
     }
-    $response->write(Oferta::Modificar($oferta));
+    $response->getBody()->write(Oferta::Modificar($oferta));
     return $response;
 });
 
@@ -306,7 +306,7 @@ $app->delete('/oferta/{oferta}', function ($request, $response, $args) {
     {
         unlink("../fotosOfer/".$oferta->foto3);
     }
-    $response->write(Oferta::Borrar($oferta->idOferta));
+    $response->getBody()->write(Oferta::Borrar($oferta->idOferta));
     return $response;
 });
 
@@ -320,7 +320,7 @@ $app->delete('/oferta/{oferta}', function ($request, $response, $args) {
 // TRAE TODOS
 $app->get('/pedidos[/]', function ($request, $response, $args) {
     $respuesta['listado']=Pedido::TraerTodosLosPedidos();
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -328,7 +328,7 @@ $app->get('/pedidos[/]', function ($request, $response, $args) {
 // TRAE UNO
 $app->get('/pedido/{id}', function ($request, $response, $args) {
     $respuesta=Pedido::TraerUnPedido($args["id"]);
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -336,20 +336,20 @@ $app->get('/pedido/{id}', function ($request, $response, $args) {
 // ALTA
 $app->post('/pedido/{pedido}', function ($request, $response, $args){
     $pedido=json_decode($args["pedido"]);
-    $response->write(Pedido::Insertar($pedido));
+    $response->getBody()->write(Pedido::Insertar($pedido));
     return $response;
 });
 
 // MODIFICA UNO
 $app->put('/pedido/{pedido}', function ($request, $response, $args) {
     $pedido=json_decode($args["pedido"]);
-    $response->write(Pedido::Modificar($pedido));
+    $response->getBody()->write(Pedido::Modificar($pedido));
     return $response;
 });
 
 // BORRA UNO
 $app->delete('/pedido/{id}', function ($request, $response, $args) {
-    $response->write(Pedido::Borrar($args["id"]));
+    $response->getBody()->write(Pedido::Borrar($args["id"]));
     return $response;
 });
 
@@ -363,7 +363,7 @@ $app->delete('/pedido/{id}', function ($request, $response, $args) {
 // TRAE TODOS
 $app->get('/sucursales[/]', function ($request, $response, $args) {
     $respuesta['listado']=Sucursal::TraerTodasLasSucursales();
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -371,7 +371,7 @@ $app->get('/sucursales[/]', function ($request, $response, $args) {
 // TRAE UNO
 $app->get('/sucursal/{id}', function ($request, $response, $args) {
     $respuesta=Sucursal::TraerUnaSucursal($args["id"]);
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -403,7 +403,7 @@ $app->post('/sucursal/{sucursal}', function ($request, $response, $args){
         unlink($rutaVieja);
         $sucursal->foto3=$rutaNueva;
     }
-    $response->write(Sucursal::Insertar($sucursal));
+    $response->getBody()->write(Sucursal::Insertar($sucursal));
     return $response;
 });
 
@@ -434,7 +434,7 @@ $app->put('/sucursal/{sucursal}', function ($request, $response, $args) {
         unlink($rutaVieja);
         $sucursal->foto3=$rutaNueva;
     }
-    $response->write(Sucursal::Modificar($sucursal));
+    $response->getBody()->write(Sucursal::Modificar($sucursal));
     return $response;
 });
 
@@ -453,7 +453,7 @@ $app->delete('/sucursal/{sucursal}', function ($request, $response, $args){
         {
             unlink("../fotosSuc/".$sucursal->foto3);
         }
-        $response->write(Sucursal::Borrar($sucursal->idSucursal));
+        $response->getBody()->write(Sucursal::Borrar($sucursal->idSucursal));
         return $response;
 });
 
@@ -467,7 +467,7 @@ $app->delete('/sucursal/{sucursal}', function ($request, $response, $args){
 // TRAE TODOS
 $app->get('/encuestas[/]', function ($request, $response, $args) {
     $respuesta['listado']=Encuesta::TraerTodasLasEncuestas();
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -475,7 +475,7 @@ $app->get('/encuestas[/]', function ($request, $response, $args) {
 // TRAE UNO
 $app->get('/encuesta/{id}', function ($request, $response, $args) {
     $respuesta=Encuesta::TraerUnaEncuesta($args["id"]);
-    $response->write(json_encode($respuesta));
+    $response->getBody()->write(json_encode($respuesta));
     return $response;
 });
 
@@ -483,14 +483,14 @@ $app->get('/encuesta/{id}', function ($request, $response, $args) {
 // ALTA
 $app->post('/encuesta/{encuesta}', function ($request, $response, $args){
     $encuesta=json_decode($args["encuesta"]);
-    $response->write(Encuesta::Insertar($encuesta));
+    $response->getBody()->write(Encuesta::Insertar($encuesta));
     return $response;
 });
 
 // BORRA UNO
 $app->delete('/encuesta/{encuesta}', function ($request, $response, $args){
         $encuesta=json_decode($args["encuesta"]);
-        $response->write(Encuesta::Borrar($encuesta->idEncuesta));
+        $response->getBody()->write(Encuesta::Borrar($encuesta->idEncuesta));
         return $response;
 });
 
