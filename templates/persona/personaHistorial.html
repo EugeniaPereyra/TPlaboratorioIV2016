@@ -1,40 +1,16 @@
-
-
-		<div class="CajaInicio animated bounceInRight">
-							<h1>Historial de Pedidos</h1>
-							<!-- id="listaPersonas" -->
-								
-								<table class='table table-hover table-responsive' id="listaPersonas">
-									<thead>
-										<tr>
-											<th>  FECHA  </th>
-											<th>  PEDIDO   </th>
-											<th>  CANTIDAD  </th>	
-											<th>  ESTADO    </th>
-											<th>  TOTAL     </th>
-											<th>  SUCURSAL  </th>
-											<th>  ENCUESTA  </th>
-										</tr> 
-									</thead>
-
-									<!--{{listadoDeDatos}} -->
-									
-									<tr ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idPersona==UsuarioLogueado.id">
-
-										<td>{{pedido.fecha | date:'dd/MM/yyyy'}}</td>
-										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
-										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
-										<td><center>{{pedido.cantidad}}</center></td>
-										<td>{{pedido.estado}}</td>
-										<td>{{pedido.total | currency}}</td>
-										<td>{{pedido.sucursalDireccion}}</td>
-										<td ng-if="pedido.encuesta=='no'&& pedido.estado=='Finalizado'"><button class='btn btn-warning' name='Responder'  ng-click="Responder(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Responder</button></td>
-										<td ng-if="pedido.encuesta=='si'"><center><span class='glyphicon glyphicon-ok' style="color:limegreen">&nbsp;</span></center></td>
-															
-									</tr>
-									
-								</table>
-
-
-		</div>
+<br/>
+<div class="container" style="background-color: white;">
+	<br/>
+	  <h3 style="color:darkred">{{titulo}}</h3>
+	  <br/>
+	  <div ui-grid="gridOptions"
+		    ui-grid-pagination
+		    ui-grid-resize-columns
+		    ui-grid-selection
+		    ui-grid-exporter
+	  	>
+	  </div>
+	  <br/>
+</div>
+<br/>
 

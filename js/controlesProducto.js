@@ -62,7 +62,7 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $st
 
 });
 
-miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, fProductos){
+miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, fProductos, uiGridConstants, i18nService){
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();
@@ -77,11 +77,90 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
     return $auth.isAuthenticated();
   };
 
+  $scope.titulo = "Listado de Productos";
+  $scope.gridOptions = {
+      exporterCsvFilename: 'productos.csv',
+      exporterCsvColumnSeparator: ';',
+      exporterPdfDefaultStyle: {fontSize: 9},
+      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+      exporterPdfHeader: { text: "Listado de Productos", style: 'headerStyle' },
+      exporterPdfFooter: function ( currentPage, pageCount ) {
+        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+      },
+      exporterPdfCustomFormatter: function ( docDefinition ) {
+        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+        return docDefinition;
+      },
+      exporterPdfOrientation: 'portrait',
+      exporterPdfPageSize: 'LETTER',
+      exporterPdfMaxGridWidth: 500,
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      }
+    };
+  $scope.gridOptions.enableGridMenu = true;
+  $scope.gridOptions.selectAll = true;
+  $scope.gridOptions.paginationPageSizes = [10, 50, 75];
+  $scope.gridOptions.paginationPageSize = 10;
+  $scope.gridOptions.columnDefs = columnDefs();
+  $scope.gridOptions.enableFiltering = true;
+  $scope.gridOptions.rowHeight= 70;
+  $scope.gridOptions.enableSorting= false;
+  i18nService.setCurrentLang('es');
+  var productos = [];
+  var puente = [];
+
+  function columnDefs(){
+      if($scope.UsuarioLogueado.perfil=='cliente')
+      {
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosProd/{{grid.getCellValue(row, col)}}' lazy-src></center>", enableFiltering: false},
+            { field: 'descripcion', name: 'descripcion', enableFiltering: false, width:200, resizable: false},     
+            { field: 'precio', name: 'precio', cellTemplate:'<center><p style="margin-top: 20px">{{row.entity.precio | currency}}</p/></center/>', enableFiltering: false},  
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+      else{
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosProd/{{grid.getCellValue(row, col)}}' lazy-src /></center>", enableFiltering: false},
+            { field: 'descripcion', name: 'descripcion', enableFiltering: false, width:200, resizable: false},    
+            { field: 'precio', name: 'precio', cellTemplate:"<center><p style='margin-top: 20px'>{{row.entity.precio | currency}}</p/></center>", enableFiltering: false},  
+            { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>", enableFiltering: false},
+            { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableFiltering: false},
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+    };
+
     fProductos.traerTodo()
-    .then(function(respuesta) {       
-         $scope.ListadoProductos = respuesta;
+    .then(function(respuesta) { 
+        if($scope.UsuarioLogueado.perfil=='cliente')
+        {
+          $scope.gridOptions.data = respuesta;
+        }
+        else
+        {
+          productos = respuesta;      
+          puente = productos.map(function(dato){
+            if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+            {
+              return dato;
+            }
+         })
+          productos=[];
+          for(var i=0;i<puente.length;i++)
+          {
+            if(puente[i]!=undefined)
+            {
+              productos.push(puente[i]);
+            }
+          }
+        $scope.gridOptions.data=productos;
+      }
     },function errorCallback(response) {
-         $scope.ListadoProductos = [];
         console.log(response);     
     });
 
@@ -90,13 +169,34 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
     fProductos.Borrar(dato)
          .then(function(respuesta) {              
                  console.log("Producto borrado");
-                  fProductos.traerTodo()
-                  .then(function(respuesta) {       
-                       $scope.ListadoProductos = respuesta;
-                  },function errorCallback(response) {
-                       $scope.ListadoProductos = [];
-                      console.log( response);     
-                  });
+                fProductos.traerTodo()
+                .then(function(respuesta) { 
+                    if($scope.UsuarioLogueado.perfil=='cliente')
+                    {
+                      $scope.gridOptions.data = respuesta;
+                    }
+                    else
+                    {
+                      productos = respuesta;      
+                      puente = productos.map(function(dato){
+                        if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+                        {
+                          return dato;
+                        }
+                     })
+                      productos=[];
+                      for(var i=0;i<puente.length;i++)
+                      {
+                        if(puente[i]!=undefined)
+                        {
+                          productos.push(puente[i]);
+                        }
+                      }
+                    $scope.gridOptions.data=productos;
+                  }
+                },function errorCallback(response) {
+                    console.log(response);     
+                });
           },function errorCallback(response) {        
               console.log(response);           
       });
@@ -115,7 +215,7 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
   }
 });
 
-miAplicacion.controller('controlProductoModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoProd, fProductos){
+miAplicacion.controller('controlProductoModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoProd, fProductos, fSucursales){
   $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
   $scope.uploader.queueLimit = 1;
   var dato=JSON.parse($stateParams.producto);
@@ -126,9 +226,18 @@ miAplicacion.controller('controlProductoModificar',function($scope, $state, $sta
   $scope.producto.foto1=dato.foto1;
   $scope.producto.foto2=dato.foto2;
   $scope.producto.foto3=dato.foto3;
+  $scope.producto.idSucursal=dato.idSucursal;
+  $scope.ListadoSucursales = [];
 
   cargadorDeFotoProd.CargarFoto($scope.producto.foto1,$scope.producto.foto2,$scope.producto.foto3,$scope.uploader);
 
+      fSucursales.traerTodo()
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta;
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log(response);     
+       });
       $scope.Guardar = function(){
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {

@@ -1,39 +1,16 @@
-
-
-		<div class="CajaInicio animated bounceInRight">
-							<h1>Listado de Productos</h1>
-							<!-- id="listaPersonas" -->
-								
-								<table class='table table-hover table-responsive' id="listaProductos">
-									<thead>
-										<tr>
-											<th>  FOTO   </th>
-											<th>  DESCRIPCION   </th>
-											<th>  PRECIO     </th>
-
-											<th ng-hide="UsuarioLogueado.perfil=='cliente'">  BORRAR     </th>
-											<th ng-hide="UsuarioLogueado.perfil=='cliente'">  MODIFICAR  </th>
-											<th>  DETALLE </th>
-										</tr> 
-									</thead>
-
-									<!--{{listadoDeDatos}} -->
-									
-									<tr ng-repeat="producto in ListadoProductos" ng-hide="UsuarioLogueado.perfil=='empleado' && producto.idSucursal!=UsuarioLogueado.idSucursal || UsuarioLogueado.perfil=='encargado' && producto.idSucursal!=UsuarioLogueado.idSucursal">
-
-										<td><img  class='fotoGrilla' ng-src="fotosProd/{{producto.foto1}}" /></td>
-							
-										<td>{{producto.descripcion}}</td>
-										<td>{{producto.precio | currency}}</td>
-
-										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(producto)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
-										
-										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(producto)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
-
-										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(producto)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
-															
-									</tr>
-									
-								</table>
-		</div>
+<br/>
+<div class="container" style="background-color: white;">
+	<br/>
+	  <h3 style="color:darkred">{{titulo}}</h3>
+	  <br/>
+	  <div ui-grid="gridOptions"
+		    ui-grid-pagination
+		    ui-grid-resize-columns
+		    ui-grid-selection
+		    ui-grid-exporter
+	  	>
+	  </div>
+	  <br/>
+</div>
+<br/>
 

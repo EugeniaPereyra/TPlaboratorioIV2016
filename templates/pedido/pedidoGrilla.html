@@ -1,66 +1,15 @@
-
-
-		<div class="CajaInicio animated bounceInRight">
-							<h1>Listado de Pedidos</h1>
-							<!-- id="listaPersonas" -->
-								
-								<table class='table table-hover table-responsive' >
-									<thead>
-										<tr>
-											<th>  FECHA </th>
-											<th>  PRODUCTO   </th>
-											<th>  CANTIDAD     </th>
-											<th>  TOTAL     </th>
-											<th>  ESTADO  </th>
-											<th>  CLIENTE     </th>
-
-											<th>  BORRAR     </th>
-											<th>  MODIFICAR  </th>
-											<th>  DETALLE </th>
-										</tr> 
-									</thead>
-
-									<!--{{listadoDeDatos}} -->
-									<div>
-										<tr ng-show="sucursal.mostrarTodo" ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idSucursal==sucursal.idSucursal">
-										
-										<td>{{pedido.fecha | date:'dd/MM/yyyy'}}</td>
-										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
-										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
-										<td>{{pedido.cantidad}}</td>
-										<td>{{pedido.total | currency}}</td>
-										<td>{{pedido.estado}}</td>
-										<td>{{pedido.clienteNombre}}</td>
-
-										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(pedido)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
-										
-										<td><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
-
-										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(pedido)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
-															
-										</tr>
-									</div>
-
-									<div>
-										<tr ng-show="sucursal.mostrarPart" ng-repeat="pedido in ListadoPedidos" ng-if="pedido.idSucursal==sucursal.idSucursal">
-												
-									    <td>{{pedido.fecha | date:'dd/MM/yyyy'}}</td>					
-										<td ng-if="pedido.productoDescripcion">{{pedido.productoDescripcion}}</td>
-										<td ng-if="pedido.ofertaDescripcion">{{pedido.ofertaDescripcion}}</td>
-										<td>{{pedido.cantidad}}</td>
-										<td>{{pedido.total | currency}}</td>
-										<td>{{pedido.estado}}</td>
-										<td>{{pedido.clienteNombre}}</td>
-
-										<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(pedido)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
-										
-										<td><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(pedido)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
-
-										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(pedido)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
-															
-									</tr>
-									</div>
-									
-								</table>
-		</div>
-
+<br/>
+<div class="container" style="background-color: white;">
+	<br/>
+	  <h3 style="color:darkred">{{titulo}}</h3>
+	  <br/>
+	  <div ui-grid="gridOptions"
+		    ui-grid-pagination
+		    ui-grid-resize-columns
+		    ui-grid-selection
+		    ui-grid-exporter
+	  	>
+	  </div>
+	  <br/>
+</div>
+<br/>

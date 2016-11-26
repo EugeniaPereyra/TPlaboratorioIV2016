@@ -1,39 +1,15 @@
-
-
-		<div class="CajaInicio animated bounceInRight">
-							<h1>Listado de Sucursales</h1>
-							<!-- id="listaPersonas" -->
-								
-								<table class='table table-hover table-responsive' id="listadoSucursales">
-									<thead>
-										<tr>
-											<th>  FOTO  </th>
-											<th>  DIRECCION   </th>
-											<th>  TELEFONO     </th>
-
-											<th ng-hide="UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'">  BORRAR     </th>
-											<th ng-hide="UsuarioLogueado.perfil=='cliente'">  MODIFICAR  </th>
-											<th>  DETALLE </th>
-										</tr> 
-									</thead>
-
-									<!--{{listadoDeDatos}} -->
-									
-									<tr ng-repeat="sucursal in ListadoSucursales" ng-if="UsuarioLogueado.perfil=='encargado' && UsuarioLogueado.idSucursal==sucursal.idSucursal || UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'" >
-
-										<td><img  class='fotoGrilla' ng-src="fotosSuc/{{sucursal.foto1}}" /></td>
-							
-										<td>{{sucursal.direccion}}</td>
-										<td>{{sucursal.telefono}}</td>
-
-										<td ng-hide="UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(sucursal)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
-										
-										<td ng-hide="UsuarioLogueado.perfil=='cliente'"><button class='btn btn-warning' name='Modificar'  ng-click="Modificar(sucursal)" ><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
-
-										<td><button class='btn btn-info' name='Informar'  ng-click="Informar(sucursal)" ><span class='glyphicon glyphicon-list-alt'>&nbsp;</span>Info</button></td>
-															
-									</tr>
-									
-								</table>
-		</div>
-
+<br/>
+<div class="container" style="background-color: white;">
+	<br/>
+	  <h3 style="color:darkred">{{titulo}}</h3>
+	  <br/>
+	  <div ui-grid="gridOptions"
+		    ui-grid-pagination
+		    ui-grid-resize-columns
+		    ui-grid-selection
+		    ui-grid-exporter
+	  	>
+	  </div>
+	  <br/>
+</div>
+<br/>

@@ -69,7 +69,7 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $st
       };
 });
 
-miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, fSucursales){
+miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, fSucursales, uiGridConstants, i18nService){
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();
@@ -84,13 +84,77 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
     return $auth.isAuthenticated();
   };
 
-  fSucursales.traerTodo()
-  .then(function(respuesta) {       
-         $scope.ListadoSucursales = respuesta;
+  $scope.titulo = "Listado de Sucursales";
+  $scope.gridOptions = {};
+  $scope.gridOptions.paginationPageSizes = [10, 50, 75];
+  $scope.gridOptions.paginationPageSize = 10;
+  $scope.gridOptions.columnDefs = columnDefs();
+  $scope.gridOptions.enableFiltering = true;
+  $scope.gridOptions.rowHeight= 70;
+  $scope.gridOptions.enableSorting= false;
+  i18nService.setCurrentLang('es');
+  var productos = [];
+  var puente = [];
+
+  function columnDefs(){
+      if($scope.UsuarioLogueado.perfil=='cliente')
+      {
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosSuc/{{grid.getCellValue(row, col)}}' lazy-src></center>", enableFiltering: false},
+            { field: 'direccion', name: 'direccion', enableFiltering: false, width:200, resizable: false},     
+            { field: 'telefono', name: 'telefono', enableFiltering: false},  
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+      if($scope.UsuarioLogueado.perfil=='administrador'){
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosSuc/{{grid.getCellValue(row, col)}}' lazy-src /></center>", enableFiltering: false},
+            { field: 'direccion', name: 'direccion', enableFiltering: false, width:200, resizable: false},    
+            { field: 'telefono', name: 'telefono', enableFiltering: false},  
+            { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>", enableFiltering: false},
+            { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableFiltering: false},
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+      if($scope.UsuarioLogueado.perfil=='encargado'){
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosSuc/{{grid.getCellValue(row, col)}}' lazy-src /></center>", enableFiltering: false},
+            { field: 'direccion', name: 'direccion', enableFiltering: false, width:200, resizable: false},    
+            { field: 'telefono', name: 'telefono', enableFiltering: false},
+            { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableFiltering: false},
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+    };
+
+    fSucursales.traerTodo()
+    .then(function(respuesta) { 
+          if($scope.UsuarioLogueado.perfil=='cliente' || $scope.UsuarioLogueado.perfil=='administrador' )
+          {
+            $scope.gridOptions.data=respuesta;
+          }
+          else
+          {
+            productos = respuesta;      
+            puente = productos.map(function(dato){
+              if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+              {
+                return dato;
+              }
+           })
+            productos=[];
+            for(var i=0;i<puente.length;i++)
+            {
+              if(puente[i]!=undefined)
+              {
+                productos.push(puente[i]);
+              }
+            }
+          $scope.gridOptions.data=productos;
+        }
     },function errorCallback(response) {
-         $scope.ListadoSucursales = [];
         console.log(response);     
-   });
+    });
 
   $scope.Borrar=function(sucursal){
     var dato=JSON.stringify(sucursal);
@@ -98,25 +162,44 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
     .then(function(respuesta){
       console.log("Sucursal borrada");
         fSucursales.traerTodo()
-        .then(function(respuesta) {       
-               $scope.ListadoSucursales = respuesta;
-          },function errorCallback(response) {
-               $scope.ListadoSucursales = [];
-              console.log(response);     
-         });
+        .then(function(respuesta) { 
+              if($scope.UsuarioLogueado.perfil=='cliente' || $scope.UsuarioLogueado.perfil=='administrador' )
+              {
+                $scope.gridOptions.data=respuesta;
+              }
+              else
+              {
+                productos = respuesta;      
+                puente = productos.map(function(dato){
+                  if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+                  {
+                    return dato;
+                  }
+               })
+                productos=[];
+                for(var i=0;i<puente.length;i++)
+                {
+                  if(puente[i]!=undefined)
+                  {
+                    productos.push(puente[i]);
+                  }
+                }
+              $scope.gridOptions.data=productos;
+            }
+        },function errorCallback(response) {
+            console.log(response);     
+        });
     },function errorCallback(response) {        
           console.log(response);           
     });
   }
 
   $scope.Modificar = function(sucursal){
-    console.log( JSON.stringify(sucursal));
     var dato=JSON.stringify(sucursal);
     $state.go('persona.sucModificar', {sucursal:dato});
   }
 
   $scope.Informar = function(sucursal){
-    console.log( JSON.stringify(sucursal));
     var dato=JSON.stringify(sucursal);
     $state.go('persona.sucDetallar', {sucursal:dato});
   }

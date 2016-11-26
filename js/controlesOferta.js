@@ -62,7 +62,7 @@ miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $stat
 
 });
 
-miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $stateParams, fOfertas){
+miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $stateParams, fOfertas, uiGridConstants, i18nService){
   if($auth.isAuthenticated()){
     console.log("Sesión iniciada!");
     $scope.UsuarioLogueado= $auth.getPayload();
@@ -77,24 +77,119 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $s
     return $auth.isAuthenticated();
   };
 
-  $scope.verOfertas=false;
-  $scope.verProductos=true;
-
   if($stateParams.sucursal != "")
   {
-    var dato = JSON.parse($stateParams.sucursal);
-    $scope.idSucursal= dato.idSucursal;
-    $scope.verOfertas=true;
-    $scope.verProductos=false;
-  }
+  $scope.sucursal={};
+  var dato = JSON.parse($stateParams.sucursal);
+   $scope.sucursal.idSucursal= dato.idSucursal;
+ }
 
-  fOfertas.traerTodo()
-  .then(function(respuesta) {       
-         $scope.ListadoProductos = respuesta;
+  $scope.titulo = "Listado de Ofertas";
+  $scope.gridOptions = {
+      exporterCsvFilename: 'ofertas.csv',
+      exporterCsvColumnSeparator: ';',
+      exporterPdfDefaultStyle: {fontSize: 9},
+      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+      exporterPdfHeader: { text: "Listado de Ofertas", style: 'headerStyle' },
+      exporterPdfFooter: function ( currentPage, pageCount ) {
+        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+      },
+      exporterPdfCustomFormatter: function ( docDefinition ) {
+        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+        return docDefinition;
+      },
+      exporterPdfOrientation: 'portrait',
+      exporterPdfPageSize: 'LETTER',
+      exporterPdfMaxGridWidth: 500,
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      }
+    };
+  $scope.gridOptions.enableGridMenu = true;
+  $scope.gridOptions.selectAll = true;
+  $scope.gridOptions.paginationPageSizes = [10, 50, 75];
+  $scope.gridOptions.paginationPageSize = 10;
+  $scope.gridOptions.columnDefs = columnDefs();
+  $scope.gridOptions.enableFiltering = true;
+  $scope.gridOptions.rowHeight= 70;
+  $scope.gridOptions.enableSorting= false;
+  i18nService.setCurrentLang('es');
+  var productos = [];
+  var puente = [];
+
+  function columnDefs(){
+      if($scope.UsuarioLogueado.perfil=='cliente')
+      {
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosOfer/{{grid.getCellValue(row, col)}}' lazy-src></center>", enableFiltering: false},
+            { field: 'descripcion', name: 'descripcion', enableFiltering: false, width:200, resizable: false},     
+            { field: 'precio', name: 'precio', cellTemplate:'<center><p style="margin-top: 20px">{{row.entity.precio | currency}}</p/></center/>', enableFiltering: false},  
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+      else{
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosOfer/{{grid.getCellValue(row, col)}}' lazy-src /></center>", enableFiltering: false},
+            { field: 'descripcion', name: 'descripcion', enableFiltering: false, width:200, resizable: false},    
+            { field: 'precio', name: 'precio', cellTemplate:"<center><p style='margin-top: 20px'>{{row.entity.precio | currency}}</p/></center>", enableFiltering: false},  
+            { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>", enableFiltering: false},
+            { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableFiltering: false},
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+    };
+
+    fOfertas.traerTodo()
+    .then(function(respuesta) { 
+          if($scope.UsuarioLogueado.perfil=='cliente')
+          {
+            $scope.gridOptions.data=respuesta;
+          }
+          if($scope.UsuarioLogueado.perfil=='encargado' || $scope.UsuarioLogueado.perfil=='empleado')
+          {
+            productos = respuesta;      
+            puente = productos.map(function(dato){
+              if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+              {
+                return dato;
+              }
+           })
+            productos=[];
+            for(var i=0;i<puente.length;i++)
+            {
+              if(puente[i]!=undefined)
+              {
+                productos.push(puente[i]);
+              }
+            }
+            $scope.gridOptions.data=productos;
+          }
+          if($scope.sucursal.idSucursal)
+          {
+            productos = respuesta;      
+            puente = productos.map(function(dato){
+              if(dato.idSucursal==$scope.sucursal.idSucursal)
+              {
+                return dato;
+              }
+           })
+            productos=[];
+            for(var i=0;i<puente.length;i++)
+            {
+              if(puente[i]!=undefined)
+              {
+                productos.push(puente[i]);
+              }
+            }
+            $scope.gridOptions.data=productos;      
+          }
+
     },function errorCallback(response) {
-         $scope.ListadoProductos = [];
         console.log(response);     
-   });
+    });
 
   $scope.Borrar=function(oferta){
     var dato=JSON.stringify(oferta);
@@ -102,12 +197,53 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $s
     .then(function(respuesta) {              
         console.log("oferta borrada correctamente");
         fOfertas.traerTodo()
-        .then(function(respuesta) {       
-               $scope.ListadoProductos = respuesta;
-          },function errorCallback(response) {
-               $scope.ListadoProductos = [];
-              console.log(response);     
-         });
+        .then(function(respuesta) { 
+              if($scope.UsuarioLogueado.perfil=='cliente')
+              {
+                $scope.gridOptions.data=respuesta;
+              }
+              if($scope.UsuarioLogueado.perfil=='encargado' || $scope.UsuarioLogueado.perfil=='empleado')
+              {
+                productos = respuesta;      
+                puente = productos.map(function(dato){
+                  if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+                  {
+                    return dato;
+                  }
+               })
+                productos=[];
+                for(var i=0;i<puente.length;i++)
+                {
+                  if(puente[i]!=undefined)
+                  {
+                    productos.push(puente[i]);
+                  }
+                }
+                $scope.gridOptions.data=productos;
+              }
+              if($scope.sucursal.idSucursal)
+              {
+                productos = respuesta;      
+                puente = productos.map(function(dato){
+                  if(dato.idSucursal==$scope.sucursal.idSucursal)
+                  {
+                    return dato;
+                  }
+               })
+                productos=[];
+                for(var i=0;i<puente.length;i++)
+                {
+                  if(puente[i]!=undefined)
+                  {
+                    productos.push(puente[i]);
+                  }
+                }
+                $scope.gridOptions.data=productos;      
+              }
+
+        },function errorCallback(response) {
+            console.log(response);     
+        });
       },function errorCallback(response) {        
               console.log(response);           
     });

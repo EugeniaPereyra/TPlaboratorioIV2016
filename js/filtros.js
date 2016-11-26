@@ -23,3 +23,16 @@ miAplicacion.filter('estado', function () {
       return estado[input];
     };
   });
+
+miAplicacion.filter('estadoPed', function () {
+    var estadoPed = {
+      procesando: 'En proceso',
+      cancelado: 'Cancelado',
+      finalizado: 'Finalizado'
+    }
+    return function (input) {
+      if (!input)
+        return '';
+      return estadoPed[input];
+    };
+  });

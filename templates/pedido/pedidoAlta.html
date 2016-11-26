@@ -31,42 +31,28 @@
 				</select>
 				<span style="color:red" ng-show="FormIngreso.oferta.$invalid">*</span>
 
-				</div>
-
-				<div ng-show="mostrarEstado">
-
-				<span>Sucursal:</span><br>
-				<input style="color:black" type="text" ng-model="pedido.sucursalDireccion"  /> 
-				<br><br>
-				<span>Producto:</span><br>
-				<input style="color:black" type="text" ng-model="pedido.productoDescripcion" ng-disabled="pedido.ofertaDescripcion" />
-				<br><br>
-				<span>Oferta:</span><br>
-				<input style="color:black" type="text" ng-model="pedido.ofertaDescripcion" ng-disabled="pedido.productoDescripcion"/>
-
-				</div>
-
 				<br><br>
 
 				<span>Cantidad:</span><br>
 				<input style="color:black" type="number" name="cantidad" ng-model="pedido.cantidad" placeholder="Ingrese la cantidad" required /> 
 				<span style="color:red" ng-show="FormIngreso.cantidad.$invalid">*</span>
 
-				<br><br>
+				<br/><br/>
 
 				<span>Nombre del cliente:</span><br>
 				<input style="color:black" type="text" name="nombre" ng-model="pedido.clienteNombre" placeholder="Ingrese el nombre del cliente" required /> 
 				<span style="color:red" ng-show="FormIngreso.nombre.$invalid">*</span>
 
-				<br><br>
+				<br>
+				</div>
 				
 				<div ng-show="mostrarEstado">
 					<span>Estado del pedido:</span><br>
 					<select name="estado" ng-model="pedido.estado" required>
 						<option value="">Seleccione el estado del pedido..</option>
-					  	<option value="En proceso">En proceso</option>
-					  	<option value="Cancelado">Cancelado</option>
-					  	<option value="Finalizado">Finalizado</option>
+					  	<option value="procesando">En proceso</option>
+					  	<option value="cancelado">Cancelado</option>
+					  	<option value="finalizado">Finalizado</option>
 					</select>
 					<span style="color:red" ng-show="FormIngreso.estado.$invalid">*</span>
 				</div>

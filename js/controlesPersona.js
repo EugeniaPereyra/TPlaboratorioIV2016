@@ -249,7 +249,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
       exporterPdfDefaultStyle: {fontSize: 9},
       exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
       exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+      exporterPdfHeader: { text: "Listado de Usuarios", style: 'headerStyle' },
       exporterPdfFooter: function ( currentPage, pageCount ) {
         return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
       },
@@ -272,13 +272,17 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
     $scope.gridOptions.paginationPageSize = 10;
     $scope.gridOptions.columnDefs = columnDefs();
     $scope.gridOptions.enableFiltering = true;
-    $scope.gridOptions.rowHeight= 65;
+    $scope.gridOptions.rowHeight= 70;
     $scope.gridOptions.enableSorting= false;
     i18nService.setCurrentLang('es');
+    var usuarios = [];
+    var puente = [];
 
    function columnDefs(){
-            return [
-                { field: 'foto', name: 'foto', cellTemplate:"<center><img style='line-height:3em;' width='40px' ng-src='fotos/{{grid.getCellValue(row, col)}}' lazy-src></center>"},
+    if($scope.UsuarioLogueado.perfil=='empleado')
+    {
+        return [
+                { field: 'foto', name: 'foto', cellTemplate:"<center><img style='line-height:3em;' width='70px' ng-src='fotos/{{grid.getCellValue(row, col)}}' lazy-src></center>", enableFiltering: false},
                 { field: 'nombre',
                     filter:{
                         condition: uiGridConstants.filter.STARTS_WITH,
@@ -304,16 +308,76 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
                       {value: 'bloqueado', label: 'Bloqueado'}
                     ]
                   }, cellFilter: 'estado'
-                },        
-                { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='line-height:3em; width:60px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>"},
-                { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='line-height:3em;width:60px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>"},
-                { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='line-height:3em;width:60px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>"}
+                },    
+                { field: 'email', name: 'email', enableFiltering: false},  
+                { field: 'dni', name: 'dni', enableFiltering: false},   
+                { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px;width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
               ];
-        };
+    }
+    else
+    {
+            return [
+                { field: 'foto', name: 'foto', cellTemplate:"<center><img style='line-height:3em;' width='70px' ng-src='fotos/{{grid.getCellValue(row, col)}}' lazy-src></center>", enableFiltering: false},
+                { field: 'nombre',
+                    filter:{
+                        condition: uiGridConstants.filter.STARTS_WITH,
+                        placeholder: 'Comienza con...'
+                    }
+                },
+                { field: 'perfil', name: 'perfil'
+                  ,filter:{
+                    type: uiGridConstants.filter.SELECT,
+                    selectOptions:[
+                      {value: 'administrador', label: 'Administrador'},
+                      {value: 'encargado', label: 'Encargado'},
+                      {value: 'empleado', label: 'Empleado'},
+                      {value: 'cliente', label: 'Cliente'}
+                    ]
+                  }, cellFilter: 'perfil'
+                },
+                { field: 'estado', name: 'estado'
+                  ,filter:{
+                    type: uiGridConstants.filter.SELECT,
+                    selectOptions:[
+                      {value: 'activo', label: 'Activo'},
+                      {value: 'bloqueado', label: 'Bloqueado'}
+                    ]
+                  }, cellFilter: 'estado'
+                },    
+                { field: 'email', name: 'email', enableFiltering: false},  
+                { field: 'dni', name: 'dni', enableFiltering: false},   
+                { field: 'Borrar', displayName: 'Borrar', cellTemplate:"<center><button class='btn btn-danger' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Borrar(row.entity)'><span class='glyphicon glyphicon-remove-circle'></button></center>", enableFiltering: false},
+                { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='height:60px;width:70px;margin-top:5px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableFiltering: false},
+                { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px;width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+              ];
+      }
+   };
 
     fPersonas.traerTodo()
     .then(function(respuesta){
-          $scope.gridOptions.data = respuesta;
+          if($scope.UsuarioLogueado.perfil=='empleado')
+          {
+            usuarios = respuesta;
+            puente = usuarios.map(function(dato){
+              if(dato.perfil=='cliente')
+              {
+                return dato;
+              }
+            });
+            usuarios = [];
+            for(var i=0;i<puente.length;i++)
+            {
+              if(puente[i]!=undefined)
+              {
+                usuarios.push(puente[i]);
+              }
+            }
+            $scope.gridOptions.data=usuarios;
+          }
+          else
+          {
+            $scope.gridOptions.data = respuesta;
+          }
     },function errorCallback(response) {
         console.log(response);     
     }); 
@@ -324,12 +388,34 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
     fPersonas.Borrar(dato)
          .then(function(respuesta) {              
                  console.log("Usuario borrado");
-                  fPersonas.traerTodo()
-                  .then(function(respuesta) {       
-                       $scope.gridOptions.data = respuesta;
-                  },function errorCallback(response) {
-                      console.log(response);     
-                  });
+                fPersonas.traerTodo()
+                    .then(function(respuesta){
+                          if($scope.UsuarioLogueado.perfil=='empleado')
+                          {
+                            usuarios = respuesta;
+                            puente = usuarios.map(function(dato){
+                              if(dato.perfil=='cliente')
+                              {
+                                return dato;
+                              }
+                            });
+                            usuarios = [];
+                            for(var i=0;i<puente.length;i++)
+                            {
+                              if(puente[i]!=undefined)
+                              {
+                                usuarios.push(puente[i]);
+                              }
+                            }
+                            $scope.gridOptions.data=usuarios;
+                          }
+                          else
+                          {
+                            $scope.gridOptions.data = respuesta;
+                          }
+                    },function errorCallback(response) {
+                        console.log(response);     
+                    }); 
           },function errorCallback(response) {        
               console.log(response);           
       });
@@ -510,7 +596,7 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
 
 });
 
-miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $state, $auth, fPedidos){
+miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams, $state, $auth, fPedidos, uiGridConstants, i18nService){
 
       if($auth.isAuthenticated()){
           console.log("Sesión iniciada!");
@@ -526,17 +612,64 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
         return $auth.isAuthenticated();
       };
 
+    $scope.titulo = "Historial de Pedidos";
+    $scope.gridOptions = {};
+    $scope.gridOptions.paginationPageSizes = [10, 50, 75];
+    $scope.gridOptions.paginationPageSize = 10;
+    $scope.gridOptions.columnDefs = columnDefs();
+    $scope.gridOptions.enableFiltering = true;
+    $scope.gridOptions.rowHeight= 70;
+    $scope.gridOptions.enableSorting= false;
+    i18nService.setCurrentLang('es');
+    var pedidos = [];
+    var puente = [];
+
+   function columnDefs(){
+            return [
+                { field: 'fecha', name: 'fecha', type: 'date', cellFilter: "date: 'dd-MM-yyyy'", enableFiltering: false},
+                { field: 'pedido', name:'pedido', cellTemplate:'<center><p style="margin-top: 25px" ng-if="row.entity.productoDescripcion">{{row.entity.productoDescripcion}}</p/><p style="line-height:4em;" ng-if="row.entity.ofertaDescripcion">{{row.entity.ofertaDescripcion}}</p/></center/>', enableFiltering: false ,  width: 110, resizable: false},
+                { field: 'cantidad', name: 'cantidad', enableFiltering: false},
+                { field: 'estado', name: 'estado'
+                  ,filter:{
+                    type: uiGridConstants.filter.SELECT,
+                    selectOptions:[
+                      {value: 'procesando', label: 'En proceso'},
+                      {value: 'cancelado', label: 'Cancelado'},
+                      {value: 'finalizado', label: 'Finalizado'}
+                    ]
+                  }, cellFilter: 'estadoPed'
+                },    
+                { field: 'total', name: 'total', cellTemplate:'<center><p style="margin-top: 25px">{{row.entity.total | currency}}</p/></center/>', enableFiltering: false},    
+                { field: 'sucursalDireccion', name: 'sucursal', enableFiltering: false,  width: 150, resizable: false},
+                { field: 'encuesta', displayName: 'encuesta', cellTemplate:'<center><button ng-if="row.entity.encuesta == 0" class="btn btn-danger" style="height:60px; width:70px;margin-top:5px" ng-click="grid.appScope.Responder(row.entity)"><span class="glyphicon glyphicon-edit"></span/></button/><span ng-if="row.entity.encuesta == 1" class="glyphicon glyphicon-ok" style="color:limegreen;line-height:3em;"></span/></center/>', enableFiltering: false}
+             ];
+        };
+
     fPedidos.traerTodo()
-    .then(function(respuesta) {       
-           $scope.ListadoPedidos = respuesta;
+    .then(function(respuesta) {  
+          pedidos = respuesta;
+          puente = pedidos.map(function(dato){
+            if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+            {
+              return dato;
+            }
+         })
+          pedidos=[];
+          for(var i=0;i<puente.length;i++)
+          {
+            if(puente[i]!=undefined)
+            {
+              pedidos.push(puente[i]);
+            }
+          }
+        $scope.gridOptions.data=pedidos;
       },function errorCallback(response) {
-           $scope.ListadoPedidos= [];
           console.log(response);     
      });
 
     $scope.Responder = function(pedido){
-      var dato=JSON.stringify(pedido);
-      $state.go('persona.encuesta', {pedido:dato});
+        var dato=JSON.stringify(pedido);
+        $state.go('persona.encuesta', {pedido:dato});
     }
 
 });
@@ -546,7 +679,7 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
   var dato=JSON.parse($stateParams.pedido);
   console.log(dato);
   $scope.encuesta = {};
-  $scope.encuesta.uno = "si";
+  $scope.encuesta.uno = "mucho";
   $scope.encuesta.dos = "mucho";
   $scope.encuesta.tres = "unico";
   $scope.encuesta.cuatro = "mucho";
@@ -555,7 +688,7 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
   $scope.encuesta.siete = "mucho";
   $scope.encuesta.ocho = "primera_compra";
   $scope.encuesta.nueve = "mucho";
-  $scope.encuesta.diez = "";
+  $scope.encuesta.diez = " ";
   $scope.encuesta.idProducto=dato.idProducto;
 
   fProductos.Detallar(dato.idProducto)
@@ -566,7 +699,7 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
    }); 
 
    $scope.Guardar = function(){
-        dato.encuesta="si";
+        dato.encuesta=1;
         var datoPed=JSON.stringify(dato);
         fPedidos.Modificar(datoPed)
         .then(function(respuesta) {             

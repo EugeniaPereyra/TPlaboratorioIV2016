@@ -13,14 +13,11 @@ span{
 
 .ui-grid-header-cell {
     text-align: center;
-    white-space: normal;
-    line-height:3em;
 }
 
 .ui-grid-cell-contents {
   text-align: center;
-  white-space: normal;
-   line-height:3em;
+   margin-top: 20px;
 }
 
 .ui-grid-column-menu-button{
