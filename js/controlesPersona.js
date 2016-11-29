@@ -130,8 +130,16 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
     $state.go('persona.sucAlta');
   }
 
+  $scope.IrAltaReserva=function(){
+    $state.go('persona.reservaAlta');
+  }
+
   $scope.IrGrillaSucursal=function(){
     $state.go('persona.sucGrilla');
+  }
+
+  $scope.IrGrillaReserva=function(){
+    $state.go('persona.reservaGrilla');
   }
 
   $scope.IrHistorial=function(){

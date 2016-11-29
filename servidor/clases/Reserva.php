@@ -8,6 +8,7 @@ class Reserva
 	public $idPedido;
 	public $fechaInicio;
   	public $fechaFin;
+  	public $idSucursal;
 
 //--------------------------------------------------------------------------------//
 //--CONSTRUCTOR
@@ -16,6 +17,7 @@ class Reserva
 		if($idReserva != NULL){
 			$obj = Reserva::TraerUnaResrva($idReserva);
 			$this->idReserva = $obj->idReserva;
+			$this->idSucursal = $obj->idSucursal;
 			$this->idPedido = $obj->idPedido;
 			$this->fechaInicio = $obj->fechaInicio;
 			$this->fechaFin = $obj->fechaFin;
@@ -64,11 +66,13 @@ class Reserva
 				update reservas 
 				set fechaInicio=:fechaInicio,
 				fechaFin=:fechaFin,
-				idPedido=:idPedido
+				idPedido=:idPedido,
+				idSucursal=:idSucursal
 				WHERE idReserva=:idReserva");
 
 			$consulta->bindValue(':idReserva',$reserva->idReserva, PDO::PARAM_INT);
 			$consulta->bindValue(':idPedido', $reserva->idPedido, PDO::PARAM_INT);
+			$consulta->bindValue(':idSucursal', $reserva->idSucursal, PDO::PARAM_INT);
 			$consulta->bindValue(':fechaInicio', $reserva->fechaInicio, PDO::PARAM_STR);
 			$consulta->bindValue(':fechaFin', $reserva->fechaFin, PDO::PARAM_STR);
 			return $consulta->execute();
@@ -78,10 +82,11 @@ class Reserva
 	public static function Insertar($reserva)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into reservas (idReserva,idPedido,fechaInicio,fechaFin) values(:idReserva,:idPedido,:fechaInicio,:fechaFin)");
+		$consulta =$objetoAccesoDato->RetornarConsulta("INSERT into reservas (idReserva,idPedido,fechaInicio,fechaFin,idSucursal) values(:idReserva,:idPedido,:fechaInicio,:fechaFin,:idSucursal)");
 
 			$consulta->bindValue(':idReserva', $reserva->idReserva, PDO::PARAM_INT);
 			$consulta->bindValue(':idPedido',$reserva->idPedido, PDO::PARAM_INT);
+			$consulta->bindValue(':idSucursal', $reserva->idSucursal, PDO::PARAM_INT);
 			$consulta->bindValue(':fechaInicio',$reserva->fechaInicio, PDO::PARAM_STR);
 			$consulta->bindValue(':fechaFin', $reserva->fechaFin, PDO::PARAM_STR);
 		$consulta->execute();		

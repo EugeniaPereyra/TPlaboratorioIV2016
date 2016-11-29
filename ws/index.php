@@ -534,10 +534,9 @@ $app->put('/reserva/{reserva}', function ($request, $response, $args) {
 });
 
 // BORRA UNO
-$app->delete('/reserva/{reserva}', function ($request, $response, $args){
-        $reserva=json_decode($args["reserva"]);
-        $response->getBody()->write(Reserva::Borrar($reserva->idReserva));
-        return $response;
+$app->delete('/reserva/{id}', function ($request, $response, $args) {
+    $response->getBody()->write(Reserva::Borrar($args["id"]));
+    return $response;
 });
 
 

@@ -420,6 +420,62 @@ $authProvider.authHearder='data';
           }
         })
 
+        // RESERVAS
+
+        .state(
+          'persona.reservaGrilla',{
+          url:'/reservaGrilla',
+          cache: false,
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/grilla.html',
+              controller:'controlReservaGrilla'
+            }
+          }
+        })
+
+        .state(
+          'persona.reservaAlta',{
+          url:'/reservaAlta',
+          cache: false,
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/reserva/reservaAlta.html',
+              controller:'controlReservaAlta'
+            }
+          }
+        })
+
+        .state(
+          'persona.resModificar',{
+          url:'/reservaModificar/:pedido',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/reserva/reservaAlta.html',
+              controller:'controlReservaModificar'
+            }
+          }
+        })
+
+        .state(
+          'persona.resDetallar',{
+          url:'/reservaDetallar/:pedido',
+          views:
+          {
+            'contenido':
+            {
+              templateUrl:'templates/reserva/reservaPerfil.html',
+              controller:'controlReservaDetallar'
+            }
+          }
+        })
+
 
   $urlRouterProvider.otherwise('/inicio');
 
