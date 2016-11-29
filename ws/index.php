@@ -13,6 +13,7 @@ require_once '../servidor/clases/Oferta.php';
 require_once '../servidor/clases/Pedido.php';
 require_once '../servidor/clases/Sucursal.php';
 require_once '../servidor/clases/Encuesta.php';
+require_once '../servidor/clases/Reserva.php';
 
 /**
  * Step 2: Instantiate a Slim application
@@ -491,6 +492,51 @@ $app->post('/encuesta/{encuesta}', function ($request, $response, $args){
 $app->delete('/encuesta/{encuesta}', function ($request, $response, $args){
         $encuesta=json_decode($args["encuesta"]);
         $response->getBody()->write(Encuesta::Borrar($encuesta->idEncuesta));
+        return $response;
+});
+
+
+
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+//---- RESERVAS ------
+
+// TRAE TODOS
+$app->get('/reservas[/]', function ($request, $response, $args) {
+    $respuesta['listado']=Reserva::TraerTodosLasReservas();
+    $response->getBody()->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// TRAE UNO
+$app->get('/reserva/{id}', function ($request, $response, $args) {
+    $respuesta=Reserva::TraerUnaResrva($args["id"]);
+    $response->getBody()->write(json_encode($respuesta));
+    return $response;
+});
+
+
+// ALTA
+$app->post('/reserva/{reserva}', function ($request, $response, $args){
+    $reserva=json_decode($args["reserva"]);
+    $response->getBody()->write(Reserva::Insertar($reserva));
+    return $response;
+});
+
+// MODIFICA UNO
+$app->put('/reserva/{reserva}', function ($request, $response, $args) {
+    $reserva=json_decode($args["reserva"]);
+    $response->getBody()->write(Reserva::Modificar($reserva));
+    return $response;
+});
+
+// BORRA UNO
+$app->delete('/reserva/{reserva}', function ($request, $response, $args){
+        $reserva=json_decode($args["reserva"]);
+        $response->getBody()->write(Reserva::Borrar($reserva->idReserva));
         return $response;
 });
 
