@@ -1,17 +1,19 @@
 // SUCURSALES
 
 
-miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $state, cargadorDeFotoSuc, fSucursales){
+miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $state, cargadorDeFotoSuc, fSucursales, $timeout){
 
       $scope.uploader = new FileUploader({url: 'servidor/uploadSuc.php'});
       $scope.uploader.queueLimit = 3;
 
       $scope.sucursal={};
-      $scope.sucursal.direccion= "Av. Cordoba 5432" ;
+      $scope.sucursal.direccion= "Av. Cordoba 5432 Caba" ;
       $scope.sucursal.telefono= "4832-3030" ;
       $scope.sucursal.foto1="default.jpg";
       $scope.sucursal.foto2="default.jpg";
       $scope.sucursal.foto3="default.jpg";
+      $scope.sucursal.latitud=0;
+      $scope.sucursal.longitud=0;
 
       cargadorDeFotoSuc.CargarFoto($scope.sucursal.foto1,$scope.sucursal.foto2,$scope.sucursal.foto3,$scope.uploader);
 
@@ -58,6 +60,7 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $st
       };
 
       $scope.uploader.onCompleteAll = function() {
+        $timeout(function(){
           var dato=JSON.stringify($scope.sucursal);
           fSucursales.Agregar(dato)
           .then(function(respuesta) {             
@@ -66,6 +69,7 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $st
           },function errorCallback(response) {        
               console.log(response);           
           });
+        },1000);
       };
 });
 
@@ -122,6 +126,14 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
             { field: 'direccion', name: 'direccion', enableFiltering: false, width:200, resizable: false},    
             { field: 'telefono', name: 'telefono', enableFiltering: false},
             { field: 'Modificar', displayName: 'Modificar', cellTemplate:"<center><button class='btn btn-success' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Modificar(row.entity)'><span class='glyphicon glyphicon-edit'></button></center>", enableFiltering: false},
+            { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
+          ];
+      }
+      if($scope.UsuarioLogueado.perfil=='empleado'){
+        return [
+            { field: 'foto1', name: 'foto', cellTemplate:"<center><img height='70px' ng-src='fotosSuc/{{grid.getCellValue(row, col)}}' lazy-src /></center>", enableFiltering: false},
+            { field: 'direccion', name: 'direccion', enableFiltering: false, width:200, resizable: false},    
+            { field: 'telefono', name: 'telefono', enableFiltering: false},
             { field: 'Detalle', displayName: 'Detalle', cellTemplate:"<center><button class='btn btn-info' style='height:60px; width:70px;margin-top:5px' ng-click='grid.appScope.Informar(row.entity)'><span class='glyphicon glyphicon-list-alt'></button></center>", enableFiltering: false}
           ];
       }
@@ -205,7 +217,7 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
   }
 });
 
-miAplicacion.controller('controlSucursalModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoSuc, fSucursales){
+miAplicacion.controller('controlSucursalModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoSuc, fSucursales, $timeout){
   $scope.uploader = new FileUploader({url: 'servidor/uploadSuc.php'});
   $scope.uploader.queueLimit = 3;
   var dato=JSON.parse($stateParams.sucursal);
@@ -216,11 +228,13 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $state, $sta
   $scope.sucursal.foto1=dato.foto1;
   $scope.sucursal.foto2=dato.foto2;
   $scope.sucursal.foto3=dato.foto3;
-  $scope.sucursal.posicion=dato.posicion;
+  $scope.sucursal.latitud=dato.latitud;
+  $scope.sucursal.longitud=dato.longitud;
   
   cargadorDeFotoSuc.CargarFoto($scope.sucursal.foto1,$scope.sucursal.foto2,$scope.sucursal.foto3,$scope.uploader);
 
     $scope.Guardar = function(){
+          funcionGeo();
           if($scope.uploader.queue[0].file.name!='default.jpg')
           {
             var nombreFoto = $scope.uploader.queue[0].file.name;
@@ -240,12 +254,25 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $state, $sta
           $scope.uploader.uploadAll();
       }
 
+      function funcionGeo(){
+              var gCoder=new google.maps.Geocoder();
+              var objInf = {
+                address: $scope.sucursal.direccion
+              }
+              gCoder.geocode(objInf,fn_coder);
+      }
+
+      function fn_coder(datos){
+        $scope.sucursal.latitud = datos[0].geometry.location.lat();
+        $scope.sucursal.longitud = datos[0].geometry.location.lng();
+      }
+
       $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
            console.info('onErrorItem', fileItem, response, status, headers);
       };
 
       $scope.uploader.onCompleteAll = function() {
-          console.info('Se cargo con exito');
+        $timeout(function(){
           var dato=JSON.stringify($scope.sucursal);
             fSucursales.Modificar(dato)
             .then(function(respuesta) {             
@@ -254,6 +281,7 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $state, $sta
             },function errorCallback(response) {        
                  console.log(response);           
             });
+          },1000);
       };
 
 });

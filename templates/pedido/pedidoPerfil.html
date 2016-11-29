@@ -1,16 +1,25 @@
 <div>
 	<br><br><center>
-		<form>
+		<form id="FormIngreso" style="background-image:url(img/marco.png);background-position: center;background-size: 100% 100%;background-repeat: no-repeat; width: 55%; color:black;">
 				<br><br><br>
 				<p ng-if="pedido.productoDescripcion">Producto: {{pedido.productoDescripcion}}</p>
 				<p ng-if="pedido.ofertaDescripcion">Oferta:	{{pedido.ofertaDescripcion}}</p>
 				<p>Cantidad:    {{pedido.cantidad}}</p> 
+				<p>Total:    {{pedido.total | currency}}</p> 
+				<p>Fecha:    {{pedido.fecha | date:'dd/MM/yyyy'}}</p> 
 				<p>Nombre del cliente:    {{pedido.clienteNombre}}</p> 
+				<p>Estado del pedido:    {{pedido.estado}}</p>
 				<p ng-if="pedido.sucursalDir">Sucursal:     {{pedido.sucursalDir}}</p>
 				<p ng-if="pedido.sucursalTel">Telefono:     {{pedido.sucursalTel}}</p>
-
-
-
 		</form>
 	</center>
 </div>
+<br><br>
+                <ul class="nav nav-tabs">
+                    <li  class="btn btn-success animated bounceInLeft" >
+                        <a ui-sref="persona.pedGrilla" style="color:yellow">
+                             <span class="glyphicon glyphicon-arrow-left">&nbsp;</span>
+                             Volver 
+                        </a>
+                    </li>
+                </ul>

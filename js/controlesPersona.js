@@ -155,7 +155,7 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
   }
 });
 
-miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $state, cargadorDeFoto, $auth, fPersonas, fSucursales){
+miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $state, cargadorDeFoto, $auth, fPersonas, fSucursales, $timeout){
 
   if($auth.isAuthenticated()){
       console.log("Sesión iniciada!");
@@ -182,22 +182,10 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
       $scope.persona.dni=12345678;
       $scope.persona.idSucursal="";
       $scope.persona.estado="activo";
+      $scope.persona.direccion="Av. Mitre 707 Avellaneda Buenos Aires";
+      $scope.persona.latitud=0;
+      $scope.persona.longitud=0;
       $scope.ListadoSucursales = [];
-
-      navigator.geolocation.getCurrentPosition(obtenerPosicion,error, {
-          enableHighAccuracy: true,
-          timeout: 30000,
-          maximumAge: 30000
-        });
-
-      function obtenerPosicion(posicion){
-            $scope.persona.latitud=posicion.coords.latitude;
-            $scope.persona.longitud=posicion.coords.longitude;
-      }
-
-      function error(error){
-        console.log(error);
-      }
        
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
@@ -210,6 +198,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
      });
 
       $scope.Guardar = function(){
+        funcionGeo();
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
           {
             var nombreFoto = $scope.uploader.queue[0].file.name;
@@ -219,11 +208,25 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
           $scope.uploader.uploadAll();
       }
 
+      function funcionGeo(){
+              var gCoder=new google.maps.Geocoder();
+              var objInf = {
+                address: $scope.persona.direccion
+              }
+              gCoder.geocode(objInf,fn_coder);
+      }
+
+      function fn_coder(datos){
+        $scope.persona.latitud = datos[0].geometry.location.lat();
+        $scope.persona.longitud = datos[0].geometry.location.lng();
+      }
+
         $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
             console.info('onErrorItem', fileItem, response, status, headers);
         };
 
         $scope.uploader.onCompleteAll = function() {
+          $timeout(function(){
             var dato=JSON.stringify($scope.persona);
             fPersonas.Agregar(dato)
             .then(function(respuesta) {             
@@ -232,6 +235,7 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
             },function errorCallback(response) {        
                  console.log(response);           
             });
+          },1000);
         };
 
 });
@@ -367,7 +371,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
           {
             usuarios = respuesta;
             puente = usuarios.map(function(dato){
-              if(dato.perfil=='cliente')
+              if(dato.perfil=='cliente' && dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
               {
                 return dato;
               }
@@ -384,7 +388,29 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
           }
           else
           {
-            $scope.gridOptions.data = respuesta;
+            if($scope.UsuarioLogueado.perfil=='encargado')
+            {
+              usuarios = respuesta;
+              puente = usuarios.map(function(dato){
+                if(dato.perfil=='cliente' && dato.idSucursal==$scope.UsuarioLogueado.idSucursal || dato.perfil=='empleado' && dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+                {
+                  return dato;
+                }
+              });
+              usuarios = [];
+              for(var i=0;i<puente.length;i++)
+              {
+                if(puente[i]!=undefined)
+                {
+                  usuarios.push(puente[i]);
+                }
+              }
+              $scope.gridOptions.data=usuarios;
+            }
+            else
+            {
+              $scope.gridOptions.data = respuesta;
+            }
           }
     },function errorCallback(response) {
         console.log(response);     
@@ -441,7 +467,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
 
 });
 
-miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFoto, $auth, fPersonas, fSucursales){
+miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFoto, $auth, fPersonas, fSucursales, $timeout){
   if($auth.isAuthenticated()){
       console.log("Sesión iniciada!");
       $scope.UsuarioLogueado= $auth.getPayload();
@@ -471,6 +497,7 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stat
   $scope.persona.estado=dato.estado;
   $scope.persona.latitud=dato.latitud;
   $scope.persona.longitud=dato.longitud;
+  $scope.persona.direccion=dato.direccion;
   $scope.ListadoSucursales = [];
 
   cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
@@ -484,6 +511,7 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stat
    });
 
     $scope.Guardar = function(){
+      funcionGeo();
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
           {
             var nombreFoto = $scope.uploader.queue[0].file.name;
@@ -493,11 +521,25 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stat
           $scope.uploader.uploadAll();
       }
 
+      function funcionGeo(){
+              var gCoder=new google.maps.Geocoder();
+              var objInf = {
+                address: $scope.persona.direccion
+              }
+              gCoder.geocode(objInf,fn_coder);
+      }
+
+      function fn_coder(datos){
+        $scope.persona.latitud = datos[0].geometry.location.lat();
+        $scope.persona.longitud = datos[0].geometry.location.lng();
+      }
+
     $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
             console.info('onErrorItem', fileItem, response, status, headers);
         };
 
     $scope.uploader.onCompleteAll = function() {
+      $timeout(function(){
             var dato=JSON.stringify($scope.persona);
             fPersonas.Modificar(dato)
             .then(function(respuesta) {             
@@ -506,6 +548,7 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stat
             },function errorCallback(response) {        
                  console.log( response);           
             });
+          },1000);
         }
 
 });
@@ -657,7 +700,7 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
     .then(function(respuesta) {  
           pedidos = respuesta;
           puente = pedidos.map(function(dato){
-            if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
+            if(dato.idPersona==$scope.UsuarioLogueado.idPersona)
             {
               return dato;
             }

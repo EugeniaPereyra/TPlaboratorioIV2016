@@ -316,11 +316,10 @@ miAplicacion.controller('controlPedidoModificar',function($scope, $state, $state
 
 });
 
-miAplicacion.controller('controlPedidoDetallar',function($scope, $state, $stateParams, fPedidos, fSucursales){
+miAplicacion.controller('controlPedidoDetallar',function($scope, $state, $stateParams, fPedidos, fSucursales, fProductos){
   var dato=JSON.parse($stateParams.pedido);
   $scope.pedido={};
   var listadoSucursales = [];
-  var listadoUsuarios = [];
 
   fPedidos.Detallar(dato.idPedido)
   .then(function(respuesta) {       
