@@ -86,7 +86,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/persona/personaGrilla.html',
+              templateUrl:'templates/grilla.html',
               controller:'controlPersonaGrilla'
             }
           }
@@ -167,7 +167,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/producto/productoGrilla.html',
+              templateUrl:'templates/grilla.html',
               controller:'controlProductoGrilla'
             }
           }
@@ -222,7 +222,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/producto/ofertaGrilla.html',
+              templateUrl:'templates/grilla.html',
               controller:'controlOfertaGrilla'
             }
           }
@@ -276,7 +276,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/pedido/pedidoGrilla.html',
+              templateUrl:'templates/grilla.html',
               controller:'controlPedidoGrilla'
             }
           }
@@ -330,7 +330,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/sucursal/sucursalGrilla.html',
+              templateUrl:'templates/grilla.html',
               controller:'controlSucursalGrilla'
             }
           }

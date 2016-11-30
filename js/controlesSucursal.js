@@ -88,15 +88,39 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
     return $auth.isAuthenticated();
   };
 
-  $scope.titulo = "Listado de Sucursales";
-  $scope.gridOptions = {};
-  $scope.gridOptions.paginationPageSizes = [10, 50, 75];
-  $scope.gridOptions.paginationPageSize = 10;
-  $scope.gridOptions.columnDefs = columnDefs();
-  $scope.gridOptions.enableFiltering = true;
-  $scope.gridOptions.rowHeight= 70;
-  $scope.gridOptions.enableSorting= false;
-  i18nService.setCurrentLang('es');
+    $scope.titulo = "Listado de Sucursales";
+    $scope.gridOptions = {
+      exporterCsvFilename: 'sucursales.csv',
+      exporterCsvColumnSeparator: ';',
+      exporterPdfDefaultStyle: {fontSize: 9},
+      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+      exporterPdfHeader: { text: "Listado de Sucursales", style: 'headerStyle' },
+      exporterPdfFooter: function ( currentPage, pageCount ) {
+        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+      },
+      exporterPdfCustomFormatter: function ( docDefinition ) {
+        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+        return docDefinition;
+      },
+      exporterPdfOrientation: 'portrait',
+      exporterPdfPageSize: 'LETTER',
+      exporterPdfMaxGridWidth: 500,
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      }
+    };
+    $scope.gridOptions.enableGridMenu = true;
+    $scope.gridOptions.selectAll = true;
+    $scope.gridOptions.paginationPageSizes = [10, 50, 75];
+    $scope.gridOptions.paginationPageSize = 10;
+    $scope.gridOptions.columnDefs = columnDefs();
+    $scope.gridOptions.enableFiltering = true;
+    $scope.gridOptions.rowHeight= 70;
+    $scope.gridOptions.enableSorting= false;
+    i18nService.setCurrentLang('es');
   var productos = [];
   var puente = [];
 
@@ -294,6 +318,7 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $state, $stat
   $scope.mapa = {};
   $scope.mapa.latitud = "-34.662189";
   $scope.mapa.longitud = "-58.364643";
+  $scope.travelMode="DRIVING";
 
     if($auth.isAuthenticated()){
         console.log("Sesión iniciada!");

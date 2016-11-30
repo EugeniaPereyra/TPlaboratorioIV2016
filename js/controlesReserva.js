@@ -148,7 +148,7 @@ miAplicacion.controller('controlReservaGrilla',function($scope, $state, $statePa
       exporterPdfDefaultStyle: {fontSize: 9},
       exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
       exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: { text: "Listado de Pedidos", style: 'headerStyle' },
+      exporterPdfHeader: { text: "Listado de Reservas", style: 'headerStyle' },
       exporterPdfFooter: function ( currentPage, pageCount ) {
         return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
       },

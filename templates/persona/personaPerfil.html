@@ -1,6 +1,7 @@
 <div>
 	<br><br><center>
-		<form>
+		<form id="FormIngreso" style="background-image:url(img/marco.png);background-position: center;background-size: 100% 100%;background-repeat: no-repeat; width: 55%; color:black" >
+
 				<td><img  class='fotoGrilla' ng-src="fotos/{{usuario.foto}}" style="width:200px; height:200px " /></td>
 
 				<br><br>
@@ -13,8 +14,6 @@
 				<p>Direccion:    {{usuario.direccion}}</p>
 				<p ng-if="usuario.sucursalDir">Sucursal:     {{usuario.sucursalDir}}</p>
 				<p ng-if="usuario.sucursalTel">Telefono Suc.:     {{usuario.sucursalTel}}</p>
-
-				<br>
 
 		</form>
 				<ul class="nav nav-tabs">
