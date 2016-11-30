@@ -324,6 +324,33 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $state, $stat
         console.log(response);     
    });
 
+  // var gLatLonUno = new google.maps.LatLng($scope.UsuarioLogueado.latitud,$scope.UsuarioLogueado.longitud);
+  // var gLatLonDos = new google.maps.LatLng($scope.datoMap.latitud,$scope.datoMap.longitud);
+
+  // var objConfigDS={
+  //   origin: gLatLonUno,
+  //   destination: gLatLonDos,
+  //   travelMode: google.maps.TravelMode.DRIVING 
+  // };
+  // var objConfigDR={};
+
+  // var ds = new google.maps.DirectionsService();
+  // var dr = new google.maps.DirectionsRenderer(objConfigDR);
+
+  // ds.route(objConfigDS,fn_rutear);
+
+  // function fn_rutear(resultado, status){
+  //   //MUESTRA LA LINEA ENTRE A Y B
+  //   if(status=='OK')
+  //   {
+  //     dr.setDirections(resultado);
+  //   }
+  //   else
+  //   {
+  //     console.log(status);
+  //   }
+  // }
+
   $scope.VerOfertas=function(){
     var dato = JSON.stringify($scope.sucursal);
     $state.go('persona.oferGrilla',{sucursal : dato});
