@@ -37,7 +37,7 @@ miAplicacion.controller('controlReservaAlta',function($scope, $state, $statePara
       $scope.reserva.fechaInicio = $scope.pedido.fecha;
       $scope.reserva.fechaFin=new Date();
       $scope.reserva.fechaMin=fecha1.setDate(fecha1.getDate() + 2);
-      $scope.reserva.fechaMax=fecha2.setDate(fecha2.getDate() + 4);
+      $scope.reserva.fechaMax=fecha2.setDate(fecha2.getDate() + 6);
 
       if($scope.UsuarioLogueado.perfil=='cliente')
       {
@@ -282,7 +282,21 @@ miAplicacion.controller('controlReservaGrilla',function($scope, $state, $statePa
   }
 });
 
-miAplicacion.controller('controlReservaModificar',function($scope, $state, $stateParams, fPedidos, fReservas, fSucursales){
+miAplicacion.controller('controlReservaModificar',function($scope, $state, $stateParams, fPedidos, fReservas, fSucursales, $auth){
+   if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+    }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+    }
+
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
+
   var dato=JSON.parse($stateParams.pedido);
   $scope.reserva={};
   $scope.reserva=dato;

@@ -22,7 +22,7 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $state, $stateParam
       $scope.pedido.clienteNombre="";
       $scope.pedido.idPersona=0;
       $scope.pedido.total=0;
-      $scope.pedido.cantidad=0;
+      $scope.pedido.cantidad=1;
       $scope.pedido.idOferta=0;
       $scope.pedido.idProducto=0;
       $scope.pedido.sucursalDireccion = "";
@@ -295,7 +295,21 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $state, $statePar
   }
 });
 
-miAplicacion.controller('controlPedidoModificar',function($scope, $state, $stateParams, fPedidos){
+miAplicacion.controller('controlPedidoModificar',function($scope, $state, $stateParams, fPedidos, $auth){
+  if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+    }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+    }
+
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
+
   var dato=JSON.parse($stateParams.pedido);
   console.log(dato);
   $scope.mostrarEstado=true;

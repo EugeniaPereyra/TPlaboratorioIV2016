@@ -31,15 +31,15 @@ miAplicacion.controller('controlEstadisticaVentasLocal',function($scope, fPedido
          //console.info($scope.pedidos);
          angular.forEach($scope.pedidos,function(value){
             //console.log(value);
-            if(value.idSucursal==1&&value.estado=="Finalizado")
+            if(value.idSucursal==1&&value.estado=="finalizado")
             {
               $scope.sucursal1 += 1;
             }
-            if(value.idSucursal==2&&value.estado=="Finalizado")
+            if(value.idSucursal==2&&value.estado=="finalizado")
             {
               $scope.sucursal2 += 1;
             }
-            if(value.idSucursal==3&&value.estado=="Finalizado")
+            if(value.idSucursal==3&&value.estado=="finalizado")
             {
               $scope.sucursal3 += 1;
             }
@@ -132,21 +132,21 @@ miAplicacion.controller('controlEstadisticaProductos',function($scope, fPedidos)
          //console.info($scope.pedidos);
          angular.forEach($scope.pedidos,function(value){
             //console.log(value);
-            if(value.idSucursal==1&&value.estado=="Finalizado")
+            if(value.idSucursal==1&&value.estado=="finalizado")
             {
               if(value.idProducto!=0)
                 $scope.productos.push(value);
               if(value.idOferta!=0)
                 $scope.ofertas.push(value);              
             }
-            if(value.idSucursal==2&&value.estado=="Finalizado")
+            if(value.idSucursal==2&&value.estado=="finalizado")
             {
               if(value.idProducto!=0)
                 $scope.productos.push(value);
               if(value.idOferta!=0)
                 $scope.ofertas.push(value);  
             }
-            if(value.idSucursal==3&&value.estado=="Finalizado")
+            if(value.idSucursal==3&&value.estado=="finalizado")
             {
               if(value.idProducto!=0)
                 $scope.productos.push(value);

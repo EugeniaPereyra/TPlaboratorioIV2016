@@ -122,11 +122,6 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
     $state.go('persona.pedAlta', {usuario:dato} );
   }
 
-  $scope.IrModificarPerfil=function(){
-    var dato = JSON.stringify($scope.UsuarioLogueado);
-    $state.go('persona.modificar', {persona:dato} );
-  }
-
   $scope.IrGrillaPedido=function(){
     $state.go('persona.pedGrilla');
   }
@@ -723,7 +718,7 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
                 },    
                 { field: 'total', name: 'total', cellTemplate:'<center><p style="margin-top: 25px">{{row.entity.total | currency}}</p/></center/>', enableFiltering: false},    
                 { field: 'sucursalDireccion', name: 'sucursal', enableFiltering: false,  width: 150, resizable: false},
-                { field: 'encuesta', displayName: 'encuesta', cellTemplate:'<center><button ng-if="row.entity.encuesta == 0 && row.entity.estado==\'finalizado\'" class="btn btn-danger" style="height:60px; width:70px;margin-top:5px" ng-click="grid.appScope.Responder(row.entity)"><span class="glyphicon glyphicon-edit"></span/></button/><span ng-if="row.entity.encuesta == 1 && row.entity.estado==\'finalizado\'" class="glyphicon glyphicon-ok" style="color:limegreen;line-height:3em;"></span/></center/>', enableFiltering: false}
+                { field: 'encuesta', displayName: 'encuesta', cellTemplate:'<center><button ng-if="row.entity.encuesta == 0 && row.entity.estado==\'finalizado\' || row.entity.encuesta == 0 && row.entity.estado==\'cancelado\'" class="btn btn-danger" style="height:60px; width:70px;margin-top:5px" ng-click="grid.appScope.Responder(row.entity)"><span class="glyphicon glyphicon-edit"></span/></button/><span ng-if="row.entity.encuesta == 1" class="glyphicon glyphicon-ok" style="color:limegreen;line-height:3em;"></span/></center/>', enableFiltering: false}
              ];
         };
 
@@ -756,7 +751,7 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
 
 });
 
-miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $stateParams, fProductos, fPedidos, fEncuestas){
+miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $stateParams, fProductos, fPedidos, fEncuestas, fOfertas){
 
   var dato=JSON.parse($stateParams.pedido);
   console.log(dato);
@@ -773,12 +768,24 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
   $scope.encuesta.diez = " ";
   $scope.encuesta.idProducto=dato.idProducto;
 
-  fProductos.Detallar(dato.idProducto)
-  .then(function(respuesta) {       
-         $scope.producto = respuesta;
-    },function errorCallback(response) {
-        console.log(response);     
-   }); 
+  if(dato.idProducto){
+      fProductos.Detallar(dato.idProducto)
+      .then(function(respuesta) {       
+             $scope.producto = respuesta;
+        },function errorCallback(response) {
+            console.log(response);     
+       });
+  }
+  else
+  {
+      fOfertas.Detallar(dato.idOferta)
+      .then(function(respuesta) {       
+             $scope.producto = respuesta;
+        },function errorCallback(response) {
+            console.log(response);     
+       });
+  }
+ 
 
    $scope.Guardar = function(){
         dato.encuesta=1;
@@ -791,7 +798,6 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
         });
 
         var datoEncuesta=JSON.stringify($scope.encuesta);
-        console.info(datoEncuesta);
         fEncuestas.Agregar(datoEncuesta)
         .then(function(respuesta) {             
             console.log("Encuesta enviada correctamente");

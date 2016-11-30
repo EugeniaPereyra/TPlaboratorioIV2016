@@ -1,7 +1,20 @@
 // PRODUCTOS
 
 
-miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $state, cargadorDeFotoProd, fProductos, fSucursales){
+miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $state, cargadorDeFotoProd, fProductos, fSucursales, $auth){
+  if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+    }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+    }
+
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
 
       $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
       $scope.uploader.queueLimit = 3;
@@ -215,7 +228,21 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
   }
 });
 
-miAplicacion.controller('controlProductoModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoProd, fProductos, fSucursales){
+miAplicacion.controller('controlProductoModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoProd, fProductos, fSucursales, $auth){
+    if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+    }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+    }
+
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
+
   $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
   $scope.uploader.queueLimit = 3;
   var dato=JSON.parse($stateParams.producto);

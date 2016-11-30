@@ -165,7 +165,6 @@ $app->put('/producto/{producto}', function ($request, $response, $args) {
         $rutaVieja="../fotosProd/".$producto->foto1;
         $rutaNueva=$producto->descripcion."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosProd/".$rutaNueva);
-        unlink($rutaVieja);
         $producto->foto1=$rutaNueva;
     }
     if($producto->foto2!="default.jpg")
@@ -173,7 +172,6 @@ $app->put('/producto/{producto}', function ($request, $response, $args) {
         $rutaVieja="../fotosProd/".$producto->foto2;
         $rutaNueva=$producto->descripcion."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosProd/".$rutaNueva);
-        unlink($rutaVieja);
         $producto->foto2=$rutaNueva;
     }
     if($producto->foto3!="default.jpg")
@@ -181,7 +179,6 @@ $app->put('/producto/{producto}', function ($request, $response, $args) {
         $rutaVieja="../fotosProd/".$producto->foto3;
         $rutaNueva=$producto->descripcion."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosProd/".$rutaNueva);
-        unlink($rutaVieja);
         $producto->foto3=$rutaNueva;
     }
     $response->getBody()->write(Producto::Modificar($producto));
@@ -269,7 +266,6 @@ $app->put('/oferta/{oferta}', function ($request, $response, $args) {
         $rutaVieja="../fotosOfer/".$oferta->foto1;
         $rutaNueva=$oferta->descripcion."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosOfer/".$rutaNueva);
-        unlink($rutaVieja);
         $oferta->foto1=$rutaNueva;
     }
     if($oferta->foto2!="default.jpg")
@@ -277,7 +273,6 @@ $app->put('/oferta/{oferta}', function ($request, $response, $args) {
         $rutaVieja="../fotosOfer/".$oferta->foto2;
         $rutaNueva=$oferta->descripcion."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosOfer/".$rutaNueva);
-        unlink($rutaVieja);
         $oferta->foto2=$rutaNueva;
     }
     if($oferta->foto3!="default.jpg")
@@ -285,7 +280,6 @@ $app->put('/oferta/{oferta}', function ($request, $response, $args) {
         $rutaVieja="../fotosOfer/".$oferta->foto3;
         $rutaNueva=$oferta->descripcion."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosOfer/".$rutaNueva);
-        unlink($rutaVieja);
         $oferta->foto3=$rutaNueva;
     }
     $response->getBody()->write(Oferta::Modificar($oferta));
@@ -416,7 +410,6 @@ $app->put('/sucursal/{sucursal}', function ($request, $response, $args) {
         $rutaVieja="../fotosSuc/".$sucursal->foto1;
         $rutaNueva=$sucursal->telefono."-foto1".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosSuc/".$rutaNueva);
-        unlink($rutaVieja);
         $sucursal->foto1=$rutaNueva;
     }
     if($sucursal->foto2!="default.jpg")
@@ -424,7 +417,6 @@ $app->put('/sucursal/{sucursal}', function ($request, $response, $args) {
         $rutaVieja="../fotosSuc/".$sucursal->foto2;
         $rutaNueva=$sucursal->telefono."-foto2".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosSuc/".$rutaNueva);
-        unlink($rutaVieja);
         $sucursal->foto2=$rutaNueva;
     }
     if($sucursal->foto3!="default.jpg")
@@ -432,7 +424,6 @@ $app->put('/sucursal/{sucursal}', function ($request, $response, $args) {
         $rutaVieja="../fotosSuc/".$sucursal->foto3;
         $rutaNueva=$sucursal->telefono."-foto3".".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotosSuc/".$rutaNueva);
-        unlink($rutaVieja);
         $sucursal->foto3=$rutaNueva;
     }
     $response->getBody()->write(Sucursal::Modificar($sucursal));
