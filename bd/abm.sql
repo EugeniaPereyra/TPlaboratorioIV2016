@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2016 a las 01:40:41
+-- Tiempo de generación: 30-11-2016 a las 19:20:14
 -- Versión del servidor: 10.1.10-MariaDB
 -- Versión de PHP: 5.6.19
 
@@ -40,6 +40,19 @@ CREATE TABLE `encuestas` (
   `nueve` varchar(50) COLLATE latin1_general_ci NOT NULL,
   `diez` varchar(400) COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Volcado de datos para la tabla `encuestas`
+--
+
+INSERT INTO `encuestas` (`idEncuesta`, `idProducto`, `uno`, `dos`, `tres`, `cuatro`, `cinco`, `seis`, `siete`, `ocho`, `nueve`, `diez`) VALUES
+(1, 44, 'mucho', 'mucho', 'unico', 'mucho', 'alta', 'excelente', 'mucho', 'primera_compra', 'mucho', '10 puntos!!'),
+(2, 0, 'mucho', 'mucho', 'unico', 'mucho', 'alta', 'excelente', 'mucho', 'primera_compra', 'mucho', ' '),
+(3, 0, 'poco', 'poco', 'caro', 'poco', 'baja', 'promedio', 'poco', 'seis_meses', 'poco', 'Ingrese un comentario'),
+(4, 45, 'mucho', 'mucho', 'unico', 'mucho', 'alta', 'excelente', 'mucho', 'primera_compra', 'mucho', ' '),
+(5, 53, 'poco', 'nada', 'caro', 'mucho', 'alta', 'promedio', 'poco', 'primera_compra', 'poco', ' '),
+(6, 48, 'mucho', 'mucho', 'unico', 'mucho', 'alta', 'excelente', 'mucho', 'primera_compra', 'mucho', ' '),
+(7, 51, 'nada', 'nada', 'no seguro', 'nada', 'mala', 'no pobre', 'nada', 'mas_tiempo', 'nada', ' ');
 
 -- --------------------------------------------------------
 
@@ -92,6 +105,43 @@ CREATE TABLE `pedido` (
   `encuesta` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
+--
+-- Volcado de datos para la tabla `pedido`
+--
+
+INSERT INTO `pedido` (`idPedido`, `idProducto`, `cantidad`, `idSucursal`, `clienteNombre`, `idPersona`, `total`, `idOferta`, `ofertaDescripcion`, `productoDescripcion`, `sucursalDireccion`, `estado`, `fecha`, `encuesta`) VALUES
+(1, 45, 1, 1, 'Sofia Lamas', 71, 150, 0, '', 'Pizza pepperoni', 'Av. Mitre 6510 Wilde Buenos Aires', 'cancelado', '2016-11-30T13:45:05.108Z', 1),
+(2, 0, 2, 2, 'Sofia Lamas', 71, 300, 7, 'Pizza noruega', '', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T13:45:24.406Z', 0),
+(3, 0, 1, 3, 'Sofia Lamas', 71, 150, 9, 'Pizza pollo', '', 'Av. Santa Fe 4801 Palermo Caba', 'finalizado', '2016-11-30T13:45:42.692Z', 1),
+(8, 0, 2, 1, 'Quique Wolff', 72, 270, 5, 'Pizza jamon y morron', '', 'Av. Mitre 6510 Wilde Buenos Aires', 'finalizado', '2016-11-30T14:15:46.008Z', 0),
+(9, 52, 1, 2, 'Quique Wolff', 72, 180, 0, '', 'Pizza pollo', 'Av. Corrientes 505 Caba', 'procesando', '2016-11-30T14:16:06.812Z', 0),
+(10, 55, 1, 3, 'Quique Wolff', 72, 155, 0, '', 'Pizza huevo', 'Av. Santa Fe 4801 Palermo Caba', 'cancelado', '2016-11-30T14:16:27.479Z', 0),
+(11, 45, 3, 1, 'Quique Wolff', 72, 450, 0, '', 'Pizza pepperoni', 'Av. Mitre 6510 Wilde Buenos Aires', 'finalizado', '2016-11-30T14:16:46.024Z', 0),
+(12, 51, 4, 2, 'Quique Wolff', 72, 540, 0, '', 'Pizza muzzarella', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T14:17:32.772Z', 0),
+(14, 0, 1, 1, 'Susana Gimenez', 73, 150, 4, 'Pizza hawaiana', '', 'Av. Mitre 6510 Wilde Buenos Aires', 'finalizado', '2016-11-30T14:28:10.163Z', 0),
+(15, 49, 2, 2, 'Susana Gimenez', 73, 300, 0, '', 'Pizza vegetales', 'Av. Corrientes 505 Caba', 'procesando', '2016-11-30T14:28:26.201Z', 0),
+(16, 0, 1, 3, 'Susana Gimenez', 73, 125, 8, 'Pizza ahumada', '', 'Av. Santa Fe 4801 Palermo Caba', 'finalizado', '2016-11-30T14:28:45.127Z', 0),
+(20, 47, 2, 1, 'Oscar Suarez', 74, 356, 0, '', 'Pizza champinon', 'Av. Mitre 6510 Wilde Buenos Aires', 'procesando', '2016-11-30T14:37:39.279Z', 0),
+(21, 48, 1, 2, 'Oscar Suarez', 74, 199, 0, '', 'Pizza atun', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T14:38:07.278Z', 0),
+(22, 54, 1, 3, 'Oscar Suarez', 74, 175, 0, '', 'Pizza noruega', 'Av. Santa Fe 4801 Palermo Caba', 'procesando', '2016-11-30T14:38:22.903Z', 0),
+(26, 43, 2, 1, 'Nadia Fernandez', 76, 298, 0, '', 'Pizza ahumada', 'Av. Mitre 6510 Wilde Buenos Aires', 'procesando', '2016-11-30T15:25:26.574Z', 0),
+(27, 48, 1, 2, 'Nadia Fernandez', 76, 199, 0, '', 'Pizza atun', 'Av. Corrientes 505 Caba', 'procesando', '2016-11-30T15:25:43.683Z', 0),
+(28, 55, 1, 3, 'Nadia Fernandez', 76, 155, 0, '', 'Pizza huevo', 'Av. Santa Fe 4801 Palermo Caba', 'finalizado', '2016-11-30T15:25:56.158Z', 0),
+(32, 43, 1, 1, 'Pepito', 0, 149, 0, '', 'Pizza ahumada', 'Av. Mitre 6510 Wilde Buenos Aires', 'procesando', '2016-11-30T15:54:47.536Z', 0),
+(33, 43, 2, 1, 'Carlos', 0, 298, 0, '', 'Pizza ahumada', 'Av. Mitre 6510 Wilde Buenos Aires', 'finalizado', '2016-11-30T16:18:14.261Z', 0),
+(34, 46, 2, 1, 'Carlos', 0, 258, 0, '', 'Pizza cebolla', 'Av. Mitre 6510 Wilde Buenos Aires', 'procesando', '2016-11-30T16:21:18.697Z', 0),
+(35, 0, 3, 1, 'Graciela', 0, 405, 5, 'Pizza jamon y morron', '', 'Av. Mitre 6510 Wilde Buenos Aires', 'finalizado', '2016-11-30T16:26:37.179Z', 0),
+(36, 44, 1, 1, 'Sofia Lamas', 71, 189, 0, '', 'Pizza anchoas', 'Av. Mitre 6510 Wilde Buenos Aires', 'finalizado', '2016-11-30T16:34:30.048Z', 1),
+(37, 0, 3, 3, 'Sofia Lamas', 71, 405, 5, 'Pizza jamon y morron', '', 'Av. Santa Fe 4801 Palermo Caba', 'finalizado', '2016-11-30T16:34:52.093Z', 1),
+(38, 49, 2, 2, 'Sofia Lamas', 71, 300, 0, '', 'Pizza vegetales', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T16:36:05.109Z', 0),
+(39, 0, 2, 3, 'Sofia Lamas', 71, 300, 9, 'Pizza pollo', '', 'Av. Santa Fe 4801 Palermo Caba', 'procesando', '2016-11-30T16:36:21.661Z', 0),
+(40, 53, 1, 3, 'Nadia Fernandez', 76, 198, 0, '', 'Pizza hawaiana', 'Av. Santa Fe 4801 Palermo Caba', 'cancelado', '2016-11-30T16:39:48.748Z', 1),
+(41, 0, 1, 2, 'Nadia Fernandez', 76, 150, 7, 'Pizza noruega', '', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T16:40:01.613Z', 0),
+(42, 48, 2, 2, 'Nadia Fernandez', 76, 398, 0, '', 'Pizza atun', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T18:03:45.494Z', 1),
+(43, 50, 1, 2, 'Nadia Fernandez', 76, 165, 0, '', 'Pizza jamon y morron', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T18:03:58.652Z', 0),
+(44, 51, 2, 2, 'Nadia Fernandez', 76, 270, 0, '', 'Pizza muzzarella', 'Av. Corrientes 505 Caba', 'finalizado', '2016-11-30T18:04:10.882Z', 1),
+(46, 0, 2, 3, 'Nadia Fernandez', 76, 300, 9, 'Pizza pollo', '', 'Av. Santa Fe 4801 Palermo Caba', 'finalizado', '2016-11-30T18:08:30.548Z', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -130,7 +180,11 @@ INSERT INTO `persona` (`idPersona`, `nombre`, `email`, `password`, `perfil`, `fo
 (70, 'Paula Vazquez', 'paula@paula.com', '123456', 'empleado', '20202020.jpg', '20202020', 3, 'activo', '-34.5777099', '-58.4274497', 'Av. Santa Fe 4801 Palermo Caba'),
 (71, 'Sofia Lamas', 'cliente@cliente.com', '123456', 'cliente', '21212121.jpg', '21212121', 1, 'activo', '-34.6882372', '-58.3095809', 'Guamini 5656 Wilde Buenos Aires'),
 (72, 'Quique Wolff', 'quique@quique.com', '123456', 'cliente', '22222222.jpg', '22222222', 3, 'activo', '-34.585885', '-58.436654', 'Humboldt 1550 Palermo Caba'),
-(73, 'Susana Gimenez', 'susana@susana.com', '123456', 'cliente', '23232323.jpg', '23232323', 2, 'activo', '-34.604064', '-58.4109275', 'Av. Corrientes 3232 Caba');
+(73, 'Susana Gimenez', 'susana@susana.com', '123456', 'cliente', '23232323.jpg', '23232323', 2, 'activo', '-34.604064', '-58.4109275', 'Av. Corrientes 3232 Caba'),
+(74, 'Oscar Suarez', 'oscar@oscar.com', '123456', 'cliente', '27272728.jpg', '27272728', 1, 'activo', '-34.5956289', '-58.384489', 'Av. Santa Fe 1210 Caba'),
+(76, 'Nadia Fernandez', 'nadia@nadia.com', '123456', 'cliente', '28282828.jpg', '28282828', 2, 'activo', '-34.6923119', '-58.3043388', 'Las Flores 1401 Wilde Buenos Aires'),
+(79, 'Rosa Lopez', 'rosa@rosa.com', '123456', 'cliente', '90909090.jpg', '90909090', 2, 'activo', '-34.6906591', '-58.3048672', 'Virrey del Pino 1401, Wilde, Buenos Aires'),
+(80, 'Gisel Lopez', 'gise@gise.com', '123456', 'cliente', '91919191.jpg', '91919191', 3, 'activo', '0', '0', 'Alberdi 450 Caba');
 
 -- --------------------------------------------------------
 
@@ -182,6 +236,18 @@ CREATE TABLE `reservas` (
   `fechaFin` varchar(100) COLLATE latin1_general_ci NOT NULL,
   `idSucursal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`idReserva`, `idPedido`, `fechaInicio`, `fechaFin`, `idSucursal`) VALUES
+(5, 11, '2016-11-30T14:16:46.024Z', '2016-12-02T14:16:46.024Z', 1),
+(6, 12, '2016-11-30T14:17:32.772Z', '2016-12-04T14:17:32.772Z', 2),
+(17, 33, '2016-11-30T16:18:14.261Z', '2016-12-03T16:18:14.261Z', 1),
+(18, 34, '2016-11-30T16:21:18.697Z', '2016-12-05T16:21:18.697Z', 1),
+(19, 35, '2016-11-30T16:26:37.179Z', '2016-12-05T16:26:37.179Z', 1),
+(20, 37, '2016-11-30T16:34:52.093Z', '2016-12-05T16:34:52.093Z', 3);
 
 -- --------------------------------------------------------
 
@@ -263,37 +329,37 @@ ALTER TABLE `sucursales`
 -- AUTO_INCREMENT de la tabla `encuestas`
 --
 ALTER TABLE `encuestas`
-  MODIFY `idEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idEncuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `oferta`
 --
 ALTER TABLE `oferta`
-  MODIFY `idOferta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idOferta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idPersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `idPersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `idReserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idReserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT de la tabla `sucursales`
 --
 ALTER TABLE `sucursales`
-  MODIFY `idSucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idSucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
