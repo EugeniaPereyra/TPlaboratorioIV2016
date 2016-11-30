@@ -30,12 +30,14 @@ miAplicacion.controller('controlReservaAlta',function($scope, $state, $statePara
       $scope.pedido.ofertaDescripcion = "";
       $scope.pedido.estado="procesando";
       $scope.pedido.fecha=new Date();
+      var fecha1=new Date();
+      var fecha2=new Date();
       $scope.pedido.encuesta=0;
       $scope.reserva = {};
       $scope.reserva.fechaInicio = $scope.pedido.fecha;
       $scope.reserva.fechaFin=new Date();
-      $scope.reserva.fechaMin=$scope.pedido.fecha.setDate($scope.pedido.fecha.getDate() + 2);
-      $scope.reserva.fechaMax=$scope.pedido.fecha.setDate($scope.pedido.fecha.getDate() + 4);
+      $scope.reserva.fechaMin=fecha1.setDate(fecha1.getDate() + 2);
+      $scope.reserva.fechaMax=fecha2.setDate(fecha2.getDate() + 4);
 
       if($scope.UsuarioLogueado.perfil=='cliente')
       {

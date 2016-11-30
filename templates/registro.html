@@ -17,6 +17,12 @@
 
 				<br><br>
 
+				<span>Direccion:</span><br>
+				<input type="text" name="direccion" ng-model="persona.direccion" placeholder="Ingrese direccion" required />
+				<span style="color:red" ng-show="FormIngreso.direccion.$invalid">*</span> 
+
+				<br><br>
+
 				<span>Perfil:</span><br>
 				<select name="perfil" ng-model="persona.perfil" required>
 					<option value="">Seleccione un perfil..</option>

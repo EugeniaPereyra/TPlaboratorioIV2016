@@ -50,7 +50,7 @@
 				<span>Sucursal:</span><br>
 				<select name="suc" ng-model="persona.idSucursal" required>
 					<option value="">Seleccione la sucursal..</option>
-				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}}>{{s.direccion}}</option>
+				  	<option ng-repeat="s in ListadoSucursales" value={{s.idSucursal}} ng-if="UsuarioLogueado.perfil=='empleado' && s.idSucursal==UsuarioLogueado.idSucursal || UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='encargado' && s.idSucursal==UsuarioLogueado.idSucursal ">{{s.direccion}}</option>
 				</select>
 				<span style="color:red" ng-show="FormIngreso.suc.$invalid">*</span>
 

@@ -1,8 +1,20 @@
 // OFERTAS
 
 
-miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $state, cargadorDeFotoOfer, fOfertas, fSucursales){
+miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $state, cargadorDeFotoOfer, fOfertas, fSucursales, $auth){
+  if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+  }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+  }
 
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
       $scope.uploader = new FileUploader({url: 'servidor/uploadOfer.php'});
       $scope.uploader.queueLimit = 3;
 
@@ -262,9 +274,23 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $s
   }
 });
 
-miAplicacion.controller('controlOfertaModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoOfer, fOfertas){
+miAplicacion.controller('controlOfertaModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoOfer, fOfertas, $auth, fSucursales){
+  if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+  }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+  }
+
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
+
   $scope.uploader = new FileUploader({url: 'servidor/uploadOfer.php'});
-  $scope.uploader.queueLimit = 1;
+  $scope.uploader.queueLimit = 3;
   var dato=JSON.parse($stateParams.oferta);
   $scope.producto={};
   $scope.producto.idOferta=dato.idOferta;
@@ -273,6 +299,14 @@ miAplicacion.controller('controlOfertaModificar',function($scope, $state, $state
   $scope.producto.foto1=dato.foto1;
   $scope.producto.foto2=dato.foto2;
   $scope.producto.foto3=dato.foto3;
+
+      fSucursales.traerTodo()
+      .then(function(respuesta) {       
+             $scope.ListadoSucursales = respuesta;
+        },function errorCallback(response) {
+             $scope.ListadoSucursales = [];
+            console.log(response);     
+       });
 
   cargadorDeFotoOfer.CargarFoto($scope.producto.foto1,$scope.producto.foto2,$scope.producto.foto3,$scope.uploader);
 
@@ -312,7 +346,21 @@ miAplicacion.controller('controlOfertaModificar',function($scope, $state, $state
       };
 });
 
-miAplicacion.controller('controlOfertaDetallar',function($scope, $state, $stateParams, fOfertas, fSucursales){
+miAplicacion.controller('controlOfertaDetallar',function($scope, $state, $stateParams, fOfertas, fSucursales, $auth){
+  if($auth.isAuthenticated()){
+      console.log("Sesión iniciada!");
+      $scope.UsuarioLogueado= $auth.getPayload();
+      console.info($scope.UsuarioLogueado);
+  }
+  else{
+      console.log("No hay sesión!");
+      $state.go('login');
+  }
+
+  $scope.isAuthenticated = function() {
+      return $auth.isAuthenticated();
+  };
+
   var dato=JSON.parse($stateParams.oferta);
   $scope.producto={};
   var listadoSucursales = [];

@@ -217,7 +217,7 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
 
 miAplicacion.controller('controlProductoModificar',function($scope, $state, $stateParams, FileUploader, cargadorDeFotoProd, fProductos, fSucursales){
   $scope.uploader = new FileUploader({url: 'servidor/uploadProd.php'});
-  $scope.uploader.queueLimit = 1;
+  $scope.uploader.queueLimit = 3;
   var dato=JSON.parse($stateParams.producto);
   $scope.producto={};
   $scope.producto.idProducto=dato.idProducto;

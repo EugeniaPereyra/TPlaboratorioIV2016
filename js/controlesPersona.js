@@ -122,6 +122,11 @@ miAplicacion.controller('controlPersonaMenu',function($scope, $state, $auth){
     $state.go('persona.pedAlta', {usuario:dato} );
   }
 
+  $scope.IrModificarPerfil=function(){
+    var dato = JSON.stringify($scope.UsuarioLogueado);
+    $state.go('persona.modificar', {persona:dato} );
+  }
+
   $scope.IrGrillaPedido=function(){
     $state.go('persona.pedGrilla');
   }
@@ -593,22 +598,11 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
       $scope.persona.idSucursal="";
       $scope.persona.dni=12345678;
       $scope.persona.estado="activo";
+      $scope.persona.direccion="Av. Mitre 707 Avellaneda Buenos Aires";
+      $scope.persona.latitud=0;
+      $scope.persona.longitud=0;
       $scope.ListadoSucursales = [];
        
-      navigator.geolocation.getCurrentPosition(obtenerPosicion,error, {
-          enableHighAccuracy: true,
-          timeout: 30000,
-          maximumAge: 30000
-        });
-
-      function obtenerPosicion(posicion){
-            $scope.persona.latitud=posicion.coords.latitude;
-            $scope.persona.longitud=posicion.coords.longitude;
-      }
-
-      function error(error){
-        console.log(error);
-      }
       cargadorDeFoto.CargarFoto($scope.persona.foto,$scope.uploader);
 
       fSucursales.traerTodo()
@@ -620,6 +614,7 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
        });
 
       $scope.Guardar = function(){
+        funcionGeo();
           if($scope.uploader.queue[0].file.name!='pordefecto.png')
           {
             var nombreFoto = $scope.uploader.queue[0].file.name;
@@ -629,12 +624,24 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
           $scope.uploader.uploadAll();
       }
 
+      function funcionGeo(){
+              var gCoder=new google.maps.Geocoder();
+              var objInf = {
+                address: $scope.persona.direccion
+              }
+              gCoder.geocode(objInf,fn_coder);
+      }
+
+      function fn_coder(datos){
+        $scope.persona.latitud = datos[0].geometry.location.lat();
+        $scope.persona.longitud = datos[0].geometry.location.lng();
+      }
+
         $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
             console.info('onErrorItem', fileItem, response, status, headers);
         };
 
         $scope.uploader.onCompleteAll = function() {
-            console.info('Se cargo con exito');
             var dato=JSON.stringify($scope.persona);
             fPersonas.Agregar(dato)
             .then(function(respuesta) {             
@@ -664,7 +671,31 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
       };
 
     $scope.titulo = "Historial de Pedidos";
-    $scope.gridOptions = {};
+    $scope.gridOptions = {
+      exporterCsvFilename: 'historialUsuario.csv',
+      exporterCsvColumnSeparator: ';',
+      exporterPdfDefaultStyle: {fontSize: 9},
+      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+      exporterPdfHeader: { text: "Historial de Pedidos", style: 'headerStyle' },
+      exporterPdfFooter: function ( currentPage, pageCount ) {
+        return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+      },
+      exporterPdfCustomFormatter: function ( docDefinition ) {
+        docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+        docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+        return docDefinition;
+      },
+      exporterPdfOrientation: 'portrait',
+      exporterPdfPageSize: 'LETTER',
+      exporterPdfMaxGridWidth: 500,
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      }
+    };
+    $scope.gridOptions.enableGridMenu = true;
+    $scope.gridOptions.selectAll = true;
     $scope.gridOptions.paginationPageSizes = [10, 50, 75];
     $scope.gridOptions.paginationPageSize = 10;
     $scope.gridOptions.columnDefs = columnDefs();
@@ -692,7 +723,7 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
                 },    
                 { field: 'total', name: 'total', cellTemplate:'<center><p style="margin-top: 25px">{{row.entity.total | currency}}</p/></center/>', enableFiltering: false},    
                 { field: 'sucursalDireccion', name: 'sucursal', enableFiltering: false,  width: 150, resizable: false},
-                { field: 'encuesta', displayName: 'encuesta', cellTemplate:'<center><button ng-if="row.entity.encuesta == 0" class="btn btn-danger" style="height:60px; width:70px;margin-top:5px" ng-click="grid.appScope.Responder(row.entity)"><span class="glyphicon glyphicon-edit"></span/></button/><span ng-if="row.entity.encuesta == 1" class="glyphicon glyphicon-ok" style="color:limegreen;line-height:3em;"></span/></center/>', enableFiltering: false}
+                { field: 'encuesta', displayName: 'encuesta', cellTemplate:'<center><button ng-if="row.entity.encuesta == 0 && row.entity.estado==\'finalizado\'" class="btn btn-danger" style="height:60px; width:70px;margin-top:5px" ng-click="grid.appScope.Responder(row.entity)"><span class="glyphicon glyphicon-edit"></span/></button/><span ng-if="row.entity.encuesta == 1 && row.entity.estado==\'finalizado\'" class="glyphicon glyphicon-ok" style="color:limegreen;line-height:3em;"></span/></center/>', enableFiltering: false}
              ];
         };
 
@@ -700,7 +731,7 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
     .then(function(respuesta) {  
           pedidos = respuesta;
           puente = pedidos.map(function(dato){
-            if(dato.idPersona==$scope.UsuarioLogueado.idPersona)
+            if(dato.idPersona==$scope.UsuarioLogueado.id)
             {
               return dato;
             }

@@ -85,7 +85,7 @@ $app->put('/usuario/{usuario}', function ($request, $response, $args) {
         $rutaVieja="../fotos/".$persona->foto;
         $rutaNueva=$persona->dni.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
         copy($rutaVieja, "../fotos/".$rutaNueva);
-        unlink($rutaVieja);
+
         $persona->foto=$rutaNueva;
     }
     $response->getBody()->write(Usuario::Modificar($persona));

@@ -125,7 +125,7 @@ $authProvider.authHearder='data';
           {
             'contenido':
             {
-              templateUrl:'templates/persona/personaHistorial.html',
+              templateUrl:'templates/grilla.html',
               controller:'controlPersonaHistorial'
             }
           }
