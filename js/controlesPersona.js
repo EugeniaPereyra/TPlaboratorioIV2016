@@ -231,9 +231,11 @@ miAplicacion.controller('controlPersonaAlta',function($scope, FileUploader, $sta
             fPersonas.Agregar(dato)
             .then(function(respuesta) {             
                  console.log("Se agregó al usuario correctamente");
+                 alert("Usuario agregado correctamente");
                  $state.go("persona.menu");
             },function errorCallback(response) {        
-                 console.log(response);           
+                 console.log(response);  
+                 alert("Error al agregar usuario");         
             });
           },1000);
         };
@@ -422,6 +424,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
     fPersonas.Borrar(dato)
          .then(function(respuesta) {              
                  console.log("Usuario borrado");
+                 alert("Usuario borrado correctamente");
                 fPersonas.traerTodo()
                     .then(function(respuesta){
                           if($scope.UsuarioLogueado.perfil=='empleado')
@@ -451,7 +454,8 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
                         console.log(response);     
                     }); 
           },function errorCallback(response) {        
-              console.log(response);           
+              console.log(response);
+              alert("Error al borrar usuario");           
       });
   }
 
@@ -544,9 +548,11 @@ miAplicacion.controller('controlPersonaModificar',function($scope, $state, $stat
             fPersonas.Modificar(dato)
             .then(function(respuesta) {             
                  console.log("Usuario modificado correctamente");
+                 alert("Usuario modificado correctamente");
                  $state.go("persona.menu");
             },function errorCallback(response) {        
-                 console.log( response);           
+                 console.log( response);
+                 alert("Error al modificar usuario");           
             });
           },1000);
         }
@@ -641,9 +647,11 @@ miAplicacion.controller('controlPersonaRegistro',function($scope, FileUploader, 
             fPersonas.Agregar(dato)
             .then(function(respuesta) {             
                  console.log("Se agregó al usuario correctamente");
+                 alert("Usuario registrado correctamente");
                  $state.go("persona.menu");
             },function errorCallback(response) {        
-                 console.log( response);           
+                 console.log( response);  
+                 alert("Error al registrar usuario");         
             });
         };
 
@@ -801,9 +809,11 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
         fEncuestas.Agregar(datoEncuesta)
         .then(function(respuesta) {             
             console.log("Encuesta enviada correctamente");
+            alert("Encuesta enviada correctamente");
             $state.go('persona.menu');
          },function errorCallback(response) {        
-            console.log(response);           
+            console.log(response);
+            alert("Error al enviar la encuesta");           
         });
    } 
 

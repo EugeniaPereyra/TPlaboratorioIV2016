@@ -66,9 +66,11 @@ miAplicacion.controller('controlOfertaAlta',function($scope, FileUploader, $stat
           fOfertas.Agregar(dato)
           .then(function(respuesta) {             
                console.log("Oferta agregada correctamente");
+               alert("Oferta agregada correctamente");
                $state.go("persona.menu");
           },function errorCallback(response) {        
-               console.log(response);           
+               console.log(response);   
+              alert("Error al agregar oferta!!");     
           });
       };
 
@@ -208,6 +210,7 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $s
     fOfertas.Borrar(dato)
     .then(function(respuesta) {              
         console.log("oferta borrada correctamente");
+        alert("Oferta borrada correctamente");
         fOfertas.traerTodo()
         .then(function(respuesta) { 
               if($scope.UsuarioLogueado.perfil=='cliente')
@@ -257,7 +260,8 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $s
             console.log(response);     
         });
       },function errorCallback(response) {        
-              console.log(response);           
+              console.log(response); 
+              alert("Error al borrar oferta!!");          
     });
   }
 
@@ -339,9 +343,11 @@ miAplicacion.controller('controlOfertaModificar',function($scope, $state, $state
           fOfertas.Modificar(dato)
           .then(function(respuesta){      
             console.log("oferta modificada");
+            alert("Oferta modificada correctamente");
             $state.go("persona.oferGrilla");
             },function errorCallback(response){
-              console.log(response);           
+              console.log(response); 
+              alert("Error al modificar oferta");          
           });
       };
 });

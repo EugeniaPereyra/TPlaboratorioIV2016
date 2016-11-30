@@ -34,7 +34,7 @@
 				<br><br>
 
 				<span>Cantidad:</span><br>
-				<input style="color:black" type="number" name="cantidad" ng-model="pedido.cantidad" placeholder="Ingrese la cantidad" required /> 
+				<input style="color:black" type="number" name="cantidad" ng-model="pedido.cantidad" min="1" placeholder="Ingrese la cantidad" required /> 
 				<span style="color:red" ng-show="FormIngreso.cantidad.$invalid">*</span>
 
 				<br/><br/>

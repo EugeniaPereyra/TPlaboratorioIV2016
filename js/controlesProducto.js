@@ -67,9 +67,11 @@ miAplicacion.controller('controlProductoAlta',function($scope, FileUploader, $st
           fProductos.Agregar(dato)
           .then(function(respuesta) {             
                console.log("Se agrego el id "+respuesta);
+               alert("Producto agregado correctamente");
                $state.go("persona.menu");
           },function errorCallback(response) {        
-               console.log( response);           
+               console.log(response);
+               alert("Error al agregar producto");           
           });
       };
 
@@ -182,6 +184,7 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
     fProductos.Borrar(dato)
          .then(function(respuesta) {              
                  console.log("Producto borrado");
+                 alert("Producto borrado correctamente");
                 fProductos.traerTodo()
                 .then(function(respuesta) { 
                     if($scope.UsuarioLogueado.perfil=='cliente')
@@ -211,7 +214,8 @@ miAplicacion.controller('controlProductoGrilla',function($scope, $state, $auth, 
                     console.log(response);     
                 });
           },function errorCallback(response) {        
-              console.log(response);           
+              console.log(response);
+              alert("Error al borrar producto");           
       });
   }
 
@@ -294,9 +298,11 @@ miAplicacion.controller('controlProductoModificar',function($scope, $state, $sta
           fProductos.Modificar(dato)
           .then(function(respuesta) {             
                console.log("producto modificado");
+               alert("Producto modificado correctamente");
                $state.go("persona.prodGrilla");
           },function errorCallback(response) {        
-               console.log( response);           
+               console.log(response);
+               alert("Error al modificar producto");           
           });
       };
 

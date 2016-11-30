@@ -22,7 +22,7 @@ miAplicacion.controller('controlReservaAlta',function($scope, $state, $statePara
       $scope.pedido.clienteNombre="";
       $scope.pedido.idPersona=0;
       $scope.pedido.total=0;
-      $scope.pedido.cantidad=0;
+      $scope.pedido.cantidad=1;
       $scope.pedido.idOferta=0;
       $scope.pedido.idProducto=0;
       $scope.pedido.sucursalDireccion = "";
@@ -109,6 +109,8 @@ miAplicacion.controller('controlReservaAlta',function($scope, $state, $statePara
             var datoRes=JSON.stringify($scope.reserva);
             fReservas.Agregar(datoRes).
             then(function(res){
+              console.log("Reserva generada correctamente");
+              alert("Reserva generada correctamente");
                 if($scope.UsuarioLogueado.perfil=='cliente')
                 {
                   $state.go('persona.menu');
@@ -118,7 +120,8 @@ miAplicacion.controller('controlReservaAlta',function($scope, $state, $statePara
                   $state.go('persona.reservaGrilla');
                 }
               },function errorCallback(response) {        
-                console.log( response);           
+                console.log( response);
+                alert("Error al generar la reserva");           
             });
           },function errorCallback(response) {        
             console.log( response);           
@@ -241,6 +244,7 @@ miAplicacion.controller('controlReservaGrilla',function($scope, $state, $statePa
         console.log("pedido borrado correctamente");
           fReservas.Borrar(reserva.idReserva)
           .then(function(respuesta) {  
+            alert("Reserva borrada correctamente");
                   fReservas.traerTodo()
                   .then(function(respuesta) {  
                     datos=respuesta;
@@ -264,7 +268,8 @@ miAplicacion.controller('controlReservaGrilla',function($scope, $state, $statePa
                   });
               console.log("reserva borrada correctamente");
           },function errorCallback(response) {
-              console.log(response);     
+              console.log(response); 
+              alert("Error al borrar la reserva");    
           });
       },function errorCallback(response) {        
           console.log(response);           
@@ -323,10 +328,14 @@ miAplicacion.controller('controlReservaModificar',function($scope, $state, $stat
             fReservas.Modificar(datoRes)
             .then(function(res){
               console.log("reserva modificada correctamente");
+              alert("Reserva modificada correctamente");
               $state.go('persona.reservaGrilla');
-            })
+            },function errorCallback(response) {        
+                console.log(response);   
+                alert("Error al modificar la reserva");        
+            });
          },function errorCallback(response) {        
-            console.log(response);           
+            console.log(response);        
         });
       }
 

@@ -65,9 +65,11 @@ miAplicacion.controller('controlSucursalAlta',function($scope, FileUploader, $st
           fSucursales.Agregar(dato)
           .then(function(respuesta) {             
               console.log("Se agregó la sucursal correctamente");
+              alert("Sucursal ingresada correctamente");
               $state.go("persona.menu");
           },function errorCallback(response) {        
-              console.log(response);           
+              console.log(response);
+              alert("Error al ingresar la sucursal");           
           });
         },1000);
       };
@@ -197,6 +199,7 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
     fSucursales.Borrar(dato)
     .then(function(respuesta){
       console.log("Sucursal borrada");
+      alert("Sucursal borrada correctamente");
         fSucursales.traerTodo()
         .then(function(respuesta) { 
               if($scope.UsuarioLogueado.perfil=='cliente' || $scope.UsuarioLogueado.perfil=='administrador' )
@@ -226,7 +229,8 @@ miAplicacion.controller('controlSucursalGrilla',function($scope, $state, $auth, 
             console.log(response);     
         });
     },function errorCallback(response) {        
-          console.log(response);           
+          console.log(response);
+          alert("Error al borrar sucursal");           
     });
   }
 
@@ -301,9 +305,11 @@ miAplicacion.controller('controlSucursalModificar',function($scope, $state, $sta
             fSucursales.Modificar(dato)
             .then(function(respuesta) {             
                  console.log("Sucursal modificada correctamente");
+                 alert("Sucursal modificada correctamente");
                  $state.go("persona.sucGrilla");
             },function errorCallback(response) {        
-                 console.log(response);           
+                 console.log(response); 
+                 alert("Error al modificar sucursal");          
             });
           },1000);
       };
@@ -348,33 +354,6 @@ miAplicacion.controller('controlSucursalDetallar',function($scope, $state, $stat
     },function errorCallback(response) {
         console.log(response);     
    });
-
-  // var gLatLonUno = new google.maps.LatLng($scope.UsuarioLogueado.latitud,$scope.UsuarioLogueado.longitud);
-  // var gLatLonDos = new google.maps.LatLng($scope.datoMap.latitud,$scope.datoMap.longitud);
-
-  // var objConfigDS={
-  //   origin: gLatLonUno,
-  //   destination: gLatLonDos,
-  //   travelMode: google.maps.TravelMode.DRIVING 
-  // };
-  // var objConfigDR={};
-
-  // var ds = new google.maps.DirectionsService();
-  // var dr = new google.maps.DirectionsRenderer(objConfigDR);
-
-  // ds.route(objConfigDS,fn_rutear);
-
-  // function fn_rutear(resultado, status){
-  //   //MUESTRA LA LINEA ENTRE A Y B
-  //   if(status=='OK')
-  //   {
-  //     dr.setDirections(resultado);
-  //   }
-  //   else
-  //   {
-  //     console.log(status);
-  //   }
-  // }
 
   $scope.VerOfertas=function(){
     var dato = JSON.stringify($scope.sucursal);

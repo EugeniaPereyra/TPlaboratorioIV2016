@@ -98,6 +98,7 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $state, $stateParam
         fPedidos.Agregar(dato)
         .then(function(respuesta) {             
             console.log("pedido agregado correctamente");
+            alert("Pedido generado correctamente");
             if($scope.UsuarioLogueado.perfil=='cliente')
             {
               $state.go('persona.menu');
@@ -107,7 +108,8 @@ miAplicacion.controller('controlPedidoAlta',function($scope, $state, $stateParam
               $state.go('persona.pedGrilla');
             }
           },function errorCallback(response) {        
-            console.log( response);           
+            console.log( response); 
+            alert("Error al general el pedido");          
         });
       }
 
@@ -249,6 +251,7 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $state, $statePar
     fPedidos.Borrar(pedido.idPedido)
     .then(function(respuesta) {              
         console.log("pedido borrado correctamente");
+        alert("Pedido borrado correctamente");
           fPedidos.traerTodo()
           .then(function(respuesta) {  
               if($scope.UsuarioLogueado.perfil=='empleado' || $scope.UsuarioLogueado.perfil=='encargado')
@@ -280,7 +283,8 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $state, $statePar
               console.log(response);     
           });
       },function errorCallback(response) {        
-          console.log(response);           
+          console.log(response);  
+          alert("Error al borrar pedido");         
     });
   }
 
@@ -322,9 +326,11 @@ miAplicacion.controller('controlPedidoModificar',function($scope, $state, $state
         fPedidos.Modificar(datoPed)
         .then(function(respuesta) {             
             console.log("pedido modificado correctamente");
+            alert("Pedido modificado correctamente");
             $state.go('persona.pedGrilla');
          },function errorCallback(response) {        
-            console.log(response);           
+            console.log(response);
+            alert("Error al modificar pedido");           
         });
       }
 
