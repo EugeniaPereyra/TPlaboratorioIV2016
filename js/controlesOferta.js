@@ -181,7 +181,7 @@ miAplicacion.controller('controlOfertaGrilla',function($scope, $state, $auth, $s
             }
             $scope.gridOptions.data=productos;
           }
-          if($scope.sucursal.idSucursal)
+          if($scope.sucursal != undefined)
           {
             productos = respuesta;      
             puente = productos.map(function(dato){

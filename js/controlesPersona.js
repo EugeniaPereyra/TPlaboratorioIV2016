@@ -287,7 +287,7 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
     $scope.gridOptions.columnDefs = columnDefs();
     $scope.gridOptions.enableFiltering = true;
     $scope.gridOptions.rowHeight= 70;
-    $scope.gridOptions.enableSorting= false;
+    $scope.gridOptions.enableSorting= true;
     i18nService.setCurrentLang('es');
     var usuarios = [];
     var puente = [];
@@ -704,7 +704,7 @@ miAplicacion.controller('controlPersonaHistorial',function($scope, $stateParams,
     $scope.gridOptions.columnDefs = columnDefs();
     $scope.gridOptions.enableFiltering = true;
     $scope.gridOptions.rowHeight= 70;
-    $scope.gridOptions.enableSorting= false;
+    $scope.gridOptions.enableSorting= true;
     i18nService.setCurrentLang('es');
     var pedidos = [];
     var puente = [];
@@ -774,21 +774,31 @@ miAplicacion.controller('controlPersonaEncuesta',function($scope, $state, $state
   $scope.encuesta.ocho = "primera_compra";
   $scope.encuesta.nueve = "mucho";
   $scope.encuesta.diez = " ";
-  $scope.encuesta.idProducto=dato.idProducto;
+  $scope.encuesta.idProducto=0;
+  $scope.encuesta.idOferta=0;
+  $scope.mostrarProd=false;
+  $scope.mostrarOfer=false;
+ 
 
-  if(dato.idProducto){
+  if(dato.idProducto != 0){
       fProductos.Detallar(dato.idProducto)
       .then(function(respuesta) {       
              $scope.producto = respuesta;
+             $scope.encuesta.idProducto=dato.idProducto;
+              $scope.mostrarProd=true;
+              $scope.mostrarOfer=false;
         },function errorCallback(response) {
             console.log(response);     
        });
   }
-  else
+  if(dato.idOferta !=0)
   {
       fOfertas.Detallar(dato.idOferta)
       .then(function(respuesta) {       
-             $scope.producto = respuesta;
+             $scope.oferta= respuesta;
+             $scope.encuesta.idOferta=dato.idOferta;
+              $scope.mostrarProd=false;
+              $scope.mostrarOfer=true;
         },function errorCallback(response) {
             console.log(response);     
        });

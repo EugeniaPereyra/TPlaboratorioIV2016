@@ -171,7 +171,7 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $state, $statePar
       if($scope.UsuarioLogueado.perfil=='empleado')
       {
             return [
-                { field: 'fecha', name: 'fecha', type: 'date', cellFilter: "date: 'dd-MM-yyyy'", enableFiltering: false},
+                { field: 'fecha', name: 'fecha', type: 'date', cellFilter: "date: 'dd-MM-yyyy'", enableFiltering: false, enableSorting:true},
                 { field: 'producto', name: 'producto', cellTemplate:'<center><p style="margin-top:25px" ng-if="row.entity.productoDescripcion">{{row.entity.productoDescripcion}}</p/><p style="line-height:4em;" ng-if="row.entity.ofertaDescripcion">{{row.entity.ofertaDescripcion}}</p/></center/>', enableFiltering: false ,  width: 110, resizable: false },
                 { field: 'cantidad', name: 'cantidad',  enableFiltering: false},
                 { field: 'estado', name: 'estado'
