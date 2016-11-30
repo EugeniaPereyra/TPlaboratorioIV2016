@@ -26,24 +26,34 @@
 				<br/><br/>
 
 		</form>
+
 		<center>
 		<div class="container" style="height: 500px; width: 100%;">
 			<div style="width: 68%; float:left; height: 100%">
 			    <ng-map center="[{{mapa.latitud}}, {{mapa.longitud}}]" zoom-to-include-markers="auto" style="height: 100%">
 			        <custom-marker position="[{{UsuarioLogueado.latitud}},{{UsuarioLogueado.longitud}}]"><center><lable style="color:black"><strong>{{UsuarioLogueado.nombre}}</strong></lable><br/><img width='50px' src="./marcadores/usuario.png" /></center>
 			        </custom-marker>
-			        <custom-marker position="[{{datoMap.latitud}},{{datoMap.longitud}}]"><center><lable style="color:black"><strong>{{datoMap.direccion}}</strong></lable><br/><img width='50px' src="./marcadores/pizzeria.png" /></center>
+			        <custom-marker position="[{{datoMap.latitud}},{{datoMap.longitud}}]"><center><lable style="color:black"><strong>Pizzeria Argenta</strong></lable><br/><img width='50px' src="./marcadores/pizzeria.png" /></center>
 			        </custom-marker>
 			                <directions 
 					          draggable="true"
+					          suppress-markers="true"
 					          panel="directions-panel"
-					          travel-mode="DRIVING"
+					          travel-mode="{{travelMode}}"
 					          origin="[{{UsuarioLogueado.latitud}},{{UsuarioLogueado.longitud}}]"
 					          destination="[{{datoMap.latitud}},{{datoMap.longitud}}]">
 					        </directions>
 			     </ng-map>
 			</div>
-			<div id="directions-panel" style="width: 28%; float:left; height: 100%; overflow: auto; padding: 0px 5px; height: 100%;background-color: white;">
+			<div style="width: 28%;float:left; height: 11%;background-color: white;">
+			<label>Modo de viaje: </label>
+		      <select ng-model="travelMode" ng-init="travelMode='DRIVING'">
+		        <option value="DRIVING">Auto</option>
+		        <option value="WALKING">Caminando</option>
+		        <option value="TRANSIT">Transporte publico</option>
+		      </select>
+		    </div>
+			<div id="directions-panel" style="width: 28%; float:left; height: 100%; overflow: auto; padding: 0px 5px; height: 89%;background-color: white;">
 	        </div>
 	    </div>
     	</center>
