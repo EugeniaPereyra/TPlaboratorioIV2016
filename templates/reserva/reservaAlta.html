@@ -5,7 +5,7 @@
 
 				<center><h2 style="color:black">Datos Pedido</h2></center><br><br>
 
-				<div ng-hide="mostrarEstado">
+				<div>
 				<span>Sucursal:</span><br>
 				<select name="suc" ng-model="pedido.idSucursal" required>
 					<option value="">Seleccione la sucursal..</option>
@@ -50,8 +50,9 @@
 				<span style="color:red" ng-show="FormIngreso.fechaFin.$invalid">*</span><br/>
 				<span style="color:red" ng-show="FormIngreso.fechaFin.$invalid">LAS RESERVAS SE GENERAN CON NO MENOS DE 2 DIAS DE ANTICIPACION Y NO MAXIMO DE 5 DIAS</span>
 
-				<br>
 				</div>
+
+				<br><br>
 				
 				<div ng-show="mostrarEstado">
 					<span>Estado del pedido:</span><br>
@@ -66,11 +67,8 @@
 
 				<br><br><br>
 
-				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>
+				<button class="btn btn-info"  ng-disabled="FormIngreso.$invalid" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</button><br>
 				<span style="color:red" ng-show="FormIngreso.$invalid">FALTAN DATOS!!</span>
-					
-				<input type="hidden" value="" id="idParaModificar" name="agregar" />
-				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
 
 			</form>
 	</div>

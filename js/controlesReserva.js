@@ -312,6 +312,19 @@ miAplicacion.controller('controlReservaModificar',function($scope, $state, $stat
   fPedidos.Detallar($scope.reserva.idPedido)
   .then(function(respuesta) {       
          $scope.pedido = respuesta;
+          $scope.pedido.idSucursal=respuesta.idSucursal;
+          $scope.pedido.clienteNombre=respuesta.clienteNombre;
+          $scope.pedido.idPersona=respuesta.idPersona;
+          $scope.pedido.total=respuesta.total;
+          $scope.pedido.cantidad=parseInt(respuesta.cantidad);
+          $scope.pedido.idOferta=respuesta.idOferta;
+          $scope.pedido.idProducto=respuesta.idProducto;
+          $scope.pedido.sucursalDireccion = respuesta.sucursalDireccion;
+          $scope.pedido.productoDescripcion = respuesta.productoDescripcion;
+          $scope.pedido.ofertaDescripcion = respuesta.ofertaDescripcion;
+          $scope.pedido.estado=respuesta.estado;
+          $scope.pedido.fecha=new Date(respuesta.fecha);
+          $scope.pedido.encuesta=respuesta.encuesta;
     },function errorCallback(response) {
         console.log(response);     
    }); 

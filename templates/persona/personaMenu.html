@@ -7,35 +7,35 @@
          		
          			<br/><center>
                 
-                    <a style="color:white" ng-click="IrAltaUsuario()" ng-hide="UsuarioLogueado.perfil=='cliente'"><h4>Nuevo usuario</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrAltaUsuario()" ng-hide="UsuarioLogueado.perfil=='cliente'"><h4>Nuevo usuario</h4></a>
                 
-                    <a style="color:white" ng-click="IrAltaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Nuevo producto </h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrAltaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Nuevo producto </h4></a>
                
-                    <a style="color:white" ng-click="IrAltaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Nueva oferta</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrAltaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Nueva oferta</h4></a>
                
-                    <a style="color:white" ng-click="IrAltaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>Nuevo pedido</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrAltaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>Nuevo pedido</h4></a>
 
-                    <a style="color:white" ng-click="IrAltaReserva()" ng-if="UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado'"><h4>Nueva reserva</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrAltaReserva()" ng-if="UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado'"><h4>Nueva reserva</h4></a>
                
-                    <a style="color:white" ng-click="IrAltaSucursal()" ng-hide="UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'"><h4>Nueva sucursal</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrAltaSucursal()" ng-hide="UsuarioLogueado.perfil=='empleado' || UsuarioLogueado.perfil=='cliente' || UsuarioLogueado.perfil=='encargado'"><h4>Nueva sucursal</h4></a>
                 
-                    <a style="color:white" ng-click="IrGrillaUsuario()" ng-hide="UsuarioLogueado.perfil=='cliente'"><h4>Ver usuarios</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrGrillaUsuario()" ng-hide="UsuarioLogueado.perfil=='cliente'"><h4>Ver usuarios</h4></a>
                 
-                    <a style="color:white" ng-click="IrGrillaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>Ver productos</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrGrillaProducto()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>Ver productos</h4></a>
                
-                    <a style="color:white" ng-click="IrGrillaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>Ver ofertas</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrGrillaOferta()" ng-hide="UsuarioLogueado.perfil=='administrador'"><h4>Ver ofertas</h4></a>
                 
-                    <a style="color:white" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Ver pedidos</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrGrillaPedido()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Ver pedidos</h4></a>
 
-                    <a style="color:white" ng-click="IrGrillaReserva()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Ver reservas</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrGrillaReserva()" ng-hide="UsuarioLogueado.perfil=='administrador' || UsuarioLogueado.perfil=='cliente'"><h4>Ver reservas</h4></a>
                 
-                    <a style="color:white" ng-click="IrGrillaSucursal()" ng-hide="UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado'"><h4>Ver sucursales</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrGrillaSucursal()" ng-hide="UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado'"><h4>Ver sucursales</h4></a>
 
-                    <a style="color:white" ng-click="IrHistorial()" ng-if="UsuarioLogueado.perfil=='cliente'"><h4>Historial</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrHistorial()" ng-if="UsuarioLogueado.perfil=='cliente'"><h4>Historial</h4></a>
 
-                    <a style="color:white" ng-click="IrLocal()" ng-if="UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado' "><h4>Ver datos del local</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrLocal()" ng-if="UsuarioLogueado.perfil=='encargado' || UsuarioLogueado.perfil=='empleado' "><h4>Ver datos del local</h4></a>
 
-                    <a style="color:white" ng-click="IrEstadisticas()" ng-if="UsuarioLogueado.perfil=='administrador'"><h4>Estadisticas</h4></a>
+                    <a style="color:white; cursor:pointer;" ng-click="IrEstadisticas()" ng-if="UsuarioLogueado.perfil=='administrador'"><h4>Estadisticas</h4></a>
                 
             		<br/></center>
         </form>

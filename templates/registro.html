@@ -76,13 +76,10 @@
 
 				<br><br>
 
-				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>
+				<button class="btn btn-info"  ng-disabled="FormIngreso.$invalid" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</button><br>
 				<span style="color:red" ng-show="FormIngreso.$invalid">FALTAN DATOS!!</span>
 
 				</center>
-
-				<input type="hidden" value="" id="idParaModificar" name="agregar" />
-				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
 				
 			</form>
 	</div>

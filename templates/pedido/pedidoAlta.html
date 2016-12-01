@@ -5,7 +5,7 @@
 
 				<center><h2 style="color:black">Datos Pedido</h2></center><br><br>
 
-				<div ng-hide="mostrarEstado">
+				<div>
 				<span>Sucursal:</span><br>
 				<select name="suc" ng-model="pedido.idSucursal" required>
 					<option value="">Seleccione la sucursal..</option>
@@ -43,9 +43,8 @@
 				<input style="color:black" type="text" name="nombre" ng-model="pedido.clienteNombre" placeholder="Ingrese el nombre del cliente" required /> 
 				<span style="color:red" ng-show="FormIngreso.nombre.$invalid">*</span>
 
-				<br>
 				</div>
-				
+				<br><br>
 				<div ng-show="mostrarEstado">
 					<span>Estado del pedido:</span><br>
 					<select name="estado" ng-model="pedido.estado" required>
@@ -60,11 +59,8 @@
 
 				<br><br><br>
 
-				<a class="btn btn-info"  ng-disabled="FormIngreso.$invalid" name="guardar" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a><br>
+				<button class="btn btn-info"  ng-disabled="FormIngreso.$invalid" ng-click="Guardar()"><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</button><br>
 				<span style="color:red" ng-show="FormIngreso.$invalid">FALTAN DATOS!!</span>
-					
-				<input type="hidden" value="" id="idParaModificar" name="agregar" />
-				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
 
 			</form>
 	</div>

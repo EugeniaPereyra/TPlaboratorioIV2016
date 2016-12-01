@@ -221,13 +221,11 @@ miAplicacion.controller('controlPedidoGrilla',function($scope, $state, $statePar
           {
             pedidos = respuesta;
             puente = pedidos.map(function(dato){
-              console.info(dato);
               if(dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
               {
                 return dato;
               }
             });
-            console.info(puente);
             pedidos = [];
             for(var i=0;i<puente.length;i++)
             {
@@ -319,6 +317,20 @@ miAplicacion.controller('controlPedidoModificar',function($scope, $state, $state
   $scope.mostrarEstado=true;
   $scope.pedido={};
   $scope.pedido=dato;
+  $scope.pedido.idSucursal=dato.idSucursal;
+  $scope.pedido.clienteNombre=dato.clienteNombre;
+  $scope.pedido.idPersona=dato.idPersona;
+  $scope.pedido.total=dato.total;
+  $scope.pedido.cantidad=parseInt(dato.cantidad);
+  $scope.pedido.idOferta=dato.idOferta;
+  $scope.pedido.idProducto=dato.idProducto;
+  $scope.pedido.sucursalDireccion = dato.sucursalDireccion;
+  $scope.pedido.productoDescripcion = dato.productoDescripcion;
+  $scope.pedido.ofertaDescripcion = dato.ofertaDescripcion;
+  $scope.pedido.estado=dato.estado;
+  $scope.pedido.fecha=new Date(dato.fecha);
+  $scope.pedido.encuesta=dato.encuesta;
+
   //console.info($scope.pedido);
 
   $scope.Guardar = function(){

@@ -426,33 +426,55 @@ miAplicacion.controller('controlPersonaGrilla',function($scope, $state, $auth, f
                  console.log("Usuario borrado");
                  alert("Usuario borrado correctamente");
                 fPersonas.traerTodo()
-                    .then(function(respuesta){
-                          if($scope.UsuarioLogueado.perfil=='empleado')
+                .then(function(respuesta){
+                      if($scope.UsuarioLogueado.perfil=='empleado')
+                      {
+                        usuarios = respuesta;
+                        puente = usuarios.map(function(dato){
+                          if(dato.perfil=='cliente' && dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
                           {
-                            usuarios = respuesta;
-                            puente = usuarios.map(function(dato){
-                              if(dato.perfil=='cliente')
-                              {
-                                return dato;
-                              }
-                            });
-                            usuarios = [];
-                            for(var i=0;i<puente.length;i++)
+                            return dato;
+                          }
+                        });
+                        usuarios = [];
+                        for(var i=0;i<puente.length;i++)
+                        {
+                          if(puente[i]!=undefined)
+                          {
+                            usuarios.push(puente[i]);
+                          }
+                        }
+                        $scope.gridOptions.data=usuarios;
+                      }
+                      else
+                      {
+                        if($scope.UsuarioLogueado.perfil=='encargado')
+                        {
+                          usuarios = respuesta;
+                          puente = usuarios.map(function(dato){
+                            if(dato.perfil=='cliente' && dato.idSucursal==$scope.UsuarioLogueado.idSucursal || dato.perfil=='empleado' && dato.idSucursal==$scope.UsuarioLogueado.idSucursal)
                             {
-                              if(puente[i]!=undefined)
-                              {
-                                usuarios.push(puente[i]);
-                              }
+                              return dato;
                             }
-                            $scope.gridOptions.data=usuarios;
-                          }
-                          else
+                          });
+                          usuarios = [];
+                          for(var i=0;i<puente.length;i++)
                           {
-                            $scope.gridOptions.data = respuesta;
+                            if(puente[i]!=undefined)
+                            {
+                              usuarios.push(puente[i]);
+                            }
                           }
-                    },function errorCallback(response) {
-                        console.log(response);     
-                    }); 
+                          $scope.gridOptions.data=usuarios;
+                        }
+                        else
+                        {
+                          $scope.gridOptions.data = respuesta;
+                        }
+                      }
+                },function errorCallback(response) {
+                    console.log(response);     
+                });
           },function errorCallback(response) {        
               console.log(response);
               alert("Error al borrar usuario");           
