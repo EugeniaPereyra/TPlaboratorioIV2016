@@ -36,10 +36,11 @@ TP LaboratorioIV 2016
 # PEREYRA, Maria Eugenia
 
 <ul>
-<li>Empresa elegida:	Pizzerías Argenta SRL</li>
-<li>Curso:				4°A</li>
-<li>Email:				meugeniape@gmail.com</li>
-<li>GitHub:				https://github.com/EugeniaPereyra</li>
+<li><strong>Empresa elegida:</strong>	Pizzerías Argenta SRL</li>
+<li><strong>Curso:</strong>				4°A</li>
+<li><strong>Email:</strong>				meugeniape@gmail.com</li>
+<li><strong>GitHub:</strong>				https://github.com/EugeniaPereyra</li>
+<li><strong>Web:</strong>				http://www.eugeniapereyra.hol.es</li>
 </ul>
 
 ---------------------------------------------------------------------------------
